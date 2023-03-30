@@ -4,3 +4,7 @@
 !gradle/wrapper/gradle-wrapper.jar
 
 build/
+
+token
+
+src/main/resources/credential.json

@@ -1,11 +1,15 @@
 package who.reconsystem.app;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import who.reconsystem.app.config.DriveModule;
+import who.reconsystem.app.drive.DBFile;
 
 import java.util.Objects;
 
@@ -19,6 +23,23 @@ public class WHOReconSystemApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        Injector injector = Guice.createInjector(new DriveModule());
+        DBFile file = injector.getInstance(DBFile.class);
+        file.downloadDatabaseFromGoogleDrive();
+        //String id = file.uploadDatabaseFile();
+        //System.out.println("réussi avec id=" + id);
+        //String id = file.updateDatabaseFile();
+        //System.out.println("id=" + id);
+        /*GoogleDriveFileFields fields = file.getDatabaseFromGoogleDrive();
+        System.out.println(
+                "[ id=" + fields.getFileId() +
+                        " name=" + fields.getFileName() +
+                        " mimeType=" + fields.getFileMimeType() +
+                        " createdOn=" + fields.getFileCreationOn().toString() +
+                        " modifyOn=" + fields.getFileModifyOn().toString() +
+                        " size=" + fields.getFileSize() +"]"
+                );*/
+
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("index.fxml")));
         Scene scene = new Scene(root);
 

@@ -1,5 +1,7 @@
 package who.reconsystem.app.drive;
 
+import com.google.api.client.util.DateTime;
+
 public class GoogleDriveFileFields {
 
     private String fileId;
@@ -8,19 +10,22 @@ public class GoogleDriveFileFields {
 
     private String  fileMimeType;
 
-    private String fileCreationOn;
+    private DateTime fileCreationOn;
 
-    private String fileModifyOn;
+    private DateTime fileModifyOn;
 
-    private String fileSize;
+    private long fileSize;
 
-    public GoogleDriveFileFields(String fileId, String fileName, String fileMimeType, String fileCreationOn, String fileModifyOn, String fileSize) {
+    public GoogleDriveFileFields(String fileId, String fileName, String fileMimeType, DateTime fileCreationOn, DateTime fileModifyOn, long fileSize) {
         this.fileId = fileId;
         this.fileName = fileName;
         this.fileMimeType = fileMimeType;
         this.fileCreationOn = fileCreationOn;
         this.fileModifyOn = fileModifyOn;
         this.fileSize = fileSize;
+    }
+
+    public GoogleDriveFileFields() {
     }
 
     public String getFileId() {
@@ -47,27 +52,27 @@ public class GoogleDriveFileFields {
         this.fileMimeType = fileMimeType;
     }
 
-    public String getFileCreationOn() {
+    public DateTime getFileCreationOn() {
         return fileCreationOn;
     }
 
-    public void setFileCreationOn(String fileCreationOn) {
+    public void setFileCreationOn(DateTime fileCreationOn) {
         this.fileCreationOn = fileCreationOn;
     }
 
-    public String getFileModifyOn() {
+    public DateTime getFileModifyOn() {
         return fileModifyOn;
     }
 
-    public void setFileModifyOn(String fileModifyOn) {
+    public void setFileModifyOn(DateTime fileModifyOn) {
         this.fileModifyOn = fileModifyOn;
     }
 
-    public String getFileSize() {
+    public long getFileSize() {
         return fileSize;
     }
 
-    public void setFileSize(String fileSize) {
+    public void setFileSize(long fileSize) {
         this.fileSize = fileSize;
     }
 }

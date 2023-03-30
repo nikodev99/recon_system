@@ -17,10 +17,7 @@ import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 
-import javax.swing.*;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
-import javax.swing.text.rtf.RTFEditorKit;
 import java.io.*;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
@@ -39,8 +36,8 @@ public class MainApp {
     private static final String DATABASE_FILE_NAME = "reconsystem.db";
     //private java.io.File DATA_STORE_DIR = new java.io.File(System.getProperty("user.home"), ".credentials/" + TOKEN_DIRECTORY);
 
-    public static void main(String[] args) throws BadLocationException {
-        RTFEditorKit rtfParser = new RTFEditorKit();
+    public static void main(String[] args) throws BadLocationException, IOException, GeneralSecurityException {
+        System.out.println(MainApp.class.getClassLoader().getResource("reconsystem.db"));
     }
 
     public static String updateFile(String fileName) throws IOException, GeneralSecurityException {
@@ -146,6 +143,10 @@ public class MainApp {
         .build();
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
         return new AuthorizationCodeInstalledApp(codeFlow, receiver).authorize("nikodev99");
+    }
+
+    private static String getFile() {
+        return Objects.requireNonNull(MainApp.class.getClassLoader().getResource("credential.json")).getFile();
     }
 
     public static boolean isFolder(File file) {
