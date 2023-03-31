@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <left>
+      <AnchorPane prefHeight="400.0" prefWidth="331.0" style="-fx-background-color: #149ed9;" BorderPane.alignment="CENTER">
+         <children>
+            <Text layoutX="13.0" layoutY="342.0" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="0.0" text="Eimprest Reconciliation System" textAlignment="CENTER">
+               <font>
+                  <Font name="Edwardian Script ITC" size="32.0" />
+               </font>
+               <fill>
+                  <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </RadialGradient>
+               </fill>
+            </Text>
+            <ImageView fitHeight="351.0" fitWidth="304.0" layoutX="13.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../images/eimprest.gif" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </left>
+   <center>
+      <AnchorPane prefHeight="400.0" prefWidth="267.0" style="-fx-background-color: #fff; -fx-border-color: #149ed9; -fx-border-width: 2px;" BorderPane.alignment="CENTER">
+         <children>
+            <TextField layoutX="61.0" layoutY="161.0" prefHeight="27.0" prefWidth="180.0" promptText="Username" style="-fx-background-color: #ffffff; -fx-border-color: #149ed9; -fx-border-width: 0px 0px 2px 0px;" />
+            <PasswordField layoutX="62.0" layoutY="212.0" prefHeight="27.0" prefWidth="180.0" promptText="Password" style="-fx-background-color: #ffffff; -fx-border-color: #149ed9; -fx-border-width: 0px 0px 2px 0px;" />
+            <Text layoutX="83.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User Login">
+               <font>
+                  <Font name="Cambria" size="24.0" />
+               </font>
+               <fill>
+                  <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.08500000089406967" green="0.6332499980926514" blue="0.8500000238418579" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </RadialGradient>
+               </fill>
+            </Text>
+            <Button layoutX="62.0" layoutY="263.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="180.0" styleClass="btnLog" stylesheets="@../../../styles/style.css" text="Login">
+               <font>
+                  <Font name="Cambria Bold" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Separator layoutX="61.0" layoutY="315.0" prefHeight="2.0" prefWidth="180.0" />
+            <Label alignment="CENTER" layoutX="136.0" layoutY="307.0" prefHeight="17.0" prefWidth="22.0" style="-fx-background-color: #fff;" text="or" textAlignment="CENTER" />
+            <Button layoutX="61.0" layoutY="331.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="180.0" styleClass="btnCancel" stylesheets="@../../../styles/style.css" text="Cancel">
+               <font>
+                  <Font name="Cambria Bold" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <ImageView fitHeight="127.0" fitWidth="106.0" layoutX="83.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../icons/icons8-users-90.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="27.0" fitWidth="30.0" layoutX="22.0" layoutY="161.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../icons/icons8-user-90.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="27.0" fitWidth="30.0" layoutX="22.0" layoutY="212.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../icons/icons8-password-120.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

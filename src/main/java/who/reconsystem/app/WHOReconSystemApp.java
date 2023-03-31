@@ -15,7 +15,7 @@ import java.util.Objects;
 
 public class WHOReconSystemApp extends Application {
 
-    private double x, y = 0;
+    double x, y = 0;
 
     public static void main(String[] args) {
         launch(args);
@@ -23,24 +23,8 @@ public class WHOReconSystemApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Injector injector = Guice.createInjector(new DriveModule());
-        DBFile file = injector.getInstance(DBFile.class);
-        file.downloadDatabaseFromGoogleDrive();
-        //String id = file.uploadDatabaseFile();
-        //System.out.println("réussi avec id=" + id);
-        //String id = file.updateDatabaseFile();
-        //System.out.println("id=" + id);
-        /*GoogleDriveFileFields fields = file.getDatabaseFromGoogleDrive();
-        System.out.println(
-                "[ id=" + fields.getFileId() +
-                        " name=" + fields.getFileName() +
-                        " mimeType=" + fields.getFileMimeType() +
-                        " createdOn=" + fields.getFileCreationOn().toString() +
-                        " modifyOn=" + fields.getFileModifyOn().toString() +
-                        " size=" + fields.getFileSize() +"]"
-                );*/
 
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("index.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login.fxml")));
         Scene scene = new Scene(root);
 
         scene.setOnMousePressed(event -> {
@@ -58,5 +42,24 @@ public class WHOReconSystemApp extends Application {
         stage.setTitle("From IntelliJ");
         stage.setScene(scene);
         stage.show();
+    }
+
+    private void database() {
+        Injector injector = Guice.createInjector(new DriveModule());
+        DBFile file = injector.getInstance(DBFile.class);
+        file.downloadDatabaseFromGoogleDrive();
+        //String id = file.uploadDatabaseFile();
+        //System.out.println("réussi avec id=" + id);
+        //String id = file.updateDatabaseFile();
+        //System.out.println("id=" + id);
+        /*GoogleDriveFileFields fields = file.getDatabaseFromGoogleDrive();
+        System.out.println(
+                "[ id=" + fields.getFileId() +
+                        " name=" + fields.getFileName() +
+                        " mimeType=" + fields.getFileMimeType() +
+                        " createdOn=" + fields.getFileCreationOn().toString() +
+                        " modifyOn=" + fields.getFileModifyOn().toString() +
+                        " size=" + fields.getFileSize() +"]"
+                );*/
     }
 }

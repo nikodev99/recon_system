@@ -1,0 +1,24 @@
+.btnLog {
+    -fx-background-color: #149ed9;
+    -fx-text-fill: #eff1f3;
+}
+.btnLog:hover {
+    -fx-background-color: #fff;
+    -fx-text-fill: #149ed9;
+    -fx-border-color: #149ed9;
+    -fx-border-style: solid;
+    -fx-border-radius: 5px;
+    -fx-border-width: 2px;
+}
+.btnCancel {
+    -fx-background-color: #ff6038;
+    -fx-text-fill: #eff1f3;
+}
+.btnCancel:hover {
+    -fx-background-color: #fff;
+    -fx-text-fill: #ff6038;
+    -fx-border-color: #ff6038;
+    -fx-border-style: solid;
+    -fx-border-radius: 5px;
+    -fx-border-width: 2px;
+}

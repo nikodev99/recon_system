@@ -42,7 +42,7 @@ public class DBFile {
         );
     }
 
-    public void downloadDatabaseFromGoogleDrive() throws GeneralSecurityException, IOException {
+    public void downloadDatabaseFromGoogleDrive() {
         file.downloadFile(
                 databaseFileName,
                 getLocalePath("") + databaseFileName,
