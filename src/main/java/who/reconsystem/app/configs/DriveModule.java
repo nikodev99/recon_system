@@ -1,4 +1,4 @@
-package who.reconsystem.app.config;
+package who.reconsystem.app.configs;
 
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;

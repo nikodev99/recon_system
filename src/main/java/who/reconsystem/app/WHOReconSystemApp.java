@@ -8,7 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import who.reconsystem.app.config.DriveModule;
+import who.reconsystem.app.configs.DriveModule;
 import who.reconsystem.app.drive.DBFile;
 
 import java.util.Objects;
@@ -23,8 +23,7 @@ public class WHOReconSystemApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("index.fxml")));
         Scene scene = new Scene(root);
 
         scene.setOnMousePressed(event -> {
