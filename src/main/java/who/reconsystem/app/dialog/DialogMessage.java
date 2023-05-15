@@ -1,87 +1,65 @@
 package who.reconsystem.app.dialog;
 
 import javafx.scene.control.*;
+import who.reconsystem.app.service.collections.StringList;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 public class DialogMessage {
 
-    public void showInformationDialog (String header, String content) {
-        String[] settings = new String[]{"INFORMATION", "Information Dialog", header, content};
-        Alert alert = dialogAlert(settings);
+    public static void showInformationDialog (String header, String content) {
+        DialogAlert dialog = new DialogAlert("Information Dialog", header, content);
+        Alert alert = dialogAlert(AlertType.INFORMATION.getType(), dialog);
         alert.showAndWait();
     }
 
-    public void showWarningDialog (String header, String content) {
-        String[] settings = new String[]{"WARNING", "Warning Dialog", header, content};
-        Alert alert = dialogAlert(settings);
+    public static void showWarningDialog (String header, String content) {
+        DialogAlert dialog = new DialogAlert("Warning Dialog", header, content);
+        Alert alert = dialogAlert(AlertType.WARNING.getType(), dialog);
         alert.showAndWait();
     }
 
-    public void ErrorDialog (String header, String content) {
-        String[] settings = new String[]{"ERROR", "Error Dialog", header, content};
-        Alert alert = dialogAlert(settings);
+    public static void ErrorDialog (String header, String content) {
+        DialogAlert dialog = new DialogAlert("Error Dialog", header, content);
+        Alert alert = dialogAlert(AlertType.ERROR.getType(), dialog);
         alert.showAndWait();
     }
 
-    public void exceptionDialog (Exception ex) {
-        String[] settings = new String[]{"ERROR", "Exception Dialog", ex.getMessage(), Arrays.toString(ex.getStackTrace())};
-        Alert alert = dialogAlert(settings);
+    public static void exceptionDialog (Exception ex) {
+        //ExceptionDialog exception = new ExceptionDialog(ex.getMessage());
+        String content = Arrays.toString(ex.getStackTrace());
+        DialogAlert dialog = new DialogAlert("Exception Dialog", ex.getClass().getName(), content);
+        Alert alert = dialogAlert(AlertType.ERROR.getType(), dialog);
         alert.showAndWait();
     }
 
-    public Optional<ButtonType> confirmationDialog (String header, String content) {
-        String[] settings = new String[]{"CONFIRMATION", "Confirmation Dialog", header, content};
-        Alert alert = dialogAlert(settings);
+    public static Optional<ButtonType> confirmationDialog (StringList messages) {
+        StringList btnHeaders = new StringList("Oui", "Non");
+        return confirmationDialog(messages.getElement(0), messages.getElement(1), btnHeaders);
+    }
 
-        ButtonType yesBtn = new ButtonType("Oui", ButtonBar.ButtonData.YES);
-        ButtonType noBtn = new ButtonType("Non", ButtonBar.ButtonData.NO);
+    public static Optional<ButtonType> confirmationDialog (StringList messages, StringList buttons) {
+        return confirmationDialog(messages.getElement(0), messages.getElement(1), buttons);
+    }
+
+    static Optional<ButtonType> confirmationDialog (String header, String content, StringList btnHeaders) {
+        DialogAlert dialog = new DialogAlert("Confirmation Dialog", header, content);
+        Alert alert = dialogAlert(AlertType.CONFIRMATION.getType(), dialog);
+
+        ButtonType yesBtn = new ButtonType(btnHeaders.getElement(0), ButtonBar.ButtonData.YES);
+        ButtonType noBtn = new ButtonType(btnHeaders.getElement(1), ButtonBar.ButtonData.NO);
 
         alert.getButtonTypes().setAll(yesBtn, noBtn);
         return alert.showAndWait();
     }
 
-    public Optional<ButtonType> confirmationDialog (String[] messages, String [] buttons) {
-        String[] settings = new String[]{"CONFIRMATION", "Confirmation Dialog", messages[0], messages[1]};
-        Alert alert = dialogAlert(settings);
-
-        ButtonType yesBtn = new ButtonType(buttons[0], ButtonBar.ButtonData.APPLY);
-        ButtonType noBtn = new ButtonType(buttons[1], ButtonBar.ButtonData.OK_DONE);
-        alert.getButtonTypes().setAll(yesBtn, noBtn);
-        return alert.showAndWait();
-    }
-
-    public void errorStyle (TextField[] textFields, boolean status) {
-        for (TextField textField : textFields)
-            if (status) {
-                textField.setStyle("-fx-text-box-border: #FF0011; -fx-focus-color: #FF0011;");
-            } else {
-                textField.setStyle("");
-            }
-    }
-
-    public void errorStyle(TextField textField, boolean status) {
-        if (status) {
-            textField.setStyle("-fx-text-box-border: #FF0011; -fx-focus-color: #FF0011;");
-        }else {
-            textField.setStyle("");
-        }
-    }
-
-    public void errorStyle (TextArea textArea, boolean status) {
-        if (status) {
-            textArea.setStyle("-fx-text-box-border: #FF0011; -fx-focus-color: #FF0011;");
-        }else {
-            textArea.setStyle("");
-        }
-    }
-
-    private Alert dialogAlert (String[] informations) {
-        Alert alert = new Alert(Alert.AlertType.valueOf(informations[0]));
-        alert.setTitle(informations[1]);
-        alert.setHeaderText(informations[2]);
-        alert.setContentText(informations[3]);
+    private static Alert dialogAlert (Alert.AlertType type, DialogAlert params) {
+        Alert alert = new Alert(type);
+        alert.setTitle(params.getTitle());
+        alert.setHeaderText(params.getHeader());
+        alert.setContentText(params.getContent());
         return alert;
     }
 

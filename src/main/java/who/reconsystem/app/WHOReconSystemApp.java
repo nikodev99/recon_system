@@ -3,15 +3,10 @@ package who.reconsystem.app;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import who.reconsystem.app.configs.DriveModule;
 import who.reconsystem.app.drive.DBFile;
-
-import java.util.Objects;
+import who.reconsystem.app.root.StageLuncher;
 
 public class WHOReconSystemApp extends Application {
 
@@ -23,24 +18,8 @@ public class WHOReconSystemApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("index.fxml")));
-        Scene scene = new Scene(root);
-
-        scene.setOnMousePressed(event -> {
-            x = event.getSceneX();
-            y = event.getSceneY();
-        });
-
-        scene.setOnMouseDragged(event -> {
-            stage.setX(event.getScreenX() - x);
-            stage.setY(event.getScreenY() - y);
-        });
-
-        stage.setResizable(true);
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.setTitle("From IntelliJ");
-        stage.setScene(scene);
-        stage.show();
+        StageLuncher stageLuncher = new StageLuncher(stage, "index", "Login Pane");
+        stageLuncher.lunchStage();
     }
 
     private void database() {

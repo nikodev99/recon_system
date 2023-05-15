@@ -8,3 +8,6 @@ build/
 token
 
 src/main/resources/credential.json
+
+out
+src/main/resources/META-INF
