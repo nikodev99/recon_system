@@ -4,13 +4,15 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import who.reconsystem.app.configs.DriveModule;
+import who.reconsystem.app.guice.DriveModule;
 import who.reconsystem.app.drive.DBFile;
+import who.reconsystem.app.guice.QueryModule;
+import who.reconsystem.app.models.Operator;
+import who.reconsystem.app.models.Table;
+import who.reconsystem.app.models.tables.UserTable;
 import who.reconsystem.app.root.StageLuncher;
 
 public class WHOReconSystemApp extends Application {
-
-    double x, y = 0;
 
     public static void main(String[] args) {
         launch(args);
@@ -18,8 +20,16 @@ public class WHOReconSystemApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        StageLuncher stageLuncher = new StageLuncher(stage, "index", "Login Pane");
-        stageLuncher.lunchStage();
+        /*StageLuncher stageLuncher = new StageLuncher(stage, "index", "Login Pane");
+        stageLuncher.lunchStage();*/
+
+        System.out.println("Insert statement: " + queryBuilder());
+    }
+
+    private String queryBuilder() {
+        Injector injector = Guice.createInjector(new QueryModule());
+        Table table = injector.getInstance(UserTable.class);
+        return table.insert();
     }
 
     private void database() {

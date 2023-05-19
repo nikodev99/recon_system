@@ -20,6 +20,7 @@ import com.google.api.services.drive.model.FileList;
 import javax.swing.text.BadLocationException;
 import java.io.*;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -37,7 +38,7 @@ public class MainApp {
     //private java.io.File DATA_STORE_DIR = new java.io.File(System.getProperty("user.home"), ".credentials/" + TOKEN_DIRECTORY);
 
     public static void main(String[] args) throws BadLocationException, IOException, GeneralSecurityException {
-        System.out.println(MainApp.class.getClassLoader().getResource("reconsystem.db"));
+
     }
 
     public static String updateFile(String fileName) throws IOException, GeneralSecurityException {

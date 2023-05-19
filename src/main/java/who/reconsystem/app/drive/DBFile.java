@@ -5,8 +5,6 @@ import who.reconsystem.app.drive.annotations.DatabaseValue;
 import who.reconsystem.app.drive.annotations.MimeTypeValue;
 import who.reconsystem.app.drive.annotations.ParentFolderValue;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.Objects;
 
 public class DBFile {

@@ -17,7 +17,7 @@ public class StageLuncher {
 
     private final String resourceName;
 
-    private final String stageTitle;
+    private String stageTitle;
 
     public StageLuncher(Stage stage, String resourceName, String stageTitle, double x, double y) {
         this.stage = stage;
@@ -31,6 +31,11 @@ public class StageLuncher {
         this.stage = stage;
         this.resourceName = resourceName;
         this.stageTitle = stageTitle;
+    }
+
+    public StageLuncher(Stage stage, String resourceName) {
+        this.stage = stage;
+        this.resourceName = resourceName;
     }
 
     public void lunchStage() {
@@ -70,7 +75,9 @@ public class StageLuncher {
     private void initStage(StageStyle stageStyle) {
         this.stage.setResizable(true);
         this.stage.initStyle(stageStyle);
-        this.stage.setTitle(stageTitle);
+        if (!stageTitle.isEmpty()) {
+            this.stage.setTitle(stageTitle);
+        }
         SetStageParams(this.stage);
     }
 
