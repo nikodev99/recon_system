@@ -5,6 +5,7 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import who.reconsystem.app.service.collections.StringList;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -58,10 +59,15 @@ public class DialogMessage {
 
     private static Alert dialogAlert (AlertType type, DialogAlert params) {
         Alert alert = new Alert(type.getType());
-        alert.setTitle(params.getTitle());
-        alert.setHeaderText(params.getHeader());
-        alert.setContentText(params.getContent());
+        alert.setTitle(decodeUtf8String(params.getTitle()));
+        alert.setHeaderText(decodeUtf8String(params.getHeader()));
+        alert.setContentText(decodeUtf8String(params.getContent()));
         return alert;
+    }
+
+    private static String decodeUtf8String(String encodedString) {
+        byte[] bytes = encodedString.getBytes(StandardCharsets.ISO_8859_1);
+        return new String(bytes, StandardCharsets.UTF_8);
     }
 
 }

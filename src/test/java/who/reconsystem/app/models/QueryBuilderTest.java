@@ -5,6 +5,7 @@ import who.reconsystem.app.user.User;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,11 +33,13 @@ public class QueryBuilderTest {
         String insertStatement3 = query.insert(Arrays.asList(
                 User.USERNAME.getName(), User.AGE.getName()
         )).query();
+        String insertStatement4 = query.insert(Arrays.asList("username", "age")).query();
 
         assertEquals(insertStatement, "INSERT ");
         assertEquals(insertStatement1, "INSERT INTO users (username, age) VALUES ('Nikhe', 30)");
         assertEquals(insertStatement2, "INSERT INTO users (username, age) VALUES ('Nikhe', 30)");
         assertEquals(insertStatement3, "INSERT INTO users (username, age) VALUES (?, ?)");
+        assertEquals(insertStatement4, "INSERT INTO users (username, age) VALUES (?, ?)");
     }
 
     @Test

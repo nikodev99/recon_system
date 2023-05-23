@@ -6,6 +6,7 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import com.google.inject.Inject;
+import who.reconsystem.app.dialog.DialogMessage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
@@ -69,7 +70,7 @@ public class FileDataStorage implements FileData {
             fos.close();
             System.out.println("Successfully downloaded through " + localePath);
         }catch (IOException | GeneralSecurityException g) {
-            System.out.println("Error encounter " + g.getMessage());
+            DialogMessage.exceptionDialog(g);
         }
     }
 
@@ -89,10 +90,10 @@ public class FileDataStorage implements FileData {
                         .execute();
                 fileId = uploadedFile.getId();
             }catch (GoogleJsonResponseException e) {
-                System.out.println("Unable to upload: " + e.getMessage());
+                DialogMessage.exceptionDialog(e);
             }
         }catch (IOException | GeneralSecurityException g) {
-            System.out.println("Error encounter " + Arrays.toString(g.getStackTrace()));
+            DialogMessage.exceptionDialog(g);
         }
         return fileId;
     }
@@ -102,7 +103,7 @@ public class FileDataStorage implements FileData {
         try {
             getFile(credentials.driveService(), fileName, folderId);
         }catch (IOException | GeneralSecurityException g) {
-            System.out.println("Error encounter " + Arrays.toString(g.getStackTrace()));
+            DialogMessage.exceptionDialog(g);
         }
         return fields;
     }
@@ -118,7 +119,8 @@ public class FileDataStorage implements FileData {
                     .execute();
             List<File> files = fileList.getFiles();
             if (files == null || files.isEmpty()) {
-                System.out.println("No files found");
+                String content = "Le fichier " + remoteFileName + " est introuvable";
+                DialogMessage.showWarningDialog("No files found", content);
             }else {
                 System.out.println("Files: ");
                 for (File file: files) {
@@ -136,7 +138,7 @@ public class FileDataStorage implements FileData {
                 }
             }
         }catch (IOException g) {
-            System.out.println("Error encounter " + Arrays.toString(g.getStackTrace()));
+            DialogMessage.exceptionDialog(g);
         }
         return fields;
     }
