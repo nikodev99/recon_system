@@ -9,6 +9,6 @@ token
 
 src/main/resources/credential.json
 src/main/resources/reconsystem.db
+src/main/resources/META-INF
 
 out
-src/main/resources/META-INF
