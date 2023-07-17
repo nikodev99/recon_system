@@ -18,9 +18,9 @@ public interface Query {
 
     Query update();
 
-    Query updateId(List<String> data);
+    Query updateId(List<String> fields);
 
-    Query updateId(Map<String, Object> data);
+    Query updateId(Map<String, Object> fieldsAndValues);
 
     Query set();
 

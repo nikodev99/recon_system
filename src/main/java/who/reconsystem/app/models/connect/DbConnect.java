@@ -35,7 +35,6 @@ public class DbConnect {
                 //Log.getLog(ConnectDB.class).info("Connexion à la base des données... ");
                 connection = DriverManager.getConnection(jdbc);
                 //Log.getLog(ConnectDB.class).info("Successfully connected to " + connection);
-                DialogMessage.showInformationDialog("Connection", "Connection à " + connection + " établie");
             }catch (Exception e) {
                 //Log.getLog(ConnectDB.class).error("Erreur rencontrée lors de la connexion à la base de données: " + e.getMessage());
                 DialogMessage.exceptionDialog(e);

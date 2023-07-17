@@ -3,10 +3,10 @@ package who.reconsystem.app.dialog;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
-import who.reconsystem.app.service.collections.StringList;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 public class DialogMessage {
@@ -37,21 +37,21 @@ public class DialogMessage {
         alert.showAndWait();
     }
 
-    public static Optional<ButtonType> confirmationDialog (StringList messages) {
-        StringList btnHeaders = new StringList("Oui", "Non");
-        return confirmationDialog(messages.getElement(0), messages.getElement(1), btnHeaders);
+    public static Optional<ButtonType> confirmationDialog (List<String> messages) {
+        List<String> btnHeaders = Arrays.asList("Oui", "Non");
+        return confirmationDialog(messages.get(0), messages.get(1), btnHeaders);
     }
 
-    public static Optional<ButtonType> confirmationDialog (StringList messages, StringList buttons) {
-        return confirmationDialog(messages.getElement(0), messages.getElement(1), buttons);
+    public static Optional<ButtonType> confirmationDialog (List<String> messages, List<String> buttons) {
+        return confirmationDialog(messages.get(0), messages.get(1), buttons);
     }
 
-    static Optional<ButtonType> confirmationDialog (String header, String content, StringList btnHeaders) {
+    static Optional<ButtonType> confirmationDialog (String header, String content, List<String> btnHeaders) {
         DialogAlert dialog = new DialogAlert("Confirmation Dialog", header, content);
         Alert alert = dialogAlert(AlertType.CONFIRMATION, dialog);
 
-        ButtonType yesBtn = new ButtonType(btnHeaders.getElement(0), ButtonBar.ButtonData.YES);
-        ButtonType noBtn = new ButtonType(btnHeaders.getElement(1), ButtonBar.ButtonData.NO);
+        ButtonType yesBtn = new ButtonType(btnHeaders.get(0), ButtonBar.ButtonData.YES);
+        ButtonType noBtn = new ButtonType(btnHeaders.get(1), ButtonBar.ButtonData.NO);
 
         alert.getButtonTypes().setAll(yesBtn, noBtn);
         return alert.showAndWait();

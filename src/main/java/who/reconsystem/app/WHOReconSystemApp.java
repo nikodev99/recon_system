@@ -10,6 +10,9 @@ import who.reconsystem.app.guice.QueryModule;
 import who.reconsystem.app.models.Table;
 import who.reconsystem.app.models.tables.UserTable;
 import who.reconsystem.app.root.StageLuncher;
+import who.reconsystem.app.root.config.Functions;
+import who.reconsystem.app.root.config.PBKDF2WithHmacSHA1;
+import who.reconsystem.app.root.config.StrongIdGenerator;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,10 +32,12 @@ public class WHOReconSystemApp extends Application {
     }
 
     private void queryBuilder() {
+        List<Object> values = Arrays.asList("sB6qS1rmTJkucT2", "Test", "Test", "test", PBKDF2WithHmacSHA1.hashPassword("toto"), "test@test.com",
+                "2023-05-24 14:57:01", Functions.instantDatetime("yyyy-MM-dd HH:mm:ss"), "1");
         Injector injector = Guice.createInjector(new QueryModule());
         Table table = injector.getInstance(UserTable.class);
-        List<String> data = table.find(1);
-        System.out.println(data);
+        long insertId = table.update(values);
+        System.out.println(insertId);
     }
 
     private void database() {

@@ -47,20 +47,26 @@ public class QueryBuilderTest {
         Map<String, Object> mapData = new LinkedHashMap<>();
         mapData.put(User.USERNAME.getName(), "'Nikhe'");
         mapData.put(User.AGE.getName(), 30);
+
         String update = query.update().query();
+
         String update1 = query.updateId(Arrays.asList(
                 User.USERNAME.getName(), User.AGE.getName()
         )).query();
+
         String update2 = query.updateId(mapData).query();
+
         String update3 = query.update().set().updateValue(Arrays.asList(
                 User.USERNAME.getName(), User.AGE.getName()
         )).whereId().query();
+
         String update4 = query.update().set(Arrays.asList(
                 User.USERNAME.getName(), User.AGE.getName()
         )).where(
                 Arrays.asList(User.ID.getName(),
                         User.USER_ID.getName()
                 ), Operator.AND).query();
+
         String update5 = query.update().set(mapData).whereId().query();
 
         assertEquals(update, "UPDATE users");
