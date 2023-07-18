@@ -1,26 +1,25 @@
 package who.reconsystem.app.root.config;
 
-import who.reconsystem.app.models.Operator;
-import who.reconsystem.app.models.connect.DbConnect;
-
+import java.io.File;
 import java.security.CodeSource;
 import java.security.ProtectionDomain;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Collections;
+import java.util.List;
 
 public class Functions {
+    private static final String _DIR = File.separator;
+
     /**
      * Dynamically retrieve the root route of the project.
      * @param fileName {String} The file name located i the source folder.
      * @return String The source folder of the project.
      */
     public static String getLocalePath(String fileName) {
-        ProtectionDomain domain = DbConnect.class.getProtectionDomain();
+        ProtectionDomain domain = Functions.class.getProtectionDomain();
         CodeSource codeSource = domain.getCodeSource();
         return codeSource.getLocation().getPath() + fileName;
     }

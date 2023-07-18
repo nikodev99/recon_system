@@ -5,6 +5,7 @@ import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import who.reconsystem.app.drive.DBFile;
+import who.reconsystem.app.drive.GoogleDriveFileFields;
 import who.reconsystem.app.guice.DriveModule;
 import who.reconsystem.app.guice.QueryModule;
 import who.reconsystem.app.models.Table;
@@ -12,7 +13,6 @@ import who.reconsystem.app.models.tables.UserTable;
 import who.reconsystem.app.root.StageLuncher;
 import who.reconsystem.app.root.config.Functions;
 import who.reconsystem.app.root.config.PBKDF2WithHmacSHA1;
-import who.reconsystem.app.root.config.StrongIdGenerator;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,8 +25,7 @@ public class WHOReconSystemApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        queryBuilder();
-
+        database();
         StageLuncher stageLuncher = new StageLuncher(stage, "login", "Login Pane");
         stageLuncher.lunchStage();
     }
@@ -43,9 +42,9 @@ public class WHOReconSystemApp extends Application {
     private void database() {
         Injector injector = Guice.createInjector(new DriveModule());
         DBFile file = injector.getInstance(DBFile.class);
-        file.downloadDatabaseFromGoogleDrive();
-        //String id = file.uploadDatabaseFile();
-        //System.out.println("réussi avec id=" + id);
+        //file.downloadDatabaseFromGoogleDrive();
+        String id = file.uploadDatabaseFile();
+        System.out.println("réussi avec id=" + id);
         //String id = file.updateDatabaseFile();
         //System.out.println("id=" + id);
         /*GoogleDriveFileFields fields = file.getDatabaseFromGoogleDrive();
