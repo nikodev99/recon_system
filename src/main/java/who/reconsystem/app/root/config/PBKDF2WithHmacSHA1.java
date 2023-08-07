@@ -6,6 +6,8 @@ import java.math.BigInteger;
 
 public class PBKDF2WithHmacSHA1 {
 
+    private final static String DOLLAR_SIGN = "$";
+
     public static String hashPassword(String passwordToHash) {
         int iteration = 1000;
         char[] chars = passwordToHash.toCharArray();
@@ -17,17 +19,18 @@ public class PBKDF2WithHmacSHA1 {
 
             SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
             byte[] hash = skf.generateSecret(spec).getEncoded();
-            hashedPassword = iteration + ":" + toHex(salt) + ":" + toHex(hash);
+            hashedPassword = iteration + DOLLAR_SIGN + toHex(salt) + DOLLAR_SIGN + toHex(hash);
 
         }catch (Exception e) {
+            //TODO adding the log
             e.printStackTrace();
         }
         return hashedPassword;
     }
 
     public static boolean verifyPassword(String providedPassword, String storedPassword) {
-        if (storedPassword.contains(":")) {
-            String[] parts = storedPassword.split(":");
+        if (storedPassword.contains(DOLLAR_SIGN)) {
+            String[] parts = storedPassword.split("\\" + DOLLAR_SIGN);
             int iteration = Integer.parseInt(parts[0]);
             byte[] salt = fromHex(parts[1]);
             byte[] hash = fromHex(parts[2]);
@@ -43,6 +46,7 @@ public class PBKDF2WithHmacSHA1 {
                 return diff == 0;
 
             }catch (Exception e) {
+                //TODO adding the log
                 e.printStackTrace();
                 return false;
             }

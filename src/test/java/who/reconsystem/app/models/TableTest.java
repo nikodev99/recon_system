@@ -26,7 +26,7 @@ public class TableTest {
 
     @Test
     public void testInsert() {
-        List<Object> values = Arrays.asList(StrongIdGenerator.generateId(15), "Test", "Test", "test1", PBKDF2WithHmacSHA1.hashPassword("toto"), "test@test.com",
+        List<Object> values = Arrays.asList(StrongIdGenerator.generateSecureRandomId(15), "Test", "Test", "test1", PBKDF2WithHmacSHA1.hashPassword("toto"), "test@test.com",
                 Functions.instantDatetime("yyyy-MM-dd HH:mm:ss"), Functions.instantDatetime("yyyy-MM-dd HH:mm:ss"));
         long insertId = table.insert(values);
         boolean isInserted = insertId != 0;

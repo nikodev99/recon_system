@@ -5,12 +5,12 @@ import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import who.reconsystem.app.drive.DBFile;
-import who.reconsystem.app.drive.GoogleDriveFileFields;
 import who.reconsystem.app.guice.DriveModule;
 import who.reconsystem.app.guice.QueryModule;
 import who.reconsystem.app.models.Table;
 import who.reconsystem.app.models.tables.UserTable;
 import who.reconsystem.app.root.StageLuncher;
+import who.reconsystem.app.root.StageViewer;
 import who.reconsystem.app.root.config.Functions;
 import who.reconsystem.app.root.config.PBKDF2WithHmacSHA1;
 
@@ -25,9 +25,9 @@ public class WHOReconSystemApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        database();
-        StageLuncher stageLuncher = new StageLuncher(stage, "login", "Login Pane");
-        stageLuncher.lunchStage();
+        StageLuncher stageLuncher = new StageLuncher(stage, "login", "Login Pane", true);
+        StageViewer viewer = new StageViewer(stageLuncher);
+        viewer.showStage();
     }
 
     private void queryBuilder() {

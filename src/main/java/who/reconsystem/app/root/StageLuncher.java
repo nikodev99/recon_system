@@ -11,57 +11,71 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class StageLuncher {
-    double x, y = 0;
+    private double x, y;
 
     private final Stage stage;
 
     private final String resourceName;
 
-    private String stageTitle;
+    private final String stageTitle;
 
-    public StageLuncher(Stage stage, String resourceName, String stageTitle, double x, double y) {
+    private boolean isDecorated;
+
+    public StageLuncher(Stage stage, String resourceName, String stageTitle, boolean isDecorated) {
         this.stage = stage;
         this.resourceName = resourceName;
         this.stageTitle = stageTitle;
-        this.x = x;
-        this.y = y;
+        this.isDecorated = isDecorated;
+        this.x = 0; this.y = 0;
     }
 
     public StageLuncher(Stage stage, String resourceName, String stageTitle) {
         this.stage = stage;
         this.resourceName = resourceName;
         this.stageTitle = stageTitle;
+        this.isDecorated = false;
+        this.x = 0; this.y = 0;
     }
 
     public StageLuncher(Stage stage, String resourceName) {
         this.stage = stage;
         this.resourceName = resourceName;
+        this.stageTitle = "WHO Reconciliation System";
+        this.x = 0; this.y = 0;
     }
 
     public void lunchStage() {
         try {
-            this.stage.setScene(initScene());
-            initStage(StageStyle.UNDECORATED);
-            this.stage.show();
+            stage.setScene(initScene());
+            initStage(this.isDecorated ? StageStyle.DECORATED : StageStyle.UNDECORATED);
+            stage.show();
         }catch (IOException io) {
-            DialogMessage.exceptionDialog(io);
+            //TODO uncomment the DialogMessage and adding the log file
+            /* DialogMessage.exceptionDialog(io); */
+            io.printStackTrace();
         }
     }
 
-    public void setSceneParams(Scene scene) {
-    }
+    public void setSceneParams(Scene scene) {}
 
-    public void SetStageParams(Stage stage) {
+    public void setStageParams(Stage stage) {}
 
+    public void setLoaderParams(FXMLLoader loader) {}
+
+    public FXMLLoader runLoader() {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(Objects.requireNonNull(getClass().getResource(getResource())));
+        setLoaderParams(fxmlLoader);
+        return fxmlLoader;
     }
 
     private Scene initScene() throws IOException, NullPointerException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(getResource())));
+        Parent root = runLoader().load();
         Scene scene = new Scene(root);
 
         scene.setOnMousePressed(event -> {
-            this.x = event.getSceneX();
-            this.y = event.getSceneY();
+            x = event.getSceneX();
+            y = event.getSceneY();
         });
 
         scene.setOnMouseDragged(event -> {
@@ -78,7 +92,7 @@ public class StageLuncher {
         if (!stageTitle.isEmpty()) {
             this.stage.setTitle(stageTitle);
         }
-        SetStageParams(this.stage);
+        setStageParams(this.stage);
     }
 
     private String getResource() {

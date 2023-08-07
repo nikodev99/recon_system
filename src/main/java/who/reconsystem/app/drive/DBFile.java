@@ -1,11 +1,11 @@
 package who.reconsystem.app.drive;
 
 import com.google.inject.Inject;
+import org.jetbrains.annotations.NotNull;
 import who.reconsystem.app.drive.annotations.DatabaseValue;
 import who.reconsystem.app.drive.annotations.MimeTypeValue;
 import who.reconsystem.app.drive.annotations.ParentFolderValue;
-
-import java.util.Objects;
+import who.reconsystem.app.root.config.Functions;
 
 public class DBFile {
 
@@ -43,7 +43,7 @@ public class DBFile {
     public void downloadDatabaseFromGoogleDrive() {
         file.downloadFile(
                 databaseFileName,
-                getLocalePath("") + databaseFileName,
+                getLocalePath(),
                 parentFolderId
         );
     }
@@ -56,11 +56,7 @@ public class DBFile {
         );
     }
 
-    private String getLocalePath() {
-        return getLocalePath(databaseFileName);
-    }
-
-    private String getLocalePath(String fileName) {
-        return Objects.requireNonNull(DBFile.class.getClassLoader().getResource(fileName)).getFile();
+    private @NotNull String getLocalePath() {
+        return Functions.getLocalePath(databaseFileName);
     }
 }
