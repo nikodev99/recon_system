@@ -1,7 +1,6 @@
 package who.reconsystem.app.drive;
 
 import com.google.inject.Inject;
-import org.jetbrains.annotations.NotNull;
 import who.reconsystem.app.drive.annotations.DatabaseValue;
 import who.reconsystem.app.drive.annotations.MimeTypeValue;
 import who.reconsystem.app.drive.annotations.ParentFolderValue;
@@ -56,7 +55,7 @@ public class DBFile {
         );
     }
 
-    private @NotNull String getLocalePath() {
+    private String getLocalePath() {
         return Functions.getLocalePath(databaseFileName);
     }
 }

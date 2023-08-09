@@ -19,11 +19,11 @@ public class StageViewer {
         this.luncher = luncher;
     }
 
-    public void showStage() {
+    public void show() {
         Platform.runLater(luncher::lunchStage);
     }
 
-    public void showSessionStage(UserBean user) {
+    public void openNewSession(UserBean user) {
         Platform.runLater(() -> {
             initData(user);
             luncher.lunchStage();

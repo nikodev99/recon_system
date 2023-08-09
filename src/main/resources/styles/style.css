@@ -21,10 +21,10 @@
     -fx-border-width: 1px;
 }
 
-.left_pane {
-    -fx-background-color: blue;
+.pane_background {
+    -fx-background-color: #dcecf6;
 }
 
-.right_pane {
-    -fx-background-color: red;
+.inline_pane_background {
+    -fx-background-color: #f8f5f5;
 }

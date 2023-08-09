@@ -25,9 +25,9 @@ public class WHOReconSystemApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        StageLuncher stageLuncher = new StageLuncher(stage, "login", "Login Pane", true);
+        StageLuncher stageLuncher = new StageLuncher(stage, "index", "Login Pane", true);
         StageViewer viewer = new StageViewer(stageLuncher);
-        viewer.showStage();
+        viewer.show();
     }
 
     private void queryBuilder() {

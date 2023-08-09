@@ -17,10 +17,18 @@ public class StrongIdGenerator {
     }
 
     public static String generateRandomString(int index) {
+        return random(CHARACTERS + "-", index);
+    }
+
+    public static String generateRandomPassword(int index) {
+        return random(CHARACTERS + "#$*!%€&@£µ:-_", index);
+    }
+
+    private static String random(String characters, int index) {
         StringBuilder sb = new StringBuilder(index);
         for (int i = 0; i < index; i++) {
-            int n = (int) (CHARACTERS.length() * Math.random());
-            sb.append(CHARACTERS.charAt(n));
+            int n = (int) (characters.length() * Math.random());
+            sb.append(characters.charAt(n));
         }
         return sb.toString();
     }

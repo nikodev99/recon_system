@@ -1,4 +1,4 @@
-package who.reconsystem.app.dialog;
+package who.reconsystem.app.exception;
 
 public class ExceptionDialog {
     private final String message;

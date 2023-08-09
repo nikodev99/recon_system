@@ -3,6 +3,7 @@ package who.reconsystem.app.root.config;
 import java.io.File;
 import java.security.CodeSource;
 import java.security.ProtectionDomain;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -44,6 +45,14 @@ public class Functions {
      */
     public static String instantDate(String format) {
         return LocalDate.now().format(DateTimeFormatter.ofPattern(format));
+    }
+
+    public static Instant now() {
+        return Instant.now();
+    }
+
+    public static LocalDateTime dateTime(String dateToConvert) {
+        return LocalDateTime.parse(dateToConvert, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
     /**

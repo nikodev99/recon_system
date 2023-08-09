@@ -53,15 +53,7 @@ public class Table {
      * @return List<String> - List of all the records.
      */
     public List<String[]> findAll(List<String> fields) {
-        List<String[]> allData = new ArrayList<>();
-        String sqlRequest = getAllRequest(fields);
-        try {
-            allData = getRecords(sqlRequest);
-        }catch (SQLException sqlException) {
-            DialogMessage.exceptionDialog(sqlException);
-        }
-        stopConnection();
-        return Collections.unmodifiableList(allData);
+        return findAll(findAllRequest(fields));
     }
 
     /**
@@ -69,10 +61,13 @@ public class Table {
      * @return List<String> - List of all the records.
      */
     public List<String[]> findAll() {
+        return findAll(findAllRequest());
+    }
+
+    public List<String[]> findAll(String findAllRequest) {
         List<String[]> allData = new ArrayList<>();
-        String sqlRequest = getAllRequest();
         try {
-            allData = getRecords(sqlRequest);
+            allData = getRecords(findAllRequest);
         }catch (SQLException sqlException) {
             DialogMessage.exceptionDialog(sqlException);
         }
@@ -86,10 +81,13 @@ public class Table {
      * @return List<String> - The record searched.
      */
     public List<String> find(List<Object> values) {
+        return find(findRequest(), values);
+    }
+
+    public List<String> find(String findRequest, List<Object> values) {
         List<String> data = new ArrayList<>();
-        String sqlRequest = getRequest();
         try {
-            data = getOneRecord(sqlRequest, values);
+            data = getOneRecord(findRequest, values);
         }catch (SQLException sqlException) {
             DialogMessage.exceptionDialog(sqlException);
         }
@@ -181,19 +179,19 @@ public class Table {
         return query.insert(insertFields()).query();
     }
 
-    protected String getAllRequest(List<String> fields) {
+    protected String findAllRequest(List<String> fields) {
         return query.selectAll().query();
     }
 
-    protected String getAllRequest() {
+    protected String findAllRequest() {
         return query.selectAll().query();
     }
 
-    protected String getRequest(List<String> fields) {
+    protected String findRequest(List<String> fields) {
         return query.select().from().whereId().query();
     }
 
-    protected String getRequest() {
+    protected String findRequest() {
         return query.select().from().whereId().query();
     }
 

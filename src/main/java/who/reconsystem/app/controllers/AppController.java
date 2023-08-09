@@ -1,4 +1,4 @@
-package who.reconsystem.app;
+package who.reconsystem.app.controllers;
 
 import javafx.fxml.Initializable;
 
