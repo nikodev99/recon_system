@@ -2,19 +2,14 @@ package who.reconsystem.app.io;
 
 import lombok.Data;
 import who.reconsystem.app.exception.FileGeneratorException;
-import who.reconsystem.app.io.type.TXTFile;
-import who.reconsystem.app.root.config.Functions;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.attribute.FileAttribute;
-import java.nio.file.attribute.FileTime;
-import java.nio.file.attribute.PosixFilePermissions;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -40,43 +35,48 @@ public class FileGenerator implements File {
         this.path = path;
         this.ext = ext;
         this.filePath = Paths.get(path, fileName);
-        folderPath = Paths.get(path);
+        this.folderPath = Paths.get(path);
     }
 
     protected FileGenerator(String fileName, String path) {
         this.fileName = fileName;
         this.path = path;
         this.ext = fileName.contains(".") ? fileName.split("\\.")[1]: "";
+        System.out.println("FileName: " + fileName);
+        System.out.println("folder: " + path);
+        System.out.println("extension: " + ext);
         this.filePath = Paths.get(path, fileName);
-        folderPath = Paths.get(path);
+        this.folderPath = Paths.get(path);
     }
 
     public static synchronized FileGenerator getInstance(String fileName, String path, String ext) {
-        if (instance != null) {
+        System.out.println("instance: " + instance);
+        if (instance == null) {
             instance = new FileGenerator(fileName, path, ext);
         }
         return instance;
     }
 
     public static synchronized FileGenerator getInstance(String fileName, String path) {
-        if (instance != null) {
-            instance = new FileGenerator(fileName, path);
+        System.out.println("instance: " + instance);
+        if (instance == null) {
+            try {
+                instance = new FileGenerator(fileName, path);
+            }catch (Exception e) {
+                System.out.println("error message: " + e.getMessage());
+            }
         }
         return instance;
     }
 
     public File create() throws FileGeneratorException {
-        if (!ext.isEmpty() && ext.contains(".")) {
-            if (ext.contains(".")) throw new FileGeneratorException("Dot duplication error in the extension");
-        }
-        switch (ext) {
-            case "":
-            case "txt":
-                return TXTFile.getInstance(fileName, path).create();
-            case "pdf":
-                return createPDFFile();
-            case "xsl":
-                return createEXCELFile();
+        try {
+            Files.createFile(filePath);
+            isSuccess = true;
+            //TODO adding log for the success
+        }catch (IOException io) {
+            //TODO Adding log file and Dialog
+            io.printStackTrace();
         }
         return this;
     }
@@ -97,16 +97,14 @@ public class FileGenerator implements File {
 
     @Override
     public FileReader getContent() {
-        if (isSuccess) {
-            switch (ext) {
-                case "":
-                case "txt":
-                    return TXTFile.getInstance(fileName, path).getContent();
-                case "pdf":
-                case "xsl":
-            }
+        List<String> lines = new ArrayList<>();
+        try {
+            lines = Files.readAllLines(filePath, StandardCharsets.ISO_8859_1);
+        }catch (IOException io) {
+            //TODO adding log and dialog
+            io.printStackTrace();
         }
-        return new FileReader();
+        return FileReader.getInstance(lines);
     }
 
     @Override
@@ -120,32 +118,12 @@ public class FileGenerator implements File {
         }
     }
 
-    private FileGenerator createPDFFile() {
-        return this;
-    }
-
-    private FileGenerator createEXCELFile() {
-        return this;
-    }
-
-    protected FileAttribute<?>[] someAttributes(Path pathOfTheFile) throws IOException {
-        FileTime creationTime = FileTime.from(Functions.now());
-        FileTime lastModifiedTime = FileTime.from(Functions.now());
-        Files.setAttribute(pathOfTheFile, "creationTime", creationTime);
-        Files.setLastModifiedTime(pathOfTheFile, lastModifiedTime);
-
-        return new FileAttribute<?>[]{
-                PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rw-rw-rw-")),
-        };
-    }
-
     protected List<String> getAllFiles() {
         List<String> fileNames = new ArrayList<>();
         try {
             if (isFolderNotEmpty()) {
                 Stream<Path> paths = Files.walk(folderPath);
                 fileNames = paths.filter(Files::isRegularFile)
-                        .map(Path::getFileName)
                         .map(Path::toString)
                         .collect(Collectors.toList());
                 //TODO add a log here.

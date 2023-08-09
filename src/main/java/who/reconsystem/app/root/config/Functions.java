@@ -22,7 +22,9 @@ public class Functions {
     public static String getLocalePath(String fileName) {
         ProtectionDomain domain = Functions.class.getProtectionDomain();
         CodeSource codeSource = domain.getCodeSource();
-        return codeSource.getLocation().getPath() + fileName;
+        String path = codeSource.getLocation().getPath() + fileName;
+        if (path.startsWith("/")) path = path.substring(1);
+        return path;
     }
 
     /**
