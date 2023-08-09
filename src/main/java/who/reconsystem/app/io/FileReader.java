@@ -60,7 +60,7 @@ public class FileReader {
         List<Byte> currentBytes = new ArrayList<>();
 
         for (byte b: inputBytes) {
-            if (b == 10) {
+            if (b == 10 || b == 13 || isEqualsToCombination(inputBytes)) {
                 byte[] subArray = new byte[currentBytes.size()];
                 for (int i = 0; i < currentBytes.size(); i++) {
                     subArray[i] = currentBytes.get(i);
@@ -81,6 +81,23 @@ public class FileReader {
         }
 
         return resultList.toArray(new byte[0][]);
+    }
+
+    private boolean isEqualsToCombination(byte[] combination) {
+        int currentIndex = -1;
+        byte nextByte = 0;
+
+        for (int i = 0; i < combination.length; i++) {
+            if (combination[i] == (byte) 10) {
+                currentIndex = i;
+                break;
+            }
+        }
+
+        if (currentIndex != -1 && currentIndex < combination.length - 1) {
+            nextByte = combination[currentIndex + 1];
+        }
+        return nextByte == 13;
     }
 
 }
