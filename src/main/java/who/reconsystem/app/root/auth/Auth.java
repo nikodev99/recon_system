@@ -1,6 +1,7 @@
 package who.reconsystem.app.root.auth;
 
-import who.reconsystem.app.models.tables.UserTable;
+import who.reconsystem.app.guice.QueryBiding;
+import who.reconsystem.app.models.Table;
 import who.reconsystem.app.root.config.PBKDF2WithHmacSHA1;
 import who.reconsystem.app.user.UserBean;
 
@@ -8,14 +9,12 @@ public class Auth {
 
     private UserBean loggedUser;
 
-    private final UserTable table;
-
-    public Auth(UserBean loggedUser, UserTable table) {
+    public Auth(UserBean loggedUser) {
         this.loggedUser = loggedUser;
-        this.table = table;
     }
 
     public boolean login(String username, String email, String password) {
+        Table table = QueryBiding.useUserTable();
         loggedUser = table.loggedUser(username, email);
         boolean loggerStatus = false;
         if (loggedUser != null) {

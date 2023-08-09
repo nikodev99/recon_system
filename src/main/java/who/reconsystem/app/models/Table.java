@@ -3,6 +3,7 @@ package who.reconsystem.app.models;
 import com.google.inject.Inject;
 import who.reconsystem.app.dialog.DialogMessage;
 import who.reconsystem.app.models.connect.DbConnect;
+import who.reconsystem.app.user.UserBean;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -169,6 +170,10 @@ public class Table {
         }
         stopConnection();
         return responseId;
+    }
+
+    public UserBean loggedUser(String username, String email){
+        return UserBean.builder().build();
     }
 
     protected String insertRequest(List<String> values) {
