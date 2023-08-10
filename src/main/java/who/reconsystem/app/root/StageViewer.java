@@ -4,9 +4,9 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import who.reconsystem.app.user.UserBean;
 
 import java.lang.reflect.Constructor;
@@ -32,15 +32,17 @@ public class StageViewer {
 
     public void hide (MouseEvent event) {
         Platform.runLater(() -> {
-            Node node = (Node) event.getSource();
-            node.getScene().getWindow().hide();
+            Stage node = (Stage) event.getSource();
+            node.getScene().getWindow();
+            node.close();
         });
     }
 
     public void hide (KeyEvent keyEvent) {
         Platform.runLater(() -> {
-            Node node = (Node) keyEvent.getSource();
-            node.getScene().getWindow().hide();
+            Stage node = (Stage) keyEvent.getSource();
+            node.getScene().getWindow();
+            node.close();
         });
     }
 

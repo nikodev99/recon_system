@@ -12,7 +12,7 @@ public class FileGeneratorTest {
 
     private final File file;
 
-    private final String CONTENT = "append content\n\rin the new line";
+    private final String CONTENT = "append content\nin the new line";
 
 
     public FileGeneratorTest() {
@@ -42,7 +42,7 @@ public class FileGeneratorTest {
         List<String[]> contents = fr.read();
         assertEquals(4, contents.size());
         assertFalse(contents.isEmpty());
-        assertArrayEquals(new String[]{CONTENT.split("\\n\\r")[0]}, contents.get(0));
+        assertArrayEquals(new String[]{CONTENT.split("\\n")[0]}, contents.get(0));
     }
 
 }

@@ -24,7 +24,14 @@ public class Auth {
         return loggerStatus;
     }
 
+    public void logout() {
+        loggedUser.setUserId(null);
+        loggedUser.setPassword(null);
+    }
+
     public UserBean loggedUser() {
         return loggedUser;
     }
+
+
 }

@@ -9,27 +9,30 @@ public class PBKDF2WithHmacSHA1 {
     private final static String DOLLAR_SIGN = "$";
 
     public static String hashPassword(String passwordToHash) {
-        int iteration = 1000;
-        char[] chars = passwordToHash.toCharArray();
-        byte[] salt = passwordToHash.getBytes();
-        String hashedPassword = "";
+        if (passwordToHash != null && !passwordToHash.isEmpty()) {
+            int iteration = 1000;
+            char[] chars = passwordToHash.toCharArray();
+            byte[] salt = passwordToHash.getBytes();
+            String hashedPassword = "";
 
-        PBEKeySpec spec = new PBEKeySpec(chars, salt, iteration, 64 * 8);
-        try {
+            PBEKeySpec spec = new PBEKeySpec(chars, salt, iteration, 64 * 8);
+            try {
 
-            SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
-            byte[] hash = skf.generateSecret(spec).getEncoded();
-            hashedPassword = iteration + DOLLAR_SIGN + toHex(salt) + DOLLAR_SIGN + toHex(hash);
+                SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
+                byte[] hash = skf.generateSecret(spec).getEncoded();
+                hashedPassword = iteration + DOLLAR_SIGN + toHex(salt) + DOLLAR_SIGN + toHex(hash);
 
-        }catch (Exception e) {
-            //TODO adding the log
-            e.printStackTrace();
+            }catch (Exception e) {
+                //TODO adding the log
+                e.printStackTrace();
+            }
+            return hashedPassword;
         }
-        return hashedPassword;
+        return null;
     }
 
     public static boolean verifyPassword(String providedPassword, String storedPassword) {
-        if (storedPassword.contains(DOLLAR_SIGN)) {
+        if (storedPassword != null && providedPassword != null && storedPassword.contains(DOLLAR_SIGN)) {
             String[] parts = storedPassword.split("\\" + DOLLAR_SIGN);
             int iteration = Integer.parseInt(parts[0]);
             byte[] salt = fromHex(parts[1]);

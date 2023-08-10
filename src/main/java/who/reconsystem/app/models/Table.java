@@ -3,6 +3,7 @@ package who.reconsystem.app.models;
 import com.google.inject.Inject;
 import who.reconsystem.app.dialog.DialogMessage;
 import who.reconsystem.app.models.connect.DbConnect;
+import who.reconsystem.app.models.tables.UserTable;
 import who.reconsystem.app.user.UserBean;
 
 import java.sql.*;
@@ -49,15 +50,6 @@ public class Table {
     }
 
     /**
-     * Find all the record from the database table by specifying the fields we want.
-     * @param fields List<String> - the fields of records we want.
-     * @return List<String> - List of all the records.
-     */
-    public List<String[]> findAll(List<String> fields) {
-        return findAll(findAllRequest(fields));
-    }
-
-    /**
      * Find all the record from the database table with all the fields.
      * @return List<String> - List of all the records.
      */
@@ -65,10 +57,36 @@ public class Table {
         return findAll(findAllRequest());
     }
 
+    /**
+     * Find all the record from the database table by specifying the fields we want.
+     * @param fields List<String> - the fields of records we want.
+     * @return List<String> - List of all the records.
+     */
+    public List<String[]> findAll(List<String> fields) {
+        return findAll(findAllRequest(fields), fields, Collections.emptyList());
+    }
+
+    /**
+     * Find all the record from the database table by specifying the statement, All the fields will be returned
+     * @param findAllRequest - String
+     * @return - List[]
+     */
     public List<String[]> findAll(String findAllRequest) {
+        return findAll(findAllRequest, allFields(), Collections.emptyList());
+    }
+
+    /**
+     * Find all the record from the database table by specifying the statement, fields and values of
+     * the retrieving condition.
+     * @param findAllRequest - String
+     * @param fields - List
+     * @param values - List
+     * @return - List[]
+     */
+    public List<String[]> findAll(String findAllRequest, List<String> fields, List<Object> values) {
         List<String[]> allData = new ArrayList<>();
         try {
-            allData = getRecords(findAllRequest);
+            allData = getRecords(findAllRequest, fields, values);
         }catch (SQLException sqlException) {
             DialogMessage.exceptionDialog(sqlException);
         }
@@ -85,17 +103,6 @@ public class Table {
         return find(findRequest(), values);
     }
 
-    public List<String> find(String findRequest, List<Object> values) {
-        List<String> data = new ArrayList<>();
-        try {
-            data = getOneRecord(findRequest, values);
-        }catch (SQLException sqlException) {
-            DialogMessage.exceptionDialog(sqlException);
-        }
-        stopConnection();
-        return Collections.unmodifiableList(data);
-    }
-
     /**
      * Find one record by specifying one value belonging to a record to search.
      * @param value Object - The values belonging to a record to search.
@@ -103,6 +110,23 @@ public class Table {
      */
     public List<String> find(Object value) {
         return find(Collections.singletonList(value));
+    }
+
+    public List<String> find(String findRequest, List<Object> values) {
+        return find(findRequest, allFields(), values);
+    }
+
+    public List<String> find(String findRequest, List<String> fields, List<Object> values) {
+        List<String> data = new ArrayList<>();
+        try {
+            data = getOneRecord(findRequest, fields, values);
+        }catch (SQLException sqlException) {
+            //TODO add log ans dialog
+            //DialogMessage.exceptionDialog(sqlException);
+            sqlException.printStackTrace();
+        }
+        stopConnection();
+        return Collections.unmodifiableList(data);
     }
 
     /**
@@ -220,16 +244,6 @@ public class Table {
         }
     }
 
-    protected List<String> populateEntity() throws SQLException {
-        List<String> fields = allFields();
-        List<String> data = new ArrayList<>();
-        for (int i = 0; i < fields.size(); i++) {
-            String strData = result.getString(i + 1);
-            data.add(strData);
-        }
-        return data;
-    }
-
     protected List<String> allFields() {
         return Collections.emptyList();
     }
@@ -276,30 +290,55 @@ public class Table {
         return responseId;
     }
 
-    private List<String[]> getRecords(String sqlRequest, List<Object> values) throws SQLException {
+    protected List<String> populateEntity() throws SQLException {
+        return populate(allFields());
+    }
+
+    protected List<String> populateEntity(List<String> fields) throws SQLException {
+        return populate(fields);
+    }
+
+    private List<String[]> getRecords(String sqlRequest, List<String> fields, List<Object> values) throws SQLException {
         List<String[]> allData = new ArrayList<>();
         preparedStatement = prepare(sqlRequest);
         if (!values.isEmpty()) setValues(values);
         result = preparedStatement.executeQuery();
         while (result.next()) {
-            List<String> data = populateEntity();
+            List<String> data = populateEntity(fields);
             allData.addAll(result.getRow() - 1, Collections.singleton(data.toArray(new String[0])));
         }
         return Collections.unmodifiableList(allData);
+    }
+
+    private List<String[]> getRecords(String sqlRequest, List<Object> values) throws SQLException {
+        return getRecords(sqlRequest, allFields(), values);
     }
 
     private List<String[]> getRecords(String sqlRequest) throws SQLException {
         return getRecords(sqlRequest, Collections.emptyList());
     }
 
-    private List<String> getOneRecord(String sqlRequest, List<Object> values) throws SQLException {
+    private List<String> getOneRecord(String sqlRequest, List<String> fields, List<Object> values) throws SQLException {
         List<String> data = new ArrayList<>();
         preparedStatement = prepare(sqlRequest);
-        setValues(values);
+        if (!values.isEmpty()) setValues(values);
         result = preparedStatement.executeQuery();
         while (result.next()) {
-            data = populateEntity();
+            data = populateEntity(fields);
         }
         return Collections.unmodifiableList(data);
+    }
+
+    private List<String> getOneRecord(String sqlRequest, List<Object> values) throws SQLException {
+        return getOneRecord(sqlRequest, allFields(), values);
+    }
+
+    private List<String> populate(List<String> fields) throws SQLException {
+        List<String> data = new ArrayList<>();
+        for (int i = 0; i < fields.size(); i++) {
+            String strData = result.getString(i + 1);
+            data.add(strData);
+        }
+        return data;
     }
 }

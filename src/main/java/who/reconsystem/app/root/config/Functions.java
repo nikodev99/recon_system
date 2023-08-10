@@ -40,6 +40,16 @@ public class Functions {
         return Collections.emptyList();
     }
 
+    public static String arrayToString(String[] array) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (String element : array) {
+            stringBuilder.append(element);
+        }
+
+        return stringBuilder.toString();
+    }
+
     /**
      * To get the instant date.
      * @param format String format of the date.

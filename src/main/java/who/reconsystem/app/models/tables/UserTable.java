@@ -22,12 +22,18 @@ public class UserTable extends Table {
     }
 
     public UserBean loggedUser(String username, String email) {
-        String statement = query.select()
+        List<String> fields = only(1, 5);
+        String statement = query.select(fields)
+                .from()
                 .where(User.USERNAME.getName())
                 .orWhere(User.EMAIL.getName())
                 .query();
-        List<String> data = find(statement, Arrays.asList(username, email));
-        return userPopulate(data);
+        System.out.println("SQL statement: " + statement);
+        List<String> data = find(statement, fields, Arrays.asList(username, email));
+        return UserBean.builder()
+                .userId(data.get(0))
+                .password(data.get(1))
+                .build();
     }
 
     @Override
@@ -50,6 +56,13 @@ public class UserTable extends Table {
         return add(userList.toArray(new User[0]));
     }
 
+    @Override
+    protected String findRequest() {
+        return query.selectAll()
+                .where(User.USER_ID.getName())
+                .query();
+    }
+
     private List<String> add(User... users) {
         List<User> users1 = new ArrayList<>(Arrays.asList(users));
         List<String> data = new ArrayList<>();
@@ -63,20 +76,6 @@ public class UserTable extends Table {
             matter.add(userFields().get(index).getName());
         }
         return matter;
-    }
-
-    private UserBean userPopulate(List<String> data) {
-        return UserBean.builder()
-                .id(Long.parseLong(data.get(0)))
-                .userId(data.get(1))
-                .firstName(data.get(2))
-                .lastName(data.get(3))
-                .username(data.get(4))
-                .email(data.get(5))
-                .createdAt(Functions.dateTime(data.get(6)))
-                .updatedAt(Functions.dateTime(data.get(7)))
-                .password(data.get(8))
-                .build();
     }
 
     private List<User> userFields() {

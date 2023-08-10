@@ -26,7 +26,7 @@ public class TableTest {
 
     @Test
     public void testInsert() {
-        List<Object> values = Arrays.asList(StrongIdGenerator.generateSecureRandomId(15), "Test", "Test", "test1", PBKDF2WithHmacSHA1.hashPassword("toto"), "test@test.com",
+        List<Object> values = Arrays.asList(StrongIdGenerator.generateSecureRandomId(15), "Nikhe", "Niama", "nikhe", PBKDF2WithHmacSHA1.hashPassword("toto"), "nikhe@test.com",
                 Functions.instantDatetime("yyyy-MM-dd HH:mm:ss"), Functions.instantDatetime("yyyy-MM-dd HH:mm:ss"));
         long insertId = table.insert(values);
         boolean isInserted = insertId != 0;
@@ -40,7 +40,7 @@ public class TableTest {
 
         assertEquals(data.size(), 2);
         assertEquals(data.get(1)[0], "2");
-        assertEquals(data.get(1)[4], "test1");
+        assertEquals(data.get(1)[4], "nikhe");
     }
 
     @Test

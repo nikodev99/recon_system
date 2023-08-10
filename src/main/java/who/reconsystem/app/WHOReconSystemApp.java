@@ -7,8 +7,6 @@ import javafx.stage.Stage;
 import who.reconsystem.app.drive.DBFile;
 import who.reconsystem.app.guice.DriveModule;
 import who.reconsystem.app.guice.QueryModule;
-import who.reconsystem.app.io.FileGenerator;
-import who.reconsystem.app.io.FileReader;
 import who.reconsystem.app.models.Table;
 import who.reconsystem.app.models.tables.UserTable;
 import who.reconsystem.app.root.StageLuncher;
@@ -27,18 +25,9 @@ public class WHOReconSystemApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FileGenerator file = FileGenerator.getInstance("textFile.txt",
-                Functions.getLocalePath(""));
-        //long size = file.create().addContent("Je suis une file créer par java.\n j'aime bien java");
-        FileReader fileReader = file.getContent();
-        System.out.println(file);
-        List<String[]> lines = fileReader.read();
-        for (String[] line: lines) {
-            System.out.println(Arrays.toString(line));
-        }
-        //StageLuncher stageLuncher = new StageLuncher(stage, "index", "Login Pane", true);
-        //StageViewer viewer = new StageViewer(stageLuncher);
-        //viewer.show();
+        StageLuncher stageLuncher = new StageLuncher(stage, "login", "Login Pane", false);
+        StageViewer viewer = new StageViewer(stageLuncher);
+        viewer.show();
     }
 
     private void queryBuilder() {

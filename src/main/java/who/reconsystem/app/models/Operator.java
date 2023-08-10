@@ -1,13 +1,12 @@
 package who.reconsystem.app.models;
 
+import lombok.Getter;
+
+@Getter
 public enum Operator {
     AND, OR, GREATER_THAN, LESS_THAN, EQUALS, BETWEEN, NONE;
 
     private String operator;
-
-    public String getOperator() {
-        return operator;
-    }
 
     static {
         AND.operator = "AND";

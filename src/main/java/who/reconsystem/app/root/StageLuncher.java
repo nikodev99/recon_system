@@ -1,5 +1,6 @@
 package who.reconsystem.app.root;
 
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -67,6 +68,11 @@ public class StageLuncher {
         fxmlLoader.setLocation(Objects.requireNonNull(getClass().getResource(getResource())));
         setLoaderParams(fxmlLoader);
         return fxmlLoader;
+    }
+
+    public void handleClose() {
+        stage.close();
+        Platform.exit();
     }
 
     private Scene initScene() throws IOException, NullPointerException {
