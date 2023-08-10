@@ -28,7 +28,6 @@ public class UserTable extends Table {
                 .where(User.USERNAME.getName())
                 .orWhere(User.EMAIL.getName())
                 .query();
-        System.out.println("SQL statement: " + statement);
         List<String> data = find(statement, fields, Arrays.asList(username, email));
         return UserBean.builder()
                 .userId(data.get(0))

@@ -40,7 +40,7 @@ public class FileGeneratorTest {
     public void getContentTest() {
         FileReader fr = file.getContent();
         List<String[]> contents = fr.read();
-        assertEquals(4, contents.size());
+        assertEquals(2, contents.size());
         assertFalse(contents.isEmpty());
         assertArrayEquals(new String[]{CONTENT.split("\\n")[0]}, contents.get(0));
     }

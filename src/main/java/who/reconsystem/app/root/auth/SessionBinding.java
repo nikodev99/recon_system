@@ -1,5 +1,6 @@
 package who.reconsystem.app.root.auth;
 
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +12,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SessionBinding {
-    @SerializedName(value = "name")
+    @SerializedName(value = "code")
     private String code;
 
     @SerializedName(value = "lastActivity")
@@ -21,5 +22,5 @@ public class SessionBinding {
     private boolean isLogged;
 
     @SerializedName(value = "creationDate")
-    private Instant creationDate;
+    private String creationDate;
 }

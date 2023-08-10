@@ -83,6 +83,7 @@ public class FileGenerator implements File {
                 //TODO Adding log file and Dialog
                 io.printStackTrace();
             }
+            exists = true;
         }
         return this;
     }

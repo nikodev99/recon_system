@@ -1,23 +1,24 @@
 package who.reconsystem.app.root.auth;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import lombok.Getter;
+import lombok.Setter;
 import who.reconsystem.app.exception.FileGeneratorException;
 import who.reconsystem.app.guice.QueryBiding;
 import who.reconsystem.app.io.File;
 import who.reconsystem.app.io.FileGenerator;
 import who.reconsystem.app.io.FileReader;
 import who.reconsystem.app.models.Table;
-import who.reconsystem.app.models.tables.UserTable;
 import who.reconsystem.app.root.config.Functions;
 import who.reconsystem.app.root.config.StrongIdGenerator;
 import who.reconsystem.app.user.UserBean;
 
+import java.time.Instant;
 import java.util.List;
 
 public class Session {
     private final String SESSION_FILENAME;
-
-    private final long INACTIVITY_TIMOUT = 30 * 60 * 100;
 
     private final long lastActivityTime = System.currentTimeMillis();
 
@@ -25,7 +26,9 @@ public class Session {
 
     private final Auth auth;
 
-    boolean isLogged = false;
+    @Getter
+    @Setter
+    private boolean isLogged = false;
 
     public Session(Auth auth) {
         this.auth = auth;
@@ -38,10 +41,10 @@ public class Session {
         file = FileGenerator.getInstance(SESSION_FILENAME, filePath);
         try {
             String content = "{" +
-                    "\"code\": \""+ user.getUserId() +"\", " +
-                    "\"lastActivity\": \""+ lastActivityTime +"\", " +
-                    "\"isLogged\": \""+ isLogged +"\", " +
-                    "\"creationDate\": \"" + Functions.now() + "\"}";
+                    "\"code\":\""+ user.getUserId() +"\"," +
+                    "\"lastActivity\":"+ lastActivityTime +"," +
+                    "\"isLogged\":"+ isLogged +"," +
+                    "\"creationDate\":\"" + Functions.now() + "\"}";
             file.create().addContent(content);
             //TODO adding log with the size of the file
         }catch (FileGeneratorException fge) {
@@ -50,15 +53,8 @@ public class Session {
         }
     }
 
-    private SessionBinding sessionLogger() {
-        FileReader fileReader = file.getContent();
-        List<String[]> lines = fileReader.read();
-        String content = Functions.arrayToString(lines.get(0));
-        Gson gson = new Gson();
-        return gson.fromJson(content, SessionBinding.class);
-    }
-
-    public UserBean userLogged(SessionBinding binding) {
+    public UserBean userLogged() {
+        SessionBinding binding = sessionLogger();
         Table table = QueryBiding.useUserTable();
         List<String> data = table.find(binding.getCode());
         return UserBean.populate(data);
@@ -66,16 +62,24 @@ public class Session {
 
     public void setUpInactivity(SessionBinding binding) {
         if (checkInactivity(binding)) {
-            isLogged = false;
+            setLogged(false);
             file.remove();
             auth.logout();
         }
     }
 
+    private SessionBinding sessionLogger() {
+        FileReader fileReader = file.getContent();
+        List<String[]> lines = fileReader.read();
+        String content = Functions.arrayToString(lines.get(0));
+        Gson gson = new GsonBuilder().create();
+        return gson.fromJson(content, SessionBinding.class);
+    }
+
     private boolean checkInactivity(SessionBinding binding) {
         long currentTime = System.currentTimeMillis();
         long elapsedTime = currentTime - binding.getLastActivity();
+        final long INACTIVITY_TIMOUT = 30 * 60 * 100;
         return  elapsedTime >= INACTIVITY_TIMOUT;
     }
-
 }
