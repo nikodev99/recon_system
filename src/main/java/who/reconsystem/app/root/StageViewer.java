@@ -33,22 +33,6 @@ public class StageViewer {
         });
     }
 
-    public void hide (MouseEvent event) {
-        Platform.runLater(() -> {
-            Stage node = (Stage) event.getSource();
-            node.getScene().getWindow();
-            node.close();
-        });
-    }
-
-    public void hide (KeyEvent keyEvent) {
-        Platform.runLater(() -> {
-            Stage node = (Stage) keyEvent.getSource();
-            node.getScene().getWindow();
-            node.close();
-        });
-    }
-
     private void initData(UserBean user) {
         FXMLLoader fxmlLoader = new FXMLLoader();
         ObservableList<UserBean> userData = FXCollections.observableArrayList(user);

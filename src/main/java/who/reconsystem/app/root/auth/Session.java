@@ -68,7 +68,7 @@ public class Session {
         setLogged(false);
         file.remove();
         auth.logout();
-        StageLuncher stageLuncher = new StageLuncher("login", false, null);
+        StageLuncher stageLuncher = new StageLuncher("login", null);
         StageViewer viewer = new StageViewer(stageLuncher);
         viewer.show();
     }

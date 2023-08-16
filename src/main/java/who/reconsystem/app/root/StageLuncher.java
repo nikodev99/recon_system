@@ -3,6 +3,7 @@ package who.reconsystem.app.root;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -22,7 +23,7 @@ public class StageLuncher {
 
     private final String resourceName;
 
-    private final String stageTitle;
+    private String stageTitle = "WHO Reconciliation System";
 
     private final boolean isDecorated;
 
@@ -58,7 +59,6 @@ public class StageLuncher {
     public StageLuncher(String resourceName, boolean isDecorated, Session session) {
         this.stage = getStage();
         this.resourceName = resourceName;
-        this.stageTitle = "WHO Reconciliation System";
         this.isDecorated = isDecorated;
         this.session = session;
     }
@@ -66,7 +66,6 @@ public class StageLuncher {
     public StageLuncher(String resourceName, Session session) {
         this.stage = getStage();
         this.resourceName = resourceName;
-        this.stageTitle = "WHO Reconciliation System";
         this.isDecorated = false;
         this.session = session;
     }
@@ -75,11 +74,11 @@ public class StageLuncher {
         try {
             stage.setScene(initScene());
             initStage(this.isDecorated ? StageStyle.DECORATED : StageStyle.UNDECORATED);
-            stage.show();
-            if (session.isLogged()) {
+            if (session != null && session.isLogged()) {
                 inactivityTimer();
                 lastActivity = System.currentTimeMillis();
             }
+            stage.show();
         }catch (IOException io) {
             //TODO uncomment the DialogMessage and adding the log file
             /* DialogMessage.exceptionDialog(io); */
@@ -93,8 +92,6 @@ public class StageLuncher {
         }
     }
 
-    public void setStageParams(Stage stage) {}
-
     public void setLoaderParams(FXMLLoader loader) {}
 
     public FXMLLoader runLoader() {
@@ -105,8 +102,9 @@ public class StageLuncher {
     }
 
     public void handleClose() {
-        stage.close();
-        Platform.exit();
+        Platform.runLater(() -> {
+
+        });
     }
 
     private Scene initScene() throws IOException, NullPointerException {
@@ -132,7 +130,6 @@ public class StageLuncher {
         if (!stageTitle.isEmpty()) {
             this.stage.setTitle(stageTitle);
         }
-        setStageParams(this.stage);
     }
 
     private String getResource() {
@@ -148,6 +145,7 @@ public class StageLuncher {
                 while(true) {
                     if (currentTime - lastActivity >= INACTIVITY_TIMOUT) {
                         Platform.runLater(() -> {
+                            //TODO add dialog to inform the user that its session is finished
                             session.setUpInactivity();
                             lunchStage();
                             handleClose();

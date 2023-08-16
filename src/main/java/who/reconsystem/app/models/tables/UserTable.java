@@ -29,7 +29,7 @@ public class UserTable extends Table {
                 .orWhere(User.EMAIL.getName())
                 .query();
         List<String> data = find(statement, fields, Arrays.asList(username, email));
-        return UserBean.builder()
+        return data.isEmpty() ? UserBean.builder().build() : UserBean.builder()
                 .userId(data.get(0))
                 .password(data.get(1))
                 .build();

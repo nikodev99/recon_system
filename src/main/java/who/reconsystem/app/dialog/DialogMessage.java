@@ -30,6 +30,7 @@ public class DialogMessage {
     }
 
     public static void exceptionDialog (Exception ex) {
+        //TODO add great message error to the exception dialog
         //ExceptionDialog exception = new ExceptionDialog(ex.getMessage());
         String content = Arrays.toString(ex.getStackTrace());
         DialogAlert dialog = new DialogAlert("Exception Dialog", ex.getClass().getName(), content);

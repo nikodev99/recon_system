@@ -41,10 +41,14 @@ public class Functions {
     }
 
     public static String arrayToString(String[] array) {
+        return arrayToString(array, false, "", "");
+    }
+
+    public static String arrayToString(String[] array, boolean byLine, String prefix, String suffix) {
         StringBuilder stringBuilder = new StringBuilder();
 
         for (String element : array) {
-            stringBuilder.append(element);
+            stringBuilder.append(byLine ? prefix + element + suffix + "\n" : prefix + element + suffix);
         }
 
         return stringBuilder.toString();
