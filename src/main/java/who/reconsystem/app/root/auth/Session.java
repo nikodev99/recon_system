@@ -10,11 +10,12 @@ import who.reconsystem.app.io.File;
 import who.reconsystem.app.io.FileGenerator;
 import who.reconsystem.app.io.FileReader;
 import who.reconsystem.app.models.Table;
+import who.reconsystem.app.root.StageLuncher;
+import who.reconsystem.app.root.StageViewer;
 import who.reconsystem.app.root.config.Functions;
 import who.reconsystem.app.root.config.StrongIdGenerator;
 import who.reconsystem.app.user.UserBean;
 
-import java.time.Instant;
 import java.util.List;
 
 public class Session {
@@ -29,6 +30,9 @@ public class Session {
     @Getter
     @Setter
     private boolean isLogged = false;
+
+    @Getter
+    private SessionBinding binding;
 
     public Session(Auth auth) {
         this.auth = auth;
@@ -54,32 +58,26 @@ public class Session {
     }
 
     public UserBean userLogged() {
-        SessionBinding binding = sessionLogger();
+        sessionLogger();
         Table table = QueryBiding.useUserTable();
         List<String> data = table.find(binding.getCode());
         return UserBean.populate(data);
     }
 
-    public void setUpInactivity(SessionBinding binding) {
-        if (checkInactivity(binding)) {
-            setLogged(false);
-            file.remove();
-            auth.logout();
-        }
+    public void setUpInactivity() {
+        setLogged(false);
+        file.remove();
+        auth.logout();
+        StageLuncher stageLuncher = new StageLuncher("login", false, null);
+        StageViewer viewer = new StageViewer(stageLuncher);
+        viewer.show();
     }
 
-    private SessionBinding sessionLogger() {
+    private void sessionLogger() {
         FileReader fileReader = file.getContent();
         List<String[]> lines = fileReader.read();
         String content = Functions.arrayToString(lines.get(0));
         Gson gson = new GsonBuilder().create();
-        return gson.fromJson(content, SessionBinding.class);
-    }
-
-    private boolean checkInactivity(SessionBinding binding) {
-        long currentTime = System.currentTimeMillis();
-        long elapsedTime = currentTime - binding.getLastActivity();
-        final long INACTIVITY_TIMOUT = 30 * 60 * 100;
-        return  elapsedTime >= INACTIVITY_TIMOUT;
+        this.binding = gson.fromJson(content, SessionBinding.class);
     }
 }

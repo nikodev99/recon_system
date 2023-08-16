@@ -27,6 +27,6 @@ public class SessionTest {
         assertEquals("Niama", user.getLastName());
         assertEquals("nikhe", user.getUsername());
 
-        //assertEquals(binding.getCode(), user.getUserId());
+        assertEquals(session.getBinding().getCode(), user.getUserId());
     }
 }

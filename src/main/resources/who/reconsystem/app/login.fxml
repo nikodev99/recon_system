@@ -52,8 +52,8 @@
    <center>
       <AnchorPane prefHeight="400.0" prefWidth="267.0" style="-fx-background-color: #fff; -fx-border-color: #149ed9; -fx-border-width: 2px;" BorderPane.alignment="CENTER">
          <children>
-            <TextField layoutX="61.0" layoutY="161.0" prefHeight="27.0" prefWidth="180.0" promptText="Username" style="-fx-background-color: #ffffff; -fx-border-color: #149ed9; -fx-border-width: 0px 0px 2px 0px;" />
-            <PasswordField layoutX="62.0" layoutY="212.0" prefHeight="27.0" prefWidth="180.0" promptText="Password" style="-fx-background-color: #ffffff; -fx-border-color: #149ed9; -fx-border-width: 0px 0px 2px 0px;" />
+            <TextField fx:id="username" layoutX="61.0" layoutY="161.0" prefHeight="27.0" prefWidth="180.0" promptText="Username" style="-fx-background-color: #ffffff; -fx-border-color: #149ed9; -fx-border-width: 0px 0px 2px 0px;" />
+            <PasswordField fx:id="password" layoutX="62.0" layoutY="212.0" prefHeight="27.0" prefWidth="180.0" promptText="Password" style="-fx-background-color: #ffffff; -fx-border-color: #149ed9; -fx-border-width: 0px 0px 2px 0px;" />
             <Text layoutX="83.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User Login">
                <font>
                   <Font name="Cambria" size="24.0" />
@@ -75,7 +75,7 @@
                   </RadialGradient>
                </fill>
             </Text>
-            <Button layoutX="62.0" layoutY="263.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="180.0" styleClass="btnLog" stylesheets="@../../../styles/style.css" text="Login">
+            <Button fx:id="loginBtn" layoutX="62.0" layoutY="263.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="180.0" styleClass="btnLog" stylesheets="@../../../styles/style.css" text="Login">
                <font>
                   <Font name="Cambria Bold" size="14.0" />
                </font>
@@ -85,7 +85,7 @@
             </Button>
             <Separator layoutX="61.0" layoutY="315.0" prefHeight="2.0" prefWidth="180.0" />
             <Label alignment="CENTER" layoutX="136.0" layoutY="307.0" prefHeight="17.0" prefWidth="22.0" style="-fx-background-color: #fff;" text="or" textAlignment="CENTER" />
-            <Button layoutX="61.0" layoutY="331.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="180.0" styleClass="btnCancel" stylesheets="@../../../styles/style.css" text="Cancel">
+            <Button fx:id="cancelBtn" layoutX="61.0" layoutY="331.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="180.0" styleClass="btnCancel" stylesheets="@../../../styles/style.css" text="Cancel">
                <font>
                   <Font name="Cambria Bold" size="14.0" />
                </font>

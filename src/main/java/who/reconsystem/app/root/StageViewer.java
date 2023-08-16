@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import who.reconsystem.app.exception.LoginException;
 import who.reconsystem.app.user.UserBean;
 
 import java.lang.reflect.Constructor;
@@ -23,7 +24,9 @@ public class StageViewer {
         Platform.runLater(luncher::lunchStage);
     }
 
-    public void openNewSession(UserBean user) {
+    public void openNewSession() throws LoginException {
+        if (luncher.getSession() == null) throw new LoginException("Erreur de connection lié à la session.");
+        UserBean user = luncher.getSession().userLogged();
         Platform.runLater(() -> {
             initData(user);
             luncher.lunchStage();
