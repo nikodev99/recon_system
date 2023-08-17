@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
@@ -54,6 +55,38 @@ public class Functions {
         return stringBuilder.toString();
     }
 
+    public static Instant now() {
+        return Instant.now();
+    }
+
+    public static Instant instantFromDay(int minusDays) {
+        return now().minus(minusDays, ChronoUnit.DAYS);
+    }
+
+    public static Instant instantToDay(int plusDays) {
+        return now().plus(plusDays, ChronoUnit.DAYS);
+    }
+
+    public static boolean daysComparison(Instant instantOfDay1, Instant instantOfDay2) {
+        LocalDate date1 = instantOfDay1.atZone(congoTime()).toLocalDate();
+        LocalDate date2 = instantOfDay2.atZone(congoTime()).toLocalDate();
+        int comparison = date1.compareTo(date2);
+        return comparison == 0;
+    }
+
+    public static String instantToDatetimeString(Instant instant, String format){
+        LocalDateTime dateTime = instant.atZone(congoTime()).toLocalDateTime();
+        return dateTime.format(format != null ? DateTimeFormatter.ofPattern(format) : DateTimeFormatter.BASIC_ISO_DATE);
+    }
+
+    public static Object yesterday() {
+        return instantToDatetimeString(instantFromDay(1), null);
+    }
+
+    public static LocalDateTime dateTime(String dateToConvert) {
+        return LocalDateTime.parse(dateToConvert, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
+
     /**
      * To get the instant date.
      * @param format String format of the date.
@@ -61,14 +94,6 @@ public class Functions {
      */
     public static String instantDate(String format) {
         return LocalDate.now().format(DateTimeFormatter.ofPattern(format));
-    }
-
-    public static Instant now() {
-        return Instant.now();
-    }
-
-    public static LocalDateTime dateTime(String dateToConvert) {
-        return LocalDateTime.parse(dateToConvert, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
     /**

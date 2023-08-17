@@ -6,14 +6,9 @@ import who.reconsystem.app.exception.FileGeneratorException;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Data
 public class FileGenerator implements File {
@@ -29,10 +24,14 @@ public class FileGenerator implements File {
 
     protected Path folderPath;
 
-    @Getter
+    protected FileContent fileContent;
+
+    protected FileDetails fileDetails;
+
+    protected FileUtils fileUtils;
+
     protected boolean isSuccess = false;
 
-    @Getter
     protected boolean exists;
 
     protected FileGenerator(String fileName, String path, String ext) {
@@ -42,6 +41,7 @@ public class FileGenerator implements File {
         this.filePath = Paths.get(path, fileName);
         this.folderPath = Paths.get(path);
         exists = Files.exists(filePath);
+        fileUtils = FileUtils.getInstance(filePath);
     }
 
     protected FileGenerator(String fileName, String path) {
@@ -51,6 +51,17 @@ public class FileGenerator implements File {
         this.filePath = Paths.get(path, fileName);
         this.folderPath = Paths.get(path);
         exists = Files.exists(filePath);
+        fileUtils = FileUtils.getInstance(filePath);
+    }
+
+    protected FileGenerator(Path filePath) {
+        this.filePath = filePath;
+        this.fileName = filePath.getFileName().toString();
+        this.path = filePath.toAbsolutePath().toString();
+        this.ext = fileName.contains(".") ? fileName.split("\\.")[1]: "";
+        this.folderPath = filePath.getParent();
+        exists = Files.exists(filePath);
+        fileUtils = FileUtils.getInstance(filePath);
     }
 
     public static synchronized FileGenerator getInstance(String fileName, String path, String ext) {
@@ -64,11 +75,15 @@ public class FileGenerator implements File {
     public static synchronized FileGenerator getInstance(String fileName, String path) {
         System.out.println("instance: " + instance);
         if (instance == null) {
-            try {
                 instance = new FileGenerator(fileName, path);
-            }catch (Exception e) {
-                System.out.println("error message: " + e.getMessage());
-            }
+        }
+        return instance;
+    }
+
+    public static synchronized FileGenerator getInstance(Path filePath) {
+        System.out.println("instance: " + instance);
+        if (instance == null) {
+            instance = new FileGenerator(filePath);
         }
         return instance;
     }
@@ -88,18 +103,16 @@ public class FileGenerator implements File {
         return this;
     }
 
-    public long addContent(String content) {
-        long fileSize = 0;
+    public void addContent(String content) {
         if (exists) {
-            FileContent fileContent = new FileContent(content);
+            fileContent = FileContent.getInstance(filePath, content);
             try {
-                fileSize = fileContent.fileContent(filePath);
+                fileContent.write();
             }catch (IOException io) {
                 //TODO adding log and dialog
                 io.printStackTrace();
             }
         }
-        return fileSize;
     }
 
     @Override
@@ -127,27 +140,8 @@ public class FileGenerator implements File {
         }
     }
 
-    protected List<String> getAllFiles() {
-        List<String> fileNames = new ArrayList<>();
-        try {
-            if (isFolderNotEmpty()) {
-                Stream<Path> paths = Files.walk(folderPath);
-                fileNames = paths.filter(Files::isRegularFile)
-                        .map(Path::getFileName)
-                        .map(Path::toString)
-                        .collect(Collectors.toList());
-                //TODO add a log here.
-            }
-        }catch (Exception ex) {
-            //TODO adding the log and dialog
-            ex.printStackTrace();
-        }
-        return fileNames;
-    }
-
-    protected boolean isFolderNotEmpty() throws IOException {
-        DirectoryStream<Path> pathStreams = Files.newDirectoryStream(folderPath);
-        return pathStreams.iterator().hasNext();
+    public FileDetails getFiledetails() {
+        return fileUtils.getFile();
     }
 
 }

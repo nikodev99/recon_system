@@ -11,8 +11,7 @@ public class XLSXFile implements File {
     }
 
     @Override
-    public long addContent(String content) {
-        return 0;
+    public void addContent(String content) {
     }
 
     @Override

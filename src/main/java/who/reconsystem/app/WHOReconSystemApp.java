@@ -7,12 +7,14 @@ import javafx.stage.Stage;
 import who.reconsystem.app.drive.DBFile;
 import who.reconsystem.app.guice.DriveModule;
 import who.reconsystem.app.guice.QueryModule;
+import who.reconsystem.app.log.Log;
 import who.reconsystem.app.models.Table;
 import who.reconsystem.app.models.tables.UserTable;
 import who.reconsystem.app.root.StageLuncher;
 import who.reconsystem.app.root.StageViewer;
 import who.reconsystem.app.root.config.Functions;
 import who.reconsystem.app.root.config.PBKDF2WithHmacSHA1;
+import who.reconsystem.app.root.config.StrongIdGenerator;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,18 +27,21 @@ public class WHOReconSystemApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        StageLuncher stageLuncher = new StageLuncher(stage, "login", "Login Pane", false, null);
-        StageViewer viewer = new StageViewer(stageLuncher);
-        viewer.show();
+        Log.set(WHOReconSystemApp.class).info("Début d'insertion");
+        queryBuilder();
+        Log.set(WHOReconSystemApp.class).info("fin d'insertion");
+        //StageLuncher stageLuncher = new StageLuncher(stage, "login", "Login Pane", false, null);
+        //StageViewer viewer = new StageViewer(stageLuncher);
+        //viewer.show();
     }
 
     private void queryBuilder() {
-        List<Object> values = Arrays.asList("sB6qS1rmTJkucT2", "Test", "Test", "test", PBKDF2WithHmacSHA1.hashPassword("toto"), "test@test.com",
-                "2023-05-24 14:57:01", Functions.instantDatetime("yyyy-MM-dd HH:mm:ss"), "1");
+        List<Object> values = Arrays.asList(StrongIdGenerator.generateRandomString(20), "Davy", "Koah", "davy", PBKDF2WithHmacSHA1.hashPassword("toto"), "davy@test.com",
+                Functions.instantDatetime("yyyy-MM-dd HH:mm:ss"), Functions.instantDatetime("yyyy-MM-dd HH:mm:ss"));
         Injector injector = Guice.createInjector(new QueryModule());
         Table table = injector.getInstance(UserTable.class);
-        long insertId = table.update(values);
-        System.out.println(insertId);
+        long insertId = table.insert(values);
+        Log.set(WHOReconSystemApp.class).info("Insertion réussi. id: " + insertId);
     }
 
     private void database() {
