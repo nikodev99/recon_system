@@ -1,7 +1,6 @@
 package who.reconsystem.app.io;
 
 import lombok.Data;
-import lombok.Getter;
 import who.reconsystem.app.exception.FileGeneratorException;
 
 import java.io.IOException;
@@ -41,6 +40,7 @@ public class FileGenerator implements File {
         this.filePath = Paths.get(path, fileName);
         this.folderPath = Paths.get(path);
         exists = Files.exists(filePath);
+        fileContent = FileContent.getInstance(filePath);
         fileUtils = FileUtils.getInstance(filePath);
     }
 
@@ -51,6 +51,7 @@ public class FileGenerator implements File {
         this.filePath = Paths.get(path, fileName);
         this.folderPath = Paths.get(path);
         exists = Files.exists(filePath);
+        fileContent = FileContent.getInstance(filePath);
         fileUtils = FileUtils.getInstance(filePath);
     }
 
@@ -61,6 +62,7 @@ public class FileGenerator implements File {
         this.ext = fileName.contains(".") ? fileName.split("\\.")[1]: "";
         this.folderPath = filePath.getParent();
         exists = Files.exists(filePath);
+        fileContent = FileContent.getInstance(filePath);
         fileUtils = FileUtils.getInstance(filePath);
     }
 
@@ -75,7 +77,7 @@ public class FileGenerator implements File {
     public static synchronized FileGenerator getInstance(String fileName, String path) {
         System.out.println("instance: " + instance);
         if (instance == null) {
-                instance = new FileGenerator(fileName, path);
+            instance = new FileGenerator(fileName, path);
         }
         return instance;
     }
@@ -88,7 +90,7 @@ public class FileGenerator implements File {
         return instance;
     }
 
-    public File create() throws FileGeneratorException {
+    public File create() {
         if (!exists) {
             try {
                 Files.createFile(filePath);
@@ -105,9 +107,8 @@ public class FileGenerator implements File {
 
     public void addContent(String content) {
         if (exists) {
-            fileContent = FileContent.getInstance(filePath, content);
             try {
-                fileContent.write();
+                fileContent.write(content);
             }catch (IOException io) {
                 //TODO adding log and dialog
                 io.printStackTrace();

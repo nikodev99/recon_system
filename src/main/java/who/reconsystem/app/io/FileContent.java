@@ -12,7 +12,7 @@ public class FileContent {
 
     private static FileContent instance;
 
-    private final String content;
+    private String content;
 
     private Path path;
 
@@ -20,12 +20,12 @@ public class FileContent {
     @Setter
     private StandardOpenOption standardOpenOption;
 
-    private FileContent(Path path, String content) {
+    private FileContent(Path path) {
         this.path = path;
-        this.content = content;
     }
 
-    private FileContent(String content) {
+    private FileContent(Path path, String content) {
+        this.path = path;
         this.content = content;
     }
 
@@ -36,14 +36,18 @@ public class FileContent {
         return instance;
     }
 
-    public static synchronized FileContent getInstance(String content) {
+    public static synchronized FileContent getInstance(Path path) {
         if (instance == null) {
-            instance = new FileContent(content);
+            instance = new FileContent(path);
         }
         return instance;
     }
 
-    public Path write() throws IOException {
-       return Files.write(path, content.getBytes(), standardOpenOption);
+    public void write() throws IOException {
+        Files.write(path, content.getBytes(), standardOpenOption);
+    }
+
+    public void write(String content) throws IOException {
+        Files.write(path, content.getBytes(), standardOpenOption);
     }
 }

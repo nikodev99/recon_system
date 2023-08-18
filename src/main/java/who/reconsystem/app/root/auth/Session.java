@@ -43,18 +43,13 @@ public class Session {
         UserBean user = auth.loggedUser();
         String filePath = Functions.getLocalePath("");
         file = FileGenerator.getInstance(SESSION_FILENAME, filePath);
-        try {
-            String content = "{" +
-                    "\"code\":\""+ user.getUserId() +"\"," +
-                    "\"lastActivity\":"+ lastActivityTime +"," +
-                    "\"isLogged\":"+ isLogged +"," +
-                    "\"creationDate\":\"" + Functions.now() + "\"}";
-            file.create().addContent(content);
-            //TODO adding log with the size of the file
-        }catch (FileGeneratorException fge) {
-            //TODO adding log
-            fge.printStackTrace();
-        }
+        String content = "{" +
+                "\"code\":\""+ user.getUserId() +"\"," +
+                "\"lastActivity\":"+ lastActivityTime +"," +
+                "\"isLogged\":"+ isLogged +"," +
+                "\"creationDate\":\"" + Functions.now() + "\"}";
+        file.create().addContent(content);
+        //TODO adding log with the size of the file
     }
 
     public UserBean userLogged() {

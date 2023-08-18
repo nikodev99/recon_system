@@ -1,6 +1,5 @@
 package who.reconsystem.app.log;
 
-import who.reconsystem.app.exception.FileGeneratorException;
 import who.reconsystem.app.io.FileDetails;
 import who.reconsystem.app.io.FileGenerator;
 import who.reconsystem.app.io.FileUtils;
@@ -15,51 +14,55 @@ public class Log {
 
     private static FileGenerator fileGenerator;
 
+    private static FileUtils fileUtils;
+
+    private static FileDetails details;
+
     public static Logger set(Object aClass) {
         createLogFile();
         PropertyConfigurator.configure(fileGenerator);
         return Logger.getLogger(aClass);
     }
 
-    public static void createLogFile() {
-        Path logFilePath = getLogFile(true);
+    public static synchronized void createLogFile() {
+        Path logFilePath = getLogFile(false);
         fileGenerator = FileGenerator.getInstance(logFilePath);
+
+        boolean shouldCreateNewFile = false;
+
         if (fileGenerator.isExists()) {
             if (checkOldFile()) {
-                create();
+                shouldCreateNewFile = true;
             }
         }else {
-            create();
+            fileGenerator.create();
+        }
+        if (shouldCreateNewFile) {
+            fileGenerator.create();
         }
     }
 
     private static boolean checkOldFile() {
-        FileUtils fileUtils = fileGenerator.getFileUtils();
-        FileDetails details = fileGenerator.getFiledetails();
-        boolean dateChecks = Functions.daysComparison(details.getCreationDate(), Functions.now());
         boolean renamed = false;
-        if (!dateChecks) {
-            Path filePath = getLogFile(true);
-            renamed = fileUtils.moveFile(filePath);
+        if (fileGenerator.isExists()) {
+            fileUtils = fileGenerator.getFileUtils();
+            details = fileGenerator.getFiledetails();
+            boolean dateChecks = Functions.daysComparison(details.getCreationDate(), Functions.now());
+            if (!dateChecks) {
+                Path filePath = getLogFile(true);
+                renamed = fileUtils.moveFile(filePath);
+            }
         }
+        System.out.println("renamed: " + renamed);
         return renamed;
-    }
-
-    private static void create() {
-        try {
-            fileGenerator.create();
-        }catch (FileGeneratorException fi) {
-            //TODO log
-            fi.printStackTrace();
-        }
     }
 
     private static Path getLogFile(boolean old) {
         Path logFile = Paths.get(Functions.getLocalePath(LOGFILE));
-        if(!old) {
+        if(old) {
             String[] fileParts = LOGFILE.split("\\.");
             String ext = fileParts[1];
-            logFile = Paths.get(fileParts[0] + "-" + "old" + "-" +  Functions.yesterday() + "." + ext);
+            logFile = Paths.get(Functions.getLocalePath("old/" + fileParts[0] + "-" + "old" + "-" +  Functions.yesterday() + "." + ext));
         }
         return logFile;
     }

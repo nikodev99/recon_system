@@ -3,7 +3,7 @@ package who.reconsystem.app.io;
 import who.reconsystem.app.exception.FileGeneratorException;
 
 public interface File {
-    File create() throws FileGeneratorException;
+    File create();
 
     void addContent(String content);
 

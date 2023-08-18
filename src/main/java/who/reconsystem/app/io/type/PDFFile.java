@@ -1,12 +1,11 @@
 package who.reconsystem.app.io.type;
 
-import who.reconsystem.app.exception.FileGeneratorException;
 import who.reconsystem.app.io.File;
 import who.reconsystem.app.io.FileReader;
 
 public class PDFFile implements File {
     @Override
-    public File create() throws FileGeneratorException {
+    public File create() {
         return null;
     }
 

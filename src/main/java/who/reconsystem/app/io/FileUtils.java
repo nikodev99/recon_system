@@ -1,6 +1,7 @@
 package who.reconsystem.app.io;
 
 import lombok.Getter;
+import who.reconsystem.app.root.config.Functions;
 
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
@@ -36,12 +37,14 @@ public class FileUtils {
     public FileDetails getFile() {
         try {
             BasicFileAttributes attributes = Files.readAttributes(path, BasicFileAttributes.class);
+            Path parent = path.getParent();
+            String parentFolder = parent != null ? parent.toString() : Functions.getLocalePath("");
             fileDetails = FileDetails.builder()
                     .isSameFile(Files.isSameFile(path, path))
                     .name(path.getFileName().toString())
                     .lastModifiedTime(attributes.lastModifiedTime().toInstant())
                     .creationDate(attributes.creationTime().toInstant())
-                    .parent(path.getParent().toString())
+                    .parent(parentFolder)
                     .size(attributes.size())
                     .build();
         }catch (IOException io) {

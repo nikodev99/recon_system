@@ -6,7 +6,7 @@ import who.reconsystem.app.io.FileReader;
 
 public class XLSXFile implements File {
     @Override
-    public File create() throws FileGeneratorException {
+    public File create() {
         return null;
     }
 
