@@ -7,12 +7,12 @@ import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import com.google.inject.Inject;
 import who.reconsystem.app.dialog.DialogMessage;
+import who.reconsystem.app.log.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -47,12 +47,14 @@ public class FileDataStorage implements FileData {
                 if (parentFolder != null) updatedFile.setAddParents(parentFolder);
                 File updated = updatedFile.execute();
                 fileId = updated.getId();
-                System.out.println("Update success");
+                Log.set(FileDataStorage.class).info("Mise à jour de la base de données réussi");
             } catch (IOException e) {
-                System.out.println("Unable to update: " + e.getMessage());
+                Log.set(FileDataStorage.class).trace(e);
+                //TODO exception dialog
             }
         }catch (IOException | GeneralSecurityException g) {
-            System.out.println("Error encounter " + Arrays.toString(g.getStackTrace()));
+            Log.set(FileDataStorage.class).trace(g);
+            //TODO exception dialog
         }
         return fileId;
     }
@@ -68,8 +70,10 @@ public class FileDataStorage implements FileData {
             outputStream.writeTo(fos);
             outputStream.close();
             fos.close();
-            System.out.println("Successfully downloaded through " + localePath);
+            Log.set(FileDataStorage.class).debug("DBfile path=" + localePath);
+            Log.set(FileDataStorage.class).info("Téléchargement la base de données complet");
         }catch (IOException | GeneralSecurityException g) {
+            Log.set(FileDataStorage.class).trace(g);
             DialogMessage.exceptionDialog(g);
         }
     }
@@ -88,11 +92,14 @@ public class FileDataStorage implements FileData {
                 File uploadedFile = drive.files().create(file, content)
                         .setFields("id")
                         .execute();
+                Log.set(FileDataStorage.class).info("Synchronisation de la base de données complet");
                 fileId = uploadedFile.getId();
             }catch (GoogleJsonResponseException e) {
+                Log.set(FileDataStorage.class).trace(e);
                 DialogMessage.exceptionDialog(e);
             }
         }catch (IOException | GeneralSecurityException g) {
+            Log.set(FileDataStorage.class).trace(g);
             DialogMessage.exceptionDialog(g);
         }
         return fileId;
@@ -103,6 +110,7 @@ public class FileDataStorage implements FileData {
         try {
             getFile(credentials.driveService(), fileName, folderId);
         }catch (IOException | GeneralSecurityException g) {
+            Log.set(FileDataStorage.class).trace(g);
             DialogMessage.exceptionDialog(g);
         }
         return fields;
@@ -120,9 +128,10 @@ public class FileDataStorage implements FileData {
             List<File> files = fileList.getFiles();
             if (files == null || files.isEmpty()) {
                 String content = "Le fichier " + remoteFileName + " est introuvable";
+                Log.set(FileDataStorage.class).warn(content);
                 DialogMessage.showWarningDialog("No files found", content);
             }else {
-                System.out.println("Files: ");
+                Log.set(FileDataStorage.class).debug("Les fichiers: " + files);
                 for (File file: files) {
                     if (!credentials.isFolder(file) && file.getName().equals(remoteFileName)) {
                         fields = new GoogleDriveFileFields(
@@ -138,6 +147,7 @@ public class FileDataStorage implements FileData {
                 }
             }
         }catch (IOException g) {
+            Log.set(FileDataStorage.class).trace(g);
             DialogMessage.exceptionDialog(g);
         }
         return fields;

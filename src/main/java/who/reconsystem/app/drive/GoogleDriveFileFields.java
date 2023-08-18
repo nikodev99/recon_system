@@ -1,7 +1,9 @@
 package who.reconsystem.app.drive;
 
 import com.google.api.client.util.DateTime;
+import lombok.Getter;
 
+@Getter
 public class GoogleDriveFileFields {
 
     private String fileId;
@@ -28,48 +30,24 @@ public class GoogleDriveFileFields {
     public GoogleDriveFileFields() {
     }
 
-    public String getFileId() {
-        return fileId;
-    }
-
     public void setFileId(String fileId) {
         this.fileId = fileId;
-    }
-
-    public String getFileName() {
-        return fileName;
     }
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
 
-    public String getFileMimeType() {
-        return fileMimeType;
-    }
-
     public void setFileMimeType(String fileMimeType) {
         this.fileMimeType = fileMimeType;
-    }
-
-    public DateTime getFileCreationOn() {
-        return fileCreationOn;
     }
 
     public void setFileCreationOn(DateTime fileCreationOn) {
         this.fileCreationOn = fileCreationOn;
     }
 
-    public DateTime getFileModifyOn() {
-        return fileModifyOn;
-    }
-
     public void setFileModifyOn(DateTime fileModifyOn) {
         this.fileModifyOn = fileModifyOn;
-    }
-
-    public long getFileSize() {
-        return fileSize;
     }
 
     public void setFileSize(long fileSize) {

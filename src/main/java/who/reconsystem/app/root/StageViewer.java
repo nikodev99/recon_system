@@ -4,10 +4,9 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
+import who.reconsystem.app.dialog.DialogMessage;
 import who.reconsystem.app.exception.LoginException;
+import who.reconsystem.app.log.Log;
 import who.reconsystem.app.user.UserBean;
 
 import java.lang.reflect.Constructor;
@@ -46,8 +45,8 @@ public class StageViewer {
                 }
                 return controllerType.newInstance();
             }catch (Exception se) {
-                //TODO adding log
-                se.printStackTrace();
+                Log.set(StageViewer.class).error(se.getMessage());
+                DialogMessage.exceptionDialog(se);
                 return null;
             }
         });

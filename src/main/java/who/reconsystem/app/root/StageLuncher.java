@@ -3,12 +3,13 @@ package who.reconsystem.app.root;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lombok.Getter;
+import who.reconsystem.app.dialog.DialogMessage;
+import who.reconsystem.app.log.Log;
 import who.reconsystem.app.root.auth.Session;
 
 import java.io.IOException;
@@ -80,9 +81,8 @@ public class StageLuncher {
             }
             stage.show();
         }catch (IOException io) {
-            //TODO uncomment the DialogMessage and adding the log file
-            /* DialogMessage.exceptionDialog(io); */
-            io.printStackTrace();
+            Log.set(StageLuncher.class).trace(io);
+            DialogMessage.exceptionDialog(io);
         }
     }
 
@@ -145,7 +145,7 @@ public class StageLuncher {
                 while(true) {
                     if (currentTime - lastActivity >= INACTIVITY_TIMOUT) {
                         Platform.runLater(() -> {
-                            //TODO add dialog to inform the user that its session is finished
+                            Log.set(StageLuncher.class).info("Session timed out. Please log in again");
                             session.setUpInactivity();
                             lunchStage();
                             handleClose();

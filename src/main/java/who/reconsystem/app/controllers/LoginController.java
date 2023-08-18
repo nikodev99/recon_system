@@ -90,11 +90,11 @@ public class LoginController implements Initializable {
                 Controller.showStage("index", true, session);
             }else {
                 //TODO log
-                DialogMessage.ErrorDialog(errorTitle, errorMessage);
+                DialogMessage.errorDialog(errorTitle, errorMessage);
             }
         }else {
             //TODO log
-            DialogMessage.ErrorDialog(errorTitle, errorMessage);
+            DialogMessage.errorDialog(errorTitle, errorMessage);
         }
 
     }

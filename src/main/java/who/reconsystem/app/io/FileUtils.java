@@ -1,6 +1,8 @@
 package who.reconsystem.app.io;
 
 import lombok.Getter;
+import who.reconsystem.app.dialog.DialogMessage;
+import who.reconsystem.app.log.Log;
 import who.reconsystem.app.root.config.Functions;
 
 import java.io.IOException;
@@ -48,8 +50,8 @@ public class FileUtils {
                     .size(attributes.size())
                     .build();
         }catch (IOException io) {
-            //TODO add log
-            io.printStackTrace();
+            Log.set(FileUtils.class).trace(io);
+            DialogMessage.exceptionDialog(io);
         }
         return fileDetails;
     }
@@ -67,8 +69,8 @@ public class FileUtils {
             Path fileMoved = Files.move(pathFrom, pathTo, StandardCopyOption.REPLACE_EXISTING);
             moveSuccess = Files.exists(fileMoved);
         }catch (IOException e) {
-            //TODO log
-            e.printStackTrace();
+            Log.set(FileUtils.class).trace(e);
+            DialogMessage.exceptionDialog(e);
         }
         return moveSuccess;
     }
@@ -82,11 +84,11 @@ public class FileUtils {
                         .map(Path::getFileName)
                         .map(Path::toString)
                         .collect(Collectors.toList());
-                //TODO add a log here.
+                Log.set(FileUtils.class).debug("File tree: " + fileNames);
             }
         }catch (IOException | SecurityException ex) {
-            //TODO adding the log and dialog
-            ex.printStackTrace();
+            Log.set(FileUtils.class).critical(ex.getMessage());
+            DialogMessage.exceptionDialog(ex);
         }
         return fileNames;
     }

@@ -14,7 +14,7 @@ public class FileContent {
 
     private String content;
 
-    private Path path;
+    private final Path path;
 
     @Getter
     @Setter

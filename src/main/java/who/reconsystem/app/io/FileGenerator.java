@@ -1,10 +1,15 @@
 package who.reconsystem.app.io;
 
 import lombok.Data;
+import who.reconsystem.app.dialog.DialogMessage;
+import who.reconsystem.app.log.Log;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.BasicFileAttributeView;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
@@ -95,17 +100,17 @@ public class FileGenerator implements File {
     public File create() {
         if (fileDontExists(filePath)) {
             try {
-                System.out.println("File to create: " + filePath);
+                Log.set(FileGenerator.class).debug("File to create: " + filePath);
                 Files.createFile(filePath);
                 BasicFileAttributeView attributesView = Files.getFileAttributeView(filePath, BasicFileAttributeView.class);
                 BasicFileAttributes attributes = attributesView.readAttributes();
                 FileTime newCreationTime = FileTime.fromMillis(System.currentTimeMillis());
                 attributesView.setTimes(attributes.lastModifiedTime(), attributes.lastAccessTime(), newCreationTime);
                 isSuccess = true;
-                //TODO adding log for the success
+                Log.set(FileGenerator.class).info("File created successfully");
             } catch (IOException io) {
-                //TODO Adding log file and Dialog
-                io.printStackTrace();
+                Log.set(FileGenerator.class).trace(io);
+                DialogMessage.exceptionDialog(io);
             }
             exists = true;
         }
@@ -117,8 +122,8 @@ public class FileGenerator implements File {
             try {
                 fileContent.write(content);
             }catch (IOException io) {
-                //TODO adding log and dialog
-                io.printStackTrace();
+                Log.set(FileGenerator.class).critical(io.getMessage());
+                DialogMessage.exceptionDialog(io);
             }
         }
     }
@@ -130,8 +135,8 @@ public class FileGenerator implements File {
                 fileContent.setStandardOpenOption(standardOpenOptions);
                 fileContent.write(content);
             }catch (IOException io) {
-                //TODO adding log and dialog
-                io.printStackTrace();
+                Log.set(FileGenerator.class).fatal(io.getMessage());
+                DialogMessage.exceptionDialog(io);
             }
         }
     }
@@ -143,8 +148,8 @@ public class FileGenerator implements File {
             try {
                 lines = Files.readAllLines(filePath, StandardCharsets.ISO_8859_1);
             } catch (IOException io) {
-                //TODO adding log and dialog
-                io.printStackTrace();
+                Log.set(FileGenerator.class).fatal(io.getMessage());
+                DialogMessage.exceptionDialog(io);
             }
             return FileReader.getInstance(lines);
         }
@@ -156,8 +161,8 @@ public class FileGenerator implements File {
         try {
             isSuccess = Files.deleteIfExists(filePath);
         }catch (IOException io) {
-            //TODO adding log and appropriate dialog
-            io.printStackTrace();
+            Log.set(FileGenerator.class).fatal(io.getMessage());
+            DialogMessage.exceptionDialog(io);
         }
     }
 

@@ -1,6 +1,8 @@
 package who.reconsystem.app.root.auth;
 
+import who.reconsystem.app.dialog.DialogMessage;
 import who.reconsystem.app.guice.QueryBiding;
+import who.reconsystem.app.log.Log;
 import who.reconsystem.app.models.Table;
 import who.reconsystem.app.root.config.PBKDF2WithHmacSHA1;
 import who.reconsystem.app.user.UserBean;
@@ -20,6 +22,10 @@ public class Auth {
         if (loggedUser != null) {
             String loggedPassword = loggedUser.getPassword();
             loggerStatus = PBKDF2WithHmacSHA1.verifyPassword(password, loggedPassword);
+        }else {
+            String message = "L'utilisateurs non trouvé";
+            Log.set(Auth.class).error(message);
+            DialogMessage.errorDialog("Fatal Error", message);
         }
         return loggerStatus;
     }
@@ -32,6 +38,4 @@ public class Auth {
     public UserBean loggedUser() {
         return loggedUser;
     }
-
-
 }

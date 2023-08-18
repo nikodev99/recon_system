@@ -36,7 +36,7 @@ public class PropertyConfigurator {
             }
         }
         String addMethodName = !method.isEmpty() ? "." + method: method;
-        String lineMessage = date + " " + logInfo + " " + className + addMethodName +":" + line + " " + message;
+        String lineMessage = date + " - " + logInfo + " - " + className + addMethodName +":" + line + " - " + message;
         System.out.println(lineMessage);
         fileGenerator.instance()
                 .getFileContent()

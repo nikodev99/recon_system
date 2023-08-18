@@ -2,8 +2,8 @@ package who.reconsystem.app.models;
 
 import com.google.inject.Inject;
 import who.reconsystem.app.dialog.DialogMessage;
+import who.reconsystem.app.log.Log;
 import who.reconsystem.app.models.connect.DbConnect;
-import who.reconsystem.app.models.tables.UserTable;
 import who.reconsystem.app.user.UserBean;
 
 import java.sql.*;
@@ -88,6 +88,7 @@ public class Table {
         try {
             allData = getRecords(findAllRequest, fields, values);
         }catch (SQLException sqlException) {
+            Log.set(Table.class).error(sqlException.getMessage());
             DialogMessage.exceptionDialog(sqlException);
         }
         stopConnection();
@@ -121,9 +122,8 @@ public class Table {
         try {
             data = getOneRecord(findRequest, fields, values);
         }catch (SQLException sqlException) {
-            //TODO add log ans dialog
-            //DialogMessage.exceptionDialog(sqlException);
-            sqlException.printStackTrace();
+            Log.set(Table.class).error(sqlException.getMessage());
+            DialogMessage.exceptionDialog(sqlException);
         }
         stopConnection();
         return Collections.unmodifiableList(data);
@@ -190,6 +190,7 @@ public class Table {
             preparedStatement = prepare(sqlRequest);
             responseId = preparedStatement.executeUpdate();
         }catch (SQLException sqlException) {
+            Log.set(Table.class).error(sqlException.getMessage());
             DialogMessage.exceptionDialog(sqlException);
         }
         stopConnection();
@@ -272,6 +273,7 @@ public class Table {
             try {
                 connect.close();
             }catch (SQLException sqlException) {
+                Log.set(Table.class).error(sqlException.getMessage());
                 DialogMessage.exceptionDialog(sqlException);
             }
     }
@@ -283,8 +285,8 @@ public class Table {
             setValues(values);
             responseId = preparedStatement.executeUpdate();
         }catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-            //DialogMessage.exceptionDialog(sqlException);
+            Log.set(Table.class).error(sqlException.getMessage());;
+            DialogMessage.exceptionDialog(sqlException);
         }
         stopConnection();
         return responseId;
@@ -301,7 +303,13 @@ public class Table {
     private List<String[]> getRecords(String sqlRequest, List<String> fields, List<Object> values) throws SQLException {
         List<String[]> allData = new ArrayList<>();
         preparedStatement = prepare(sqlRequest);
-        if (!values.isEmpty()) setValues(values);
+        if (!values.isEmpty()) {
+            setValues(values);
+        }else {
+            String message = "Les valeurs sont vides";
+            Log.set(Table.class).error(message);
+            DialogMessage.errorDialog("Fatal error", message);
+        }
         result = preparedStatement.executeQuery();
         while (result.next()) {
             List<String> data = populateEntity(fields);

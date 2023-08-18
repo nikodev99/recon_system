@@ -16,6 +16,7 @@ import who.reconsystem.app.root.config.Functions;
 import who.reconsystem.app.root.config.PBKDF2WithHmacSHA1;
 import who.reconsystem.app.root.config.StrongIdGenerator;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class WHOReconSystemApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Log.createLogFile();
+        database();
         Log.set(WHOReconSystemApp.class).info("Début d'insertion");
         //database();
         //queryBuilder();

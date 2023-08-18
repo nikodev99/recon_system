@@ -23,17 +23,15 @@ public class DialogMessage {
         alert.showAndWait();
     }
 
-    public static void ErrorDialog (String header, String content) {
+    public static void errorDialog(String header, String content) {
         DialogAlert dialog = new DialogAlert("Error Dialog", header, content);
         Alert alert = dialogAlert(AlertType.ERROR, dialog);
         alert.showAndWait();
     }
 
     public static void exceptionDialog (Exception ex) {
-        //TODO add great message error to the exception dialog
-        //ExceptionDialog exception = new ExceptionDialog(ex.getMessage());
-        String content = Arrays.toString(ex.getStackTrace());
-        DialogAlert dialog = new DialogAlert("Exception Dialog", ex.getClass().getName(), content);
+        String content = ex.getMessage() + System.lineSeparator() + "Veuillez consulter vos logs pour plus d'information";
+        DialogAlert dialog = new DialogAlert("Exception Dialog", "Exception Error", content);
         Alert alert = dialogAlert(AlertType.ERROR, dialog);
         alert.showAndWait();
     }

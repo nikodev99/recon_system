@@ -1,20 +1,19 @@
 package who.reconsystem.app.exception;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ExceptionDialog {
-    private final String message;
 
-    public ExceptionDialog(String message) {
-        this.message = message;
-    }
-
-    public String getException() {
-        StackTraceElement[] classInfo = Thread.currentThread().getStackTrace();
-        String className = "Object"; int line = 0;
-        for (StackTraceElement trackClass : classInfo) {
-            String[] tracks = trackClass.getClassName().split("\\.");
-            className = tracks[tracks.length - 1];
-            line = trackClass.getLineNumber();
+    public static synchronized String getExceptionTrackTrace(Exception e) {
+        StackTraceElement[] classInfo = e.getStackTrace();
+        List<String> contents = new ArrayList<>();
+        contents.add(e.getMessage());
+        contents.add("----- Track Trace -----");
+        for (StackTraceElement element : classInfo) {
+            contents.add(element.getClassName() + "." + element.getMethodName() + ":" + element.getLineNumber());
+            contents.add("-----");
         }
-        return className +":" + line + " " + message;
+        return String.join(System.lineSeparator(), contents);
     }
 }

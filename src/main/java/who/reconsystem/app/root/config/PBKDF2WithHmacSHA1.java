@@ -1,5 +1,8 @@
 package who.reconsystem.app.root.config;
 
+import who.reconsystem.app.dialog.DialogMessage;
+import who.reconsystem.app.log.Log;
+
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import java.math.BigInteger;
@@ -23,8 +26,8 @@ public class PBKDF2WithHmacSHA1 {
                 hashedPassword = iteration + DOLLAR_SIGN + toHex(salt) + DOLLAR_SIGN + toHex(hash);
 
             }catch (Exception e) {
-                //TODO adding the log
-                e.printStackTrace();
+                Log.set(PBKDF2WithHmacSHA1.class).trace(e);
+                DialogMessage.exceptionDialog(e);
             }
             return hashedPassword;
         }
@@ -49,8 +52,8 @@ public class PBKDF2WithHmacSHA1 {
                 return diff == 0;
 
             }catch (Exception e) {
-                //TODO adding the log
-                e.printStackTrace();
+                Log.set(PBKDF2WithHmacSHA1.class).trace(e);
+                DialogMessage.exceptionDialog(e);
                 return false;
             }
         }

@@ -2,17 +2,12 @@ package who.reconsystem.app.models.connect;
 
 import com.google.inject.Inject;
 import who.reconsystem.app.dialog.DialogMessage;
-import who.reconsystem.app.drive.DBFile;
 import who.reconsystem.app.drive.annotations.DatabaseValue;
 import who.reconsystem.app.root.config.Functions;
 
 import java.io.File;
-import java.nio.file.Paths;
-import java.security.CodeSource;
-import java.security.ProtectionDomain;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.util.Objects;
 
 public class DbConnect {
 
@@ -41,7 +36,7 @@ public class DbConnect {
             }
         }else {
             String content = "Le fichier " + fileName + " est introuvable";
-            DialogMessage.ErrorDialog("File not found", content);
+            DialogMessage.errorDialog("File not found", content);
         }
         return connection;
     }
