@@ -14,12 +14,7 @@ public class Log {
 
     private static FileGenerator fileGenerator;
 
-    private static FileUtils fileUtils;
-
-    private static FileDetails details;
-
     public static Logger set(Object aClass) {
-        createLogFile();
         PropertyConfigurator.configure(fileGenerator);
         return Logger.getLogger(aClass);
     }
@@ -27,33 +22,26 @@ public class Log {
     public static synchronized void createLogFile() {
         Path logFilePath = getLogFile(false);
         fileGenerator = FileGenerator.getInstance(logFilePath);
-
-        boolean shouldCreateNewFile = false;
-
         if (fileGenerator.isExists()) {
-            if (checkOldFile()) {
-                shouldCreateNewFile = true;
+            boolean isMoved = checkOldFile();
+            if (isMoved) {
+                fileGenerator.create();
             }
         }else {
-            fileGenerator.create();
-        }
-        if (shouldCreateNewFile) {
             fileGenerator.create();
         }
     }
 
     private static boolean checkOldFile() {
+        FileDetails details = fileGenerator.getFiledetails();;
+        FileUtils fileUtils = fileGenerator.getFileUtils();;
         boolean renamed = false;
-        if (fileGenerator.isExists()) {
-            fileUtils = fileGenerator.getFileUtils();
-            details = fileGenerator.getFiledetails();
-            boolean dateChecks = Functions.daysComparison(details.getCreationDate(), Functions.now());
-            if (!dateChecks) {
-                Path filePath = getLogFile(true);
-                renamed = fileUtils.moveFile(filePath);
-            }
+
+        boolean dateChecks = Functions.daysComparison(details.getCreationDate(), Functions.now());
+        if (!dateChecks) {
+            Path filePath = getLogFile(true);
+            renamed = fileUtils.moveFile(filePath);
         }
-        System.out.println("renamed: " + renamed);
         return renamed;
     }
 

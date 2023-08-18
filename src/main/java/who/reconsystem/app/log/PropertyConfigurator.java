@@ -38,7 +38,7 @@ public class PropertyConfigurator {
         String addMethodName = !method.isEmpty() ? "." + method: method;
         String lineMessage = date + " " + logInfo + " " + className + addMethodName +":" + line + " " + message;
         System.out.println(lineMessage);
-        fileGenerator.getFileContent().setStandardOpenOption(StandardOpenOption.APPEND);
+        fileGenerator.getFileContent().setStandardOpenOption(new StandardOpenOption[]{StandardOpenOption.APPEND});
         fileGenerator.addContent(lineMessage + NEWLINE);
     }
 }

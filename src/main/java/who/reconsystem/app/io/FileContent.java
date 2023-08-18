@@ -18,7 +18,7 @@ public class FileContent {
 
     @Getter
     @Setter
-    private StandardOpenOption standardOpenOption;
+    private StandardOpenOption[] standardOpenOption;
 
     private FileContent(Path path) {
         this.path = path;

@@ -27,7 +27,9 @@ public class WHOReconSystemApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        Log.createLogFile();
         Log.set(WHOReconSystemApp.class).info("Début d'insertion");
+        //database();
         //queryBuilder();
         Log.set(WHOReconSystemApp.class).info("fin de l'insertion");
         //StageLuncher stageLuncher = new StageLuncher(stage, "login", "Login Pane", false, null);
@@ -36,7 +38,7 @@ public class WHOReconSystemApp extends Application {
     }
 
     private void queryBuilder() {
-        List<Object> values = Arrays.asList(StrongIdGenerator.generateRandomString(20), "Davy", "Koah", "davy", PBKDF2WithHmacSHA1.hashPassword("toto"), "davy@test.com",
+        List<Object> values = Arrays.asList(StrongIdGenerator.generateRandomString(20), "Nikhe", "Niama", "nikhe", PBKDF2WithHmacSHA1.hashPassword("toto"), "nikhe@test.com",
                 Functions.instantDatetime("yyyy-MM-dd HH:mm:ss"), Functions.instantDatetime("yyyy-MM-dd HH:mm:ss"));
         Injector injector = Guice.createInjector(new QueryModule());
         Table table = injector.getInstance(UserTable.class);
@@ -47,6 +49,7 @@ public class WHOReconSystemApp extends Application {
     private void database() {
         Injector injector = Guice.createInjector(new DriveModule());
         DBFile file = injector.getInstance(DBFile.class);
+        Log.set(WHOReconSystemApp.class).info("Début du téléchargement");
         file.downloadDatabaseFromGoogleDrive();
         Log.set(WHOReconSystemApp.class).info("Téléchargement réussi");
         //String id = file.uploadDatabaseFile();

@@ -79,7 +79,7 @@ public class Functions {
         return dateTime.format(format != null ? DateTimeFormatter.ofPattern(format) : DateTimeFormatter.BASIC_ISO_DATE);
     }
 
-    public static Object yesterday() {
+    public static String yesterday() {
         return instantToDatetimeString(instantFromDay(1), null);
     }
 

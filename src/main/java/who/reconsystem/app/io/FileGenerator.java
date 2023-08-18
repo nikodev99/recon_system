@@ -1,11 +1,13 @@
 package who.reconsystem.app.io;
 
 import lombok.Data;
-import who.reconsystem.app.exception.FileGeneratorException;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributeView;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,9 +93,14 @@ public class FileGenerator implements File {
     }
 
     public File create() {
-        if (!exists) {
+        if (fileDontExists(filePath)) {
             try {
+                System.out.println("File to create: " + filePath);
                 Files.createFile(filePath);
+                BasicFileAttributeView attributesView = Files.getFileAttributeView(filePath, BasicFileAttributeView.class);
+                BasicFileAttributes attributes = attributesView.readAttributes();
+                FileTime newCreationTime = FileTime.fromMillis(System.currentTimeMillis());
+                attributesView.setTimes(attributes.lastModifiedTime(), attributes.lastAccessTime(), newCreationTime);
                 isSuccess = true;
                 //TODO adding log for the success
             } catch (IOException io) {
@@ -139,6 +146,10 @@ public class FileGenerator implements File {
             //TODO adding log and appropriate dialog
             io.printStackTrace();
         }
+    }
+
+    public static boolean fileDontExists(Path filePath) {
+        return Files.notExists(filePath);
     }
 
     public FileDetails getFiledetails() {
