@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import lombok.Setter;
-import who.reconsystem.app.exception.FileGeneratorException;
 import who.reconsystem.app.guice.QueryBiding;
 import who.reconsystem.app.io.File;
 import who.reconsystem.app.io.FileGenerator;
@@ -16,6 +15,7 @@ import who.reconsystem.app.root.config.Functions;
 import who.reconsystem.app.root.config.StrongIdGenerator;
 import who.reconsystem.app.user.UserBean;
 
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 
 public class Session {
@@ -48,7 +48,7 @@ public class Session {
                 "\"lastActivity\":"+ lastActivityTime +"," +
                 "\"isLogged\":"+ isLogged +"," +
                 "\"creationDate\":\"" + Functions.now() + "\"}";
-        file.create().addContent(content);
+        file.create().addContent(content, StandardOpenOption.TRUNCATE_EXISTING);
         //TODO adding log with the size of the file
     }
 

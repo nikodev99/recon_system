@@ -124,6 +124,19 @@ public class FileGenerator implements File {
     }
 
     @Override
+    public void addContent(String content, StandardOpenOption... standardOpenOptions) {
+        if (exists) {
+            try {
+                fileContent.setStandardOpenOption(standardOpenOptions);
+                fileContent.write(content);
+            }catch (IOException io) {
+                //TODO adding log and dialog
+                io.printStackTrace();
+            }
+        }
+    }
+
+    @Override
     public FileReader getContent() {
         List<String> lines = new ArrayList<>();
         if (exists) {
@@ -146,6 +159,11 @@ public class FileGenerator implements File {
             //TODO adding log and appropriate dialog
             io.printStackTrace();
         }
+    }
+
+    @Override
+    public FileGenerator instance() {
+        return instance;
     }
 
     public static boolean fileDontExists(Path filePath) {

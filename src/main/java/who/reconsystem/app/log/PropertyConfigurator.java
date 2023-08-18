@@ -1,6 +1,6 @@
 package who.reconsystem.app.log;
 
-import who.reconsystem.app.io.FileGenerator;
+import who.reconsystem.app.io.File;
 import who.reconsystem.app.root.config.Functions;
 
 import java.nio.file.StandardOpenOption;
@@ -9,12 +9,12 @@ public class PropertyConfigurator {
 
     private static final String NEWLINE = System.lineSeparator();
 
-    private static FileGenerator fileGenerator;
+    private static File fileGenerator;
 
     private PropertyConfigurator() {
     }
 
-    public static void configure(FileGenerator fileGenerator) {
+    public static void configure(File fileGenerator) {
         PropertyConfigurator.fileGenerator = fileGenerator;
     }
 
@@ -38,7 +38,9 @@ public class PropertyConfigurator {
         String addMethodName = !method.isEmpty() ? "." + method: method;
         String lineMessage = date + " " + logInfo + " " + className + addMethodName +":" + line + " " + message;
         System.out.println(lineMessage);
-        fileGenerator.getFileContent().setStandardOpenOption(new StandardOpenOption[]{StandardOpenOption.APPEND});
+        fileGenerator.instance()
+                .getFileContent()
+                .setStandardOpenOption(new StandardOpenOption[]{StandardOpenOption.APPEND});
         fileGenerator.addContent(lineMessage + NEWLINE);
     }
 }
