@@ -10,8 +10,6 @@ import java.nio.file.StandardOpenOption;
 
 public class FileContent {
 
-    private static FileContent instance;
-
     private String content;
 
     private final Path path;
@@ -20,27 +18,13 @@ public class FileContent {
     @Setter
     private StandardOpenOption[] standardOpenOption;
 
-    private FileContent(Path path) {
+    public FileContent(Path path) {
         this.path = path;
     }
 
-    private FileContent(Path path, String content) {
+    public FileContent(Path path, String content) {
         this.path = path;
         this.content = content;
-    }
-
-    public static synchronized FileContent getInstance(Path path, String content) {
-        if (instance == null) {
-            instance = new FileContent(path, content);
-        }
-        return instance;
-    }
-
-    public static synchronized FileContent getInstance(Path path) {
-        if (instance == null) {
-            instance = new FileContent(path);
-        }
-        return instance;
     }
 
     public void write() throws IOException {

@@ -12,6 +12,4 @@ public interface File {
     FileReader getContent();
 
     void remove();
-
-    FileGenerator instance();
 }

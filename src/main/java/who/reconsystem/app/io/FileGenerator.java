@@ -18,7 +18,6 @@ import java.util.List;
 
 @Data
 public class FileGenerator implements File {
-    private static FileGenerator instance;
 
     protected final String fileName;
 
@@ -40,61 +39,37 @@ public class FileGenerator implements File {
 
     protected boolean exists;
 
-    protected FileGenerator(String fileName, String path, String ext) {
+    public FileGenerator(String fileName, String path, String ext) {
         this.fileName = fileName.contains(".") ? fileName : fileName + "." + ext;
         this.path = path;
         this.ext = ext;
         this.filePath = Paths.get(path, fileName);
         this.folderPath = Paths.get(path);
+        this.fileUtils = getFileUtilsInstance();
         exists = Files.exists(filePath);
-        fileContent = FileContent.getInstance(filePath);
-        fileUtils = FileUtils.getInstance(filePath);
+        fileContent = getFileContentInstance();
     }
 
-    protected FileGenerator(String fileName, String path) {
+    public FileGenerator(String fileName, String path) {
         this.fileName = fileName;
         this.path = path;
         this.ext = fileName.contains(".") ? fileName.split("\\.")[1]: "";
         this.filePath = Paths.get(path, fileName);
         this.folderPath = Paths.get(path);
+        this.fileUtils = getFileUtilsInstance();
         exists = Files.exists(filePath);
-        fileContent = FileContent.getInstance(filePath);
-        fileUtils = FileUtils.getInstance(filePath);
+        fileContent = getFileContentInstance();
     }
 
-    protected FileGenerator(Path filePath) {
+    public FileGenerator(Path filePath) {
         this.filePath = filePath;
         this.fileName = filePath.getFileName().toString();
         this.path = filePath.toAbsolutePath().toString();
         this.ext = fileName.contains(".") ? fileName.split("\\.")[1]: "";
         this.folderPath = filePath.getParent();
+        this.fileUtils = getFileUtilsInstance();
         exists = Files.exists(filePath);
-        fileContent = FileContent.getInstance(filePath);
-        fileUtils = FileUtils.getInstance(filePath);
-    }
-
-    public static synchronized FileGenerator getInstance(String fileName, String path, String ext) {
-        System.out.println("instance: " + instance);
-        if (instance == null) {
-            instance = new FileGenerator(fileName, path, ext);
-        }
-        return instance;
-    }
-
-    public static synchronized FileGenerator getInstance(String fileName, String path) {
-        System.out.println("instance: " + instance);
-        if (instance == null) {
-            instance = new FileGenerator(fileName, path);
-        }
-        return instance;
-    }
-
-    public static synchronized FileGenerator getInstance(Path filePath) {
-        System.out.println("instance: " + instance);
-        if (instance == null) {
-            instance = new FileGenerator(filePath);
-        }
-        return instance;
+        fileContent = getFileContentInstance();
     }
 
     public File create() {
@@ -151,7 +126,7 @@ public class FileGenerator implements File {
                 Log.set(FileGenerator.class).fatal(io.getMessage());
                 DialogMessage.exceptionDialog(io);
             }
-            return FileReader.getInstance(lines);
+            return new FileReader(lines);
         }
         return null;
     }
@@ -166,17 +141,20 @@ public class FileGenerator implements File {
         }
     }
 
-    @Override
-    public FileGenerator instance() {
-        return instance;
-    }
-
     public static boolean fileDontExists(Path filePath) {
         return Files.notExists(filePath);
     }
 
     public FileDetails getFiledetails() {
         return fileUtils.getFile();
+    }
+
+    private FileUtils getFileUtilsInstance(){
+        return new FileUtils(filePath);
+    }
+
+    private FileContent getFileContentInstance(){
+        return new FileContent(filePath);
     }
 
 }

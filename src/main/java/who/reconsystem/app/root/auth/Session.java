@@ -42,7 +42,7 @@ public class Session {
     public void sessionStart() {
         UserBean user = auth.loggedUser();
         String filePath = Functions.getLocalePath("");
-        file = FileGenerator.getInstance(SESSION_FILENAME, filePath);
+        file = new FileGenerator(SESSION_FILENAME, filePath);
         String content = "{" +
                 "\"code\":\""+ user.getUserId() +"\"," +
                 "\"lastActivity\":"+ lastActivityTime +"," +

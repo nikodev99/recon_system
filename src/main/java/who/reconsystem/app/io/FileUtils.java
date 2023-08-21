@@ -25,35 +25,32 @@ public class FileUtils {
     @Getter
     private FileDetails fileDetails;
 
-    private FileUtils(Path path) {
+    public FileUtils(Path path) {
         this.path = path;
     }
 
-    public static synchronized FileUtils getInstance(Path path) {
-        if (instance == null) {
-            instance = new FileUtils(path);
-        }
-        return instance;
-    }
-
     public FileDetails getFile() {
-        try {
-            BasicFileAttributes attributes = Files.readAttributes(path, BasicFileAttributes.class);
-            Path parent = path.getParent();
-            String parentFolder = parent != null ? parent.toString() : Functions.getLocalePath("");
-            fileDetails = FileDetails.builder()
-                    .isSameFile(Files.isSameFile(path, path))
-                    .name(path.getFileName().toString())
-                    .lastModifiedTime(attributes.lastModifiedTime().toInstant())
-                    .creationDate(attributes.creationTime().toInstant())
-                    .parent(parentFolder)
-                    .size(attributes.size())
-                    .build();
-        }catch (IOException io) {
-            Log.set(FileUtils.class).trace(io);
-            DialogMessage.exceptionDialog(io);
+        if (Files.exists(path)) {
+            try {
+                BasicFileAttributes attributes = Files.readAttributes(path, BasicFileAttributes.class);
+                Path parent = path.getParent();
+                String parentFolder = parent != null ? parent.toString() : Functions.getLocalePath("");
+                Log.set(FileUtils.class).debug("is same: " + Files.isSameFile(path, path));
+                fileDetails = FileDetails.builder()
+                        .isSameFile(Files.isSameFile(path, path))
+                        .name(path.getFileName().toString())
+                        .lastModifiedTime(attributes.lastModifiedTime().toInstant())
+                        .creationDate(attributes.creationTime().toInstant())
+                        .parent(parentFolder)
+                        .size(attributes.size())
+                        .build();
+            }catch (IOException io) {
+                Log.set(FileUtils.class).trace(io);
+                DialogMessage.exceptionDialog(io);
+            }
+            return fileDetails;
         }
-        return fileDetails;
+        return new FileDetails();
     }
 
     public boolean moveFile(Path pathTo) {

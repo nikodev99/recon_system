@@ -29,14 +29,10 @@ public class WHOReconSystemApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Log.createLogFile();
-        database();
-        Log.set(WHOReconSystemApp.class).info("Début d'insertion");
         //database();
-        //queryBuilder();
-        Log.set(WHOReconSystemApp.class).info("fin de l'insertion");
-        //StageLuncher stageLuncher = new StageLuncher(stage, "login", "Login Pane", false, null);
-        //StageViewer viewer = new StageViewer(stageLuncher);
-        //viewer.show();
+        StageLuncher stageLuncher = new StageLuncher(stage, "login", "Login Pane", false, null);
+        StageViewer viewer = new StageViewer(stageLuncher);
+        viewer.show();
     }
 
     private void queryBuilder() {

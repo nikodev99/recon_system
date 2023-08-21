@@ -1,8 +1,6 @@
 package who.reconsystem.app.io.type;
 
-import who.reconsystem.app.exception.FileGeneratorException;
 import who.reconsystem.app.io.File;
-import who.reconsystem.app.io.FileGenerator;
 import who.reconsystem.app.io.FileReader;
 
 import java.nio.file.StandardOpenOption;
@@ -30,10 +28,5 @@ public class XLSXFile implements File {
     @Override
     public void remove() {
 
-    }
-
-    @Override
-    public FileGenerator instance() {
-        return null;
     }
 }

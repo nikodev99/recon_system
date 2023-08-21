@@ -17,7 +17,7 @@ public class FileGeneratorTest {
 
 
     public FileGeneratorTest() {
-        this.file = TXTFile.getInstance("test.txt", Functions.getLocalePath(""));
+        this.file = new TXTFile("test.txt", Functions.getLocalePath(""));
     }
 
     @Test

@@ -1,6 +1,5 @@
 package who.reconsystem.app.log;
 
-import who.reconsystem.app.io.File;
 import who.reconsystem.app.io.FileDetails;
 import who.reconsystem.app.io.FileUtils;
 import who.reconsystem.app.io.type.LOGFile;
@@ -13,7 +12,7 @@ public class Log {
 
     private static final String LOGFILE = "reconSystem.log";
 
-    private static File file;
+    private static LOGFile file;
 
     public static Logger set(Object aClass) {
         PropertyConfigurator.configure(file);
@@ -22,8 +21,8 @@ public class Log {
 
     public static synchronized void createLogFile() {
         Path logFilePath = getLogFile(false);
-        file = LOGFile.getInstance(logFilePath);
-        if (file.instance().isExists()) {
+        file = new LOGFile(logFilePath);
+        if (file.isExists()) {
             boolean isMoved = checkOldFile();
             if (isMoved) {
                 file.create();
@@ -34,8 +33,8 @@ public class Log {
     }
 
     private static boolean checkOldFile() {
-        FileDetails details = file.instance().getFiledetails();
-        FileUtils fileUtils = file.instance().getFileUtils();;
+        FileDetails details = file.getFiledetails();
+        FileUtils fileUtils = file.getFileUtils();;
         boolean renamed = false;
 
         boolean dateChecks = Functions.daysComparison(details.getCreationDate(), Functions.now());

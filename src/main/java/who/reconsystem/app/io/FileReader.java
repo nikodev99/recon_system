@@ -1,37 +1,19 @@
 package who.reconsystem.app.io;
 
-import lombok.Data;
-
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
 public class FileReader {
-    private static FileReader instance;
     private List<String> lines;
     private byte[] byteCodes;
 
-    private FileReader(List<String> lines) {
+    public FileReader(List<String> lines) {
         this.lines = lines;
     }
 
     public FileReader(byte[] byteCodes) {
         this.byteCodes = byteCodes;
-    }
-
-    public static synchronized FileReader getInstance(List<String> lines) {
-        if(instance == null) {
-            instance = new FileReader(lines);
-        }
-        return instance;
-    }
-
-    public static synchronized FileReader getInstance(byte[] byteCodes) {
-        if(instance == null) {
-            instance = new FileReader(byteCodes);
-        }
-        return instance;
     }
 
     public List<String[]> read() {
