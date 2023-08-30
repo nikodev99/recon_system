@@ -76,12 +76,7 @@ public class FileGenerator implements File {
         if (fileDontExists(filePath)) {
             try {
                 Log.set(FileGenerator.class).debug("File to create: " + filePath);
-                Files.createFile(filePath);
-                BasicFileAttributeView attributesView = Files.getFileAttributeView(filePath, BasicFileAttributeView.class);
-                BasicFileAttributes attributes = attributesView.readAttributes();
-                FileTime newCreationTime = FileTime.fromMillis(System.currentTimeMillis());
-                attributesView.setTimes(attributes.lastModifiedTime(), attributes.lastAccessTime(), newCreationTime);
-                isSuccess = true;
+                fileCreation();
                 Log.set(FileGenerator.class).info("File created successfully");
             } catch (IOException io) {
                 Log.set(FileGenerator.class).trace(io);
@@ -147,6 +142,15 @@ public class FileGenerator implements File {
 
     public FileDetails getFiledetails() {
         return fileUtils.getFile();
+    }
+
+    protected void fileCreation() throws IOException {
+        Files.createFile(filePath);
+        BasicFileAttributeView attributesView = Files.getFileAttributeView(filePath, BasicFileAttributeView.class);
+        BasicFileAttributes attributes = attributesView.readAttributes();
+        FileTime newCreationTime = FileTime.fromMillis(System.currentTimeMillis());
+        attributesView.setTimes(attributes.lastModifiedTime(), attributes.lastAccessTime(), newCreationTime);
+        isSuccess = true;
     }
 
     private FileUtils getFileUtilsInstance(){

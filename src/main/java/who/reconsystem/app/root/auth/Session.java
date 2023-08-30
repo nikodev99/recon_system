@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import lombok.Setter;
-import who.reconsystem.app.guice.QueryBiding;
+import who.reconsystem.app.guice.bidings.QueryBiding;
 import who.reconsystem.app.io.File;
 import who.reconsystem.app.io.FileGenerator;
 import who.reconsystem.app.io.FileReader;

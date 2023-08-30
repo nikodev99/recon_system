@@ -22,6 +22,7 @@ public class Log {
     public static synchronized void createLogFile() {
         Path logFilePath = getLogFile(false);
         file = new LOGFile(logFilePath);
+        System.out.println("Ancien ficheir existe: " + file.isExists());
         if (file.isExists()) {
             boolean isMoved = checkOldFile();
             if (isMoved) {
@@ -34,7 +35,7 @@ public class Log {
 
     private static boolean checkOldFile() {
         FileDetails details = file.getFiledetails();
-        FileUtils fileUtils = file.getFileUtils();;
+        FileUtils fileUtils = file.getFileUtils();
         boolean renamed = false;
 
         boolean dateChecks = Functions.daysComparison(details.getCreationDate(), Functions.now());

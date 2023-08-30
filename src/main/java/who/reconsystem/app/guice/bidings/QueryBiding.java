@@ -1,7 +1,8 @@
-package who.reconsystem.app.guice;
+package who.reconsystem.app.guice.bidings;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import who.reconsystem.app.guice.QueryModule;
 import who.reconsystem.app.models.Table;
 import who.reconsystem.app.models.tables.UserTable;
 

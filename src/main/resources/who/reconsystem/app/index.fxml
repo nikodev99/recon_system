@@ -1,133 +1,149 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" stylesheets="@../../../styles/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="who.reconsystem.app.controllers.FXMLIndexController">
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <left>
-      <AnchorPane prefHeight="663.0" prefWidth="44.0" styleClass="aside_menu_background" BorderPane.alignment="CENTER">
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
+      <VBox alignment="TOP_CENTER" prefHeight="580.0" prefWidth="250.0" style="-fx-background-color: #f9f9f9;" BorderPane.alignment="CENTER">
          <children>
-            <VBox alignment="TOP_CENTER" layoutX="2.0" layoutY="14.0" prefHeight="200.0" prefWidth="44.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="20.0">
-               <children>
-                  <ImageView fitHeight="46.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="70.0" fitWidth="73.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../icons/user-circle.png" />
+               </image>
+               <VBox.margin>
+                  <Insets bottom="20.0" top="50.0" />
+               </VBox.margin>
+            </ImageView>
+            <Label contentDisplay="CENTER" text="Welcome back FisrtName MRorMS, LastName" textAlignment="CENTER" wrapText="true">
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Button alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="250.0" style="-fx-background-color: #F9F9F9;" text="Dashboard">
+               <graphic>
+                  <ImageView fitHeight="29.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../icons/icons8-accueil-24.png" />
+                        <Image url="@../../../icons/home.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="46.0" fitWidth="32.0" layoutX="16.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+               </graphic>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="160.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="250.0" style="-fx-background-color: #F9F9F9;" text="Data Management">
+               <graphic>
+                  <ImageView fitHeight="29.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../icons/icons8-accueil-24.png" />
+                        <Image url="@../../../icons/home.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="46.0" fitWidth="32.0" layoutX="16.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
+               </graphic>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="201.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="250.0" style="-fx-background-color: #F9F9F9;" text="Accounts">
+               <graphic>
+                  <ImageView fitHeight="29.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../icons/icons8-accueil-24.png" />
+                        <Image url="@../../../icons/home.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="46.0" fitWidth="32.0" layoutX="16.0" layoutY="102.0" pickOnBounds="true" preserveRatio="true">
+               </graphic>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="242.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="250.0" style="-fx-background-color: #F9F9F9;" text="WHO414 Management">
+               <graphic>
+                  <ImageView fitHeight="29.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../icons/icons8-accueil-24.png" />
+                        <Image url="@../../../icons/home.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="46.0" fitWidth="32.0" layoutX="16.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true">
+               </graphic>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="283.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="250.0" style="-fx-background-color: #F9F9F9;" text="Operational Advances">
+               <graphic>
+                  <ImageView fitHeight="29.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../icons/icons8-accueil-24.png" />
+                        <Image url="@../../../icons/home.png" />
                      </image>
                   </ImageView>
-               </children>
-            </VBox>
+               </graphic>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="324.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="250.0" style="-fx-background-color: #F9F9F9;" text="Parametres">
+               <graphic>
+                  <ImageView fitHeight="29.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../icons/home.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="365.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="250.0" style="-fx-background-color: #F9F9F9;" text="Deconnexion">
+               <graphic>
+                  <ImageView fitHeight="29.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../icons/home.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
          </children>
-      </AnchorPane>
+      </VBox>
    </left>
-   <top>
-      <AnchorPane prefHeight="37.0" prefWidth="1000.0" styleClass="inline_pane_background" BorderPane.alignment="CENTER">
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
-         <children>
-            <ImageView fx:id="close" fitHeight="24.0" fitWidth="24.0" layoutX="952.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="6.0">
-               <image>
-                  <Image url="@../../../icons/icons8-annuler-48.png" />
-               </image></ImageView>
-            <ImageView fx:id="maximize" fitHeight="24.0" fitWidth="24.0" layoutX="920.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="6.0">
-               <image>
-                  <Image url="@../../../icons/icons8-maximiser-la-fenêtre-48.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="minimize" fitHeight="24.0" fitWidth="24.0" layoutX="885.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="95.0" AnchorPane.topAnchor="6.0">
-               <image>
-                  <Image url="@../../../icons/icons8-réduire-la-fenêtre-24.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="menu" fitHeight="30.0" fitWidth="30.0" layoutX="14.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="4.0">
-               <image>
-                  <Image url="@../../../icons/icons8-menu-50.png" />
-               </image>
-            </ImageView>
-         </children>
-      </AnchorPane>
-   </top>
    <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: blue;" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane fx:id="menu_toggle" prefHeight="663.0" prefWidth="200.0" styleClass="aside_menu_background" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <VBox alignment="TOP_CENTER" layoutX="25.0" layoutY="80.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
-                     <children>
-                        <Label alignment="BASELINE_LEFT" prefHeight="32.0" prefWidth="200.0" text="DASHBOARD">
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
-                        <Label alignment="BASELINE_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="32.0" prefWidth="200.0" text="DATA MANAGEMENT">
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
-                        <Label alignment="BASELINE_LEFT" layoutX="10.0" layoutY="50.0" prefHeight="32.0" prefWidth="200.0" text="ACCOUNTS">
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
-                        <Label alignment="BASELINE_LEFT" layoutX="10.0" layoutY="90.0" prefHeight="32.0" prefWidth="200.0" text="USERS">
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
-                        <Label alignment="BASELINE_LEFT" layoutX="10.0" layoutY="130.0" prefHeight="32.0" prefWidth="200.0" text="SETTINGS">
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </VBox>
-               </children>
-            </AnchorPane>
-            <Label layoutX="233.0" layoutY="60.0" text="Ce texte va directement au fond" />
+            <HBox prefHeight="97.0" prefWidth="750.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
       </AnchorPane>
    </center>

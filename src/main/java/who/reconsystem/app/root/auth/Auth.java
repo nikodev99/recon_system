@@ -1,7 +1,7 @@
 package who.reconsystem.app.root.auth;
 
 import who.reconsystem.app.dialog.DialogMessage;
-import who.reconsystem.app.guice.QueryBiding;
+import who.reconsystem.app.guice.bidings.QueryBiding;
 import who.reconsystem.app.log.Log;
 import who.reconsystem.app.models.Table;
 import who.reconsystem.app.root.config.PBKDF2WithHmacSHA1;

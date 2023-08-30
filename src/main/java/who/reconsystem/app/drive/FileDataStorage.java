@@ -134,14 +134,14 @@ public class FileDataStorage implements FileData {
                 Log.set(FileDataStorage.class).debug("Les fichiers: " + files);
                 for (File file: files) {
                     if (!credentials.isFolder(file) && file.getName().equals(remoteFileName)) {
-                        fields = new GoogleDriveFileFields(
-                                file.getId(),
-                                file.getName(),
-                                file.getMimeType(),
-                                file.getCreatedTime(),
-                                file.getModifiedTime(),
-                                file.getSize()
-                        );
+                        fields = GoogleDriveFileFields.builder()
+                                .fileId(file.getId())
+                                .fileName(file.getName())
+                                .fileMimeType(file.getMimeType())
+                                .fileCreationOn(file.getCreatedTime())
+                                .fileModifyOn(file.getModifiedTime())
+                                .fileSize(file.getSize())
+                                .build();
                         System.out.printf("%s (%s)\n", file.getName() + " " + file.getMimeType(), file.getId());
                     }
                 }

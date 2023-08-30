@@ -16,6 +16,7 @@ import who.reconsystem.app.root.auth.Session;
 import who.reconsystem.app.root.config.Functions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -104,9 +105,9 @@ public class Controller {
 
     public static void closeProgram () {
         List<String> messages = new ArrayList<>();
-        messages.add("Arrêter l'application");
-        messages.add("Voulez-vous vraiment fermer l'application ?");
-        Optional<ButtonType> result = DialogMessage.confirmationDialog(messages);
+        messages.add("Fermeture de l'application");
+        messages.add("Veuillez confirmer la fermeture de l'application");
+        Optional<ButtonType> result = DialogMessage.confirmationDialog(messages, Arrays.asList("Fermer", "Annuler"));
         if (result.isPresent() && result.get().getButtonData() == ButtonBar.ButtonData.YES) Platform.exit();
     }
 }
