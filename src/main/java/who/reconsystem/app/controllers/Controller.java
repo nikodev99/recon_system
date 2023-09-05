@@ -1,6 +1,7 @@
 package who.reconsystem.app.controllers;
 
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -9,11 +10,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import who.reconsystem.app.dialog.DialogMessage;
 import who.reconsystem.app.dialog.ErrorSet;
-import who.reconsystem.app.exception.LoginException;
 import who.reconsystem.app.root.StageLuncher;
 import who.reconsystem.app.root.StageViewer;
 import who.reconsystem.app.root.auth.Session;
 import who.reconsystem.app.root.config.Functions;
+import who.reconsystem.app.user.UserBean;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,29 +25,29 @@ public class Controller {
 
     private static final List<String> contents = new ArrayList<>();
 
+    private static UserBean loggedUser;
+
     private Controller() {
     }
 
     public static void showStage(String stageName, boolean isDecorated, Session session) {
-        try {
-            StageLuncher stageLuncher = new StageLuncher(stageName, isDecorated, session);
-            StageViewer viewer = new StageViewer(stageLuncher);
-            viewer.openNewSession();
-        }catch (LoginException le) {
-            //TODO log file and dialog
-            le.printStackTrace();
-        }
+        StageLuncher stageLuncher = new StageLuncher(stageName, isDecorated, session);
+        StageViewer viewer = new StageViewer(stageLuncher);
+        viewer.show();
     }
 
     public static void showStage(String stageName, boolean isDecorated) {
-        try {
-            StageLuncher stageLuncher = new StageLuncher(stageName, isDecorated, null);
-            StageViewer viewer = new StageViewer(stageLuncher);
-            viewer.openNewSession();
-        }catch (LoginException le) {
-            //TODO log file and dialog
-            le.printStackTrace();
+        StageLuncher stageLuncher = new StageLuncher(stageName, isDecorated, null);
+        StageViewer viewer = new StageViewer(stageLuncher);
+        viewer.show();
+    }
+
+    public static UserBean getLoggedUser(ObservableList<UserBean> data) {
+        if (loggedUser == null) {
+            for (UserBean userBean: data)
+                loggedUser = userBean;
         }
+        return loggedUser;
     }
 
     public static String tr(TextField input) {
@@ -82,7 +83,7 @@ public class Controller {
         }
     }
 
-    public static String getContent() {
+    public static String getErrorMessages() {
         String[] errorMessages = contents.toArray(new String[0]);
         return contents.size() > 1 ?
                 Functions.arrayToString(errorMessages, true, "- ", "") :

@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import who.reconsystem.app.dialog.DialogMessage;
+import who.reconsystem.app.log.Log;
 import who.reconsystem.app.root.auth.Auth;
 import who.reconsystem.app.root.auth.Session;
 import who.reconsystem.app.user.UserBean;
@@ -65,7 +66,7 @@ public class LoginController implements Initializable {
             field.setOnKeyPressed(e -> {
                 if (e.getCode() == KeyCode.ENTER) {
                     gettingConnected();
-                    System.out.println("isLogged: " + session.isLogged());
+                    Log.set(LoginController.class).debug("isLogged: " + session.isLogged());
                     if (session.isLogged()) Controller.hide(e);
                 }
             });

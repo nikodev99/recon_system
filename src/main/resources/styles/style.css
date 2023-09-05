@@ -21,6 +21,16 @@
     -fx-border-width: 1px;
 }
 
+.menu-item {
+    -fx-background-color:  #F9F9F9;
+    /*radial-gradient(focus-angle 0.0deg, focus-distance 0.0% , center 50.0% 50.0%, radius 50.0%, #16a1d9 0.0%, #000000 100.0%)*/
+}
+
+.menu-item:hover {
+    -fx-background-color: rgba(20, 158, 217, 0.38);
+    -fx-text-fill: #149ed9;
+}
+
 .aside_menu_background {
     -fx-background-color: #149ed9;
 }

@@ -23,34 +23,4 @@ public class StageViewer {
         Platform.runLater(luncher::lunchStage);
     }
 
-    public void openNewSession() throws LoginException {
-        if (luncher.getSession() == null) throw new LoginException("Erreur de connection lié à la session.");
-        UserBean user = luncher.getSession().userLogged();
-        Platform.runLater(() -> {
-            initData(user);
-            luncher.lunchStage();
-        });
-    }
-
-    private void initData(UserBean user) {
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        ObservableList<UserBean> userData = FXCollections.observableArrayList(user);
-        fxmlLoader.setControllerFactory((Class<?> controllerType) -> {
-            try {
-                Constructor<?>[] constructors = controllerType.getConstructors();
-                for (Constructor<?> constructor: constructors) {
-                    if (constructor.getParameterCount() == 1 && constructor.getParameterTypes()[0] == ObservableList.class) {
-                        return constructor.newInstance(userData);
-                    }
-                }
-                return controllerType.newInstance();
-            }catch (Exception se) {
-                Log.set(StageViewer.class).error(se.getMessage());
-                DialogMessage.exceptionDialog(se);
-                return null;
-            }
-        });
-        luncher.setLoaderParams(fxmlLoader);
-    }
-
 }

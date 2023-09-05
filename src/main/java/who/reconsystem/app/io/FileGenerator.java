@@ -130,6 +130,7 @@ public class FileGenerator implements File {
     public void remove() {
         try {
             isSuccess = Files.deleteIfExists(filePath);
+            if (isSuccess) Log.set(FileGenerator.class).info("Fichier supprimer avec success");
         }catch (IOException io) {
             Log.set(FileGenerator.class).fatal(io.getMessage());
             DialogMessage.exceptionDialog(io);

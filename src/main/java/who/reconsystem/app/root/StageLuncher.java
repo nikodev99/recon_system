@@ -3,6 +3,7 @@ package who.reconsystem.app.root;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -11,9 +12,12 @@ import lombok.Getter;
 import who.reconsystem.app.dialog.DialogMessage;
 import who.reconsystem.app.log.Log;
 import who.reconsystem.app.root.auth.Session;
+import who.reconsystem.app.user.UserBean;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.util.Objects;
+import java.util.Stack;
 
 public class StageLuncher {
     private double x, y = 0;
@@ -92,23 +96,36 @@ public class StageLuncher {
         }
     }
 
-    public void setLoaderParams(FXMLLoader loader) {}
-
-    public FXMLLoader runLoader() {
+    public FXMLLoader runLoader(UserBean user) {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(Objects.requireNonNull(getClass().getResource(getResource())));
-        setLoaderParams(fxmlLoader);
+        if(session != null && session.isLogged() && user != null) {
+            fxmlLoader.setControllerFactory((Class<?> controllerType) -> {
+                try {
+                    Constructor<?>[] constructors = controllerType.getConstructors();
+                    for (Constructor<?> constructor: constructors) {
+                        if (constructor.getParameterCount() == 1 && constructor.getParameterTypes()[0] == UserBean.class) {
+                            return constructor.newInstance(user);
+                        }
+                    }
+                    return controllerType.newInstance();
+                }catch (Exception se) {
+                    Log.set(StageViewer.class).error(se.getMessage());
+                    DialogMessage.exceptionDialog(se);
+                    return null;
+                }
+            });
+        }
         return fxmlLoader;
     }
 
     public void handleClose() {
-        Platform.runLater(() -> {
-
-        });
+        Platform.runLater(stage::close);
     }
 
     private Scene initScene() throws IOException, NullPointerException {
-        Parent root = runLoader().load();
+        UserBean user = session != null && session.isLogged() ? session.userLogged() : null;
+        Parent root = runLoader(user).load();
         Scene scene = new Scene(root);
 
         scene.setOnMousePressed(event -> {
@@ -140,15 +157,17 @@ public class StageLuncher {
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                final long INACTIVITY_TIMOUT = 30 * 60 * 100L;
-                long currentTime = System.currentTimeMillis();
+                final long INACTIVITY_TIMOUT = 3 * 60 * 100L;
                 while(true) {
+                    long currentTime = System.currentTimeMillis();
+                    System.out.println("before the end: " + (currentTime - lastActivity));
+                    System.out.println("the end at: " + (INACTIVITY_TIMOUT));
+                    System.out.println("status of the end: " + (currentTime - lastActivity >= INACTIVITY_TIMOUT));
                     if (currentTime - lastActivity >= INACTIVITY_TIMOUT) {
                         Platform.runLater(() -> {
-                            Log.set(StageLuncher.class).info("Session timed out. Please log in again");
-                            session.setUpInactivity();
-                            lunchStage();
+                            Log.set(Stack.class).info("Session timed out. Please log in again");
                             handleClose();
+                            session.setUpInactivity();
                         });
                         break;
                     }

@@ -7,12 +7,10 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="1000.0" stylesheets="@../../../styles/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="who.reconsystem.app.controllers.FXMLIndexController">
    <left>
       <VBox alignment="TOP_CENTER" prefHeight="580.0" prefWidth="250.0" style="-fx-background-color: #f9f9f9;" BorderPane.alignment="CENTER">
          <children>
@@ -24,7 +22,7 @@
                   <Insets bottom="20.0" top="50.0" />
                </VBox.margin>
             </ImageView>
-            <Label contentDisplay="CENTER" text="Welcome back FisrtName MRorMS, LastName" textAlignment="CENTER" wrapText="true">
+            <Label fx:id="welcomeMessage" contentDisplay="CENTER" text="Welcome back FisrtName MRorMS, LastName" textAlignment="CENTER" wrapText="true">
                <VBox.margin>
                   <Insets bottom="20.0" />
                </VBox.margin>
@@ -32,11 +30,11 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Button alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="250.0" style="-fx-background-color: #F9F9F9;" text="Dashboard">
+            <Button fx:id="dashboardButton" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="250.0" styleClass="menu-item" text="Dashboard">
                <graphic>
-                  <ImageView fitHeight="29.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../icons/home.png" />
+                        <Image url="@../../../icons/dashboard.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -47,11 +45,11 @@
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="160.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="250.0" style="-fx-background-color: #F9F9F9;" text="Data Management">
+            <Button fx:id="dataButton" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="160.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="250.0" styleClass="menu-item" text="Data Management">
                <graphic>
-                  <ImageView fitHeight="29.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../icons/home.png" />
+                        <Image url="@../../../icons/storage.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -62,11 +60,11 @@
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="201.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="250.0" style="-fx-background-color: #F9F9F9;" text="Accounts">
+            <Button fx:id="accountsButton" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="201.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="250.0" styleClass="menu-item" text="Accounts">
                <graphic>
-                  <ImageView fitHeight="29.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../icons/home.png" />
+                        <Image url="@../../../icons/account_tree.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -77,11 +75,11 @@
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="242.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="250.0" style="-fx-background-color: #F9F9F9;" text="WHO414 Management">
+            <Button fx:id="who414Button" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="242.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="250.0" styleClass="menu-item" text="WHO414 Management">
                <graphic>
-                  <ImageView fitHeight="29.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../icons/home.png" />
+                        <Image url="@../../../icons/file_copy.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -92,11 +90,11 @@
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="283.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="250.0" style="-fx-background-color: #F9F9F9;" text="Operational Advances">
+            <Button fx:id="opadvancesButton" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="283.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="250.0" styleClass="menu-item" text="Operational Advances">
                <graphic>
-                  <ImageView fitHeight="29.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../icons/home.png" />
+                        <Image url="@../../../icons/connect_without_contact.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -107,11 +105,11 @@
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="324.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="250.0" style="-fx-background-color: #F9F9F9;" text="Parametres">
+            <Button fx:id="settingsButton" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="324.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="250.0" styleClass="menu-item" text="Parametres">
                <graphic>
-                  <ImageView fitHeight="29.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../icons/home.png" />
+                        <Image url="@../../../icons/cogs.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -122,11 +120,11 @@
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="365.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="250.0" style="-fx-background-color: #F9F9F9;" text="Deconnexion">
+            <Button fx:id="logoutButton" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="365.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="250.0" styleClass="menu-item" text="Deconnexion">
                <graphic>
-                  <ImageView fitHeight="29.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../icons/home.png" />
+                        <Image url="@../../../icons/logout.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -143,7 +141,7 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: blue;" BorderPane.alignment="CENTER">
          <children>
-            <HBox prefHeight="97.0" prefWidth="750.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <AnchorPane layoutY="-7.0" prefHeight="117.0" prefWidth="750.0" style="-fx-background-color: red;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
       </AnchorPane>
    </center>

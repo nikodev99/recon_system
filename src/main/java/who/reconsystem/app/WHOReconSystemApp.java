@@ -29,7 +29,7 @@ public class WHOReconSystemApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Log.createLogFile();
-        StageLuncher stageLuncher = new StageLuncher(stage, "login", "Login Pane", false, null);
+        StageLuncher stageLuncher = new StageLuncher(stage, "login", "Login Stage", false, null);
         StageViewer viewer = new StageViewer(stageLuncher);
         viewer.show();
     }
