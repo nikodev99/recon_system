@@ -5,13 +5,13 @@ import com.google.inject.name.Named;
 import who.reconsystem.app.models.Query;
 import who.reconsystem.app.models.Table;
 import who.reconsystem.app.models.connect.DbConnect;
-import who.reconsystem.app.root.config.Functions;
+import who.reconsystem.app.user.UserEntity;
 import who.reconsystem.app.user.User;
-import who.reconsystem.app.user.UserBean;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserTable extends Table {
 
@@ -21,15 +21,15 @@ public class UserTable extends Table {
         this.query.setTable(table);
     }
 
-    public UserBean loggedUser(String username, String email) {
+    public User loggedUser(String username, String email) {
         List<String> fields = only(1, 5);
         String statement = query.select(fields)
                 .from()
-                .where(User.USERNAME.getName())
-                .orWhere(User.EMAIL.getName())
+                .where(UserEntity.USERNAME.getName())
+                .orWhere(UserEntity.EMAIL.getName())
                 .query();
         List<String> data = find(statement, fields, Arrays.asList(username, email));
-        return data.isEmpty() ? UserBean.builder().build() : UserBean.builder()
+        return data.isEmpty() ? User.builder().build() : User.builder()
                 .userId(data.get(0))
                 .password(data.get(1))
                 .build();
@@ -37,35 +37,36 @@ public class UserTable extends Table {
 
     @Override
     protected List<String> allFields() {
-        return add(userFields().toArray(new User[0]));
+        System.out.println("value is: " + userFields());
+        return add(userFields().toArray(new UserEntity[0]));
     }
 
     @Override
     protected List<String> insertFields() {
-        List<User> userList = userFields();
-        userList.remove(0);
-        return add(userList.toArray(new User[0]));
+        List<UserEntity> userEntityList = userFields();
+        userEntityList.remove(0);
+        return add(userEntityList.toArray(new UserEntity[0]));
     }
 
     @Override
     protected List<String> updateFields() {
-        List<User> userList = userFields();
-        userList.remove(0);
-        userList.add(User.ID);
-        return add(userList.toArray(new User[0]));
+        List<UserEntity> userEntityList = userFields();
+        userEntityList.remove(0);
+        userEntityList.add(UserEntity.ID);
+        return add(userEntityList.toArray(new UserEntity[0]));
     }
 
     @Override
     protected String findRequest() {
         return query.selectAll()
-                .where(User.USER_ID.getName())
+                .where(UserEntity.USER_ID.getName())
                 .query();
     }
 
-    private List<String> add(User... users) {
-        List<User> users1 = new ArrayList<>(Arrays.asList(users));
+    private List<String> add(UserEntity... userEntities) {
+        List<UserEntity> users1 = new ArrayList<>(Arrays.asList(userEntities));
         List<String> data = new ArrayList<>();
-        users1.forEach(user -> data.add(user.getName()));
+        users1.forEach(userEntity -> data.add(userEntity.getName()));
         return data;
     }
 
@@ -77,10 +78,7 @@ public class UserTable extends Table {
         return matter;
     }
 
-    private List<User> userFields() {
-        return new ArrayList<>(Arrays.asList(
-                User.ID, User.USER_ID, User.FIRST_NAME, User.LAST_NAME, User.USERNAME, User.PASSWORD,
-                User.EMAIL, User.CREATED_AT, User.UPDATED_AT
-        ));
+    private List<UserEntity> userFields() {
+        return Arrays.stream(UserEntity.values()).collect(Collectors.toList());
     }
 }

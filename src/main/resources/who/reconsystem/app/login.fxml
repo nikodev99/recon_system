@@ -95,12 +95,12 @@
             </Button>
             <ImageView fitHeight="127.0" fitWidth="106.0" layoutX="85.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../icons/icons8-users-90.png" />
+                  <Image url="@../../../icons/icons8-userEntities-90.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="27.0" fitWidth="30.0" layoutX="22.0" layoutY="161.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../icons/icons8-user-90.png" />
+                  <Image url="@../../../icons/icons8-userEntity-90.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="27.0" fitWidth="30.0" layoutX="22.0" layoutY="212.0" pickOnBounds="true" preserveRatio="true">

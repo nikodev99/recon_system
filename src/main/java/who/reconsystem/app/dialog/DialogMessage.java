@@ -11,10 +11,10 @@ import java.util.Optional;
 
 public class DialogMessage {
 
-    public static void showInformationDialog (String header, String content) {
+    public static Optional<ButtonType> showInformationDialog (String header, String content) {
         DialogAlert dialog = new DialogAlert("Information Dialog", header, content);
         Alert alert = dialogAlert(AlertType.INFORMATION, dialog);
-        alert.showAndWait();
+         return alert.showAndWait();
     }
 
     public static void showWarningDialog (String header, String content) {

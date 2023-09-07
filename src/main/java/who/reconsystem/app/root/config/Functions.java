@@ -83,6 +83,10 @@ public class Functions {
         return instantToDatetimeString(instantFromDay(1), null);
     }
 
+    public static LocalDate date(String dateToConvert) {
+        return LocalDate.parse(dateToConvert, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    }
+
     public static LocalDateTime dateTime(String dateToConvert) {
         return LocalDateTime.parse(dateToConvert, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }

@@ -5,13 +5,13 @@ import who.reconsystem.app.guice.bidings.QueryBiding;
 import who.reconsystem.app.log.Log;
 import who.reconsystem.app.models.Table;
 import who.reconsystem.app.root.config.PBKDF2WithHmacSHA1;
-import who.reconsystem.app.user.UserBean;
+import who.reconsystem.app.user.User;
 
 public class Auth {
 
-    private UserBean loggedUser;
+    private User loggedUser;
 
-    public Auth(UserBean loggedUser) {
+    public Auth(User loggedUser) {
         this.loggedUser = loggedUser;
     }
 
@@ -35,7 +35,7 @@ public class Auth {
         loggedUser.setPassword(null);
     }
 
-    public UserBean loggedUser() {
+    public User loggedUser() {
         return loggedUser;
     }
 }

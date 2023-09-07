@@ -14,7 +14,7 @@ import who.reconsystem.app.root.StageLuncher;
 import who.reconsystem.app.root.StageViewer;
 import who.reconsystem.app.root.auth.Session;
 import who.reconsystem.app.root.config.Functions;
-import who.reconsystem.app.user.UserBean;
+import who.reconsystem.app.user.User;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +25,7 @@ public class Controller {
 
     private static final List<String> contents = new ArrayList<>();
 
-    private static UserBean loggedUser;
+    private static User loggedUser;
 
     private Controller() {
     }
@@ -36,16 +36,22 @@ public class Controller {
         viewer.show();
     }
 
+    public static void showStage(String stageName, String stageTitle, Session session) {
+        StageLuncher stageLuncher = new StageLuncher(stageName, stageTitle, true, session);
+        StageViewer viewer = new StageViewer(stageLuncher);
+        viewer.show();
+    }
+
     public static void showStage(String stageName, boolean isDecorated) {
         StageLuncher stageLuncher = new StageLuncher(stageName, isDecorated, null);
         StageViewer viewer = new StageViewer(stageLuncher);
         viewer.show();
     }
 
-    public static UserBean getLoggedUser(ObservableList<UserBean> data) {
+    public static User getLoggedUser(ObservableList<User> data) {
         if (loggedUser == null) {
-            for (UserBean userBean: data)
-                loggedUser = userBean;
+            for (User user : data)
+                loggedUser = user;
         }
         return loggedUser;
     }

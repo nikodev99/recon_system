@@ -1,7 +1,7 @@
 package who.reconsystem.app.models;
 
 import org.junit.jupiter.api.Test;
-import who.reconsystem.app.user.User;
+import who.reconsystem.app.user.UserEntity;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -20,17 +20,17 @@ public class QueryBuilderTest {
     public void testInsert() {
         String insertStatement = query.insert().query();
         String insertStatement1 = query.insert().into()
-                .insertedFields(Arrays.asList(User.USERNAME.getName(), User.AGE.getName()))
+                .insertedFields(Arrays.asList(UserEntity.USERNAME.getName(), "age"))
                 .insertedValues(Arrays.asList("'Nikhe'", 30)).query();
         String insertStatement2 = query.insert().into()
                         .insertedFieldAndValue(new LinkedHashMap<String, Object>(){
                             {
-                                put(User.USERNAME.getName(), "'Nikhe'");
-                                put(User.AGE.getName(), 30);
+                                put(UserEntity.USERNAME.getName(), "'Nikhe'");
+                                put("age", 30);
                             }
                         }).query();
         String insertStatement3 = query.insert(Arrays.asList(
-                User.USERNAME.getName(), User.AGE.getName()
+                UserEntity.USERNAME.getName(), "age"
         )).query();
         String insertStatement4 = query.insert(Arrays.asList("username", "age")).query();
 
@@ -44,26 +44,26 @@ public class QueryBuilderTest {
     @Test
     public void testUpdate() {
         Map<String, Object> mapData = new LinkedHashMap<>();
-        mapData.put(User.USERNAME.getName(), "'Nikhe'");
-        mapData.put(User.AGE.getName(), 30);
+        mapData.put(UserEntity.USERNAME.getName(), "'Nikhe'");
+        mapData.put("age", 30);
 
         String update = query.update().query();
 
         String update1 = query.updateId(Arrays.asList(
-                User.USERNAME.getName(), User.AGE.getName()
+                UserEntity.USERNAME.getName(), "age"
         )).query();
 
         String update2 = query.updateId(mapData).query();
 
         String update3 = query.update().set().updateValue(Arrays.asList(
-                User.USERNAME.getName(), User.AGE.getName()
+                UserEntity.USERNAME.getName(), "age"
         )).whereId().query();
 
         String update4 = query.update().set(Arrays.asList(
-                User.USERNAME.getName(), User.AGE.getName()
+                UserEntity.USERNAME.getName(), "age"
         )).where(
-                Arrays.asList(User.ID.getName(),
-                        User.USER_ID.getName()
+                Arrays.asList(UserEntity.ID.getName(),
+                        UserEntity.USER_ID.getName()
                 ), Operator.AND).query();
 
         String update5 = query.update().set(mapData).whereId().query();
@@ -80,12 +80,12 @@ public class QueryBuilderTest {
     public void testDelete() {
         String delete = query.delete().query();
         String delete1 = query.deleteId().query();
-        String delete2 = query.delete(User.USER_ID.getName()).query();
-        String delete3 = query.delete(User.USER_ID.getName(), 12).query();
+        String delete2 = query.delete(UserEntity.USER_ID.getName()).query();
+        String delete3 = query.delete(UserEntity.USER_ID.getName(), 12).query();
         String delete4 = query.delete(new LinkedHashMap<String, Object>(){{
-            put(User.ID.getName(), 10);
-            put(User.USER_ID.getName(), 12);
-            put(User.USERNAME.getName(), "'Nikhe'");
+            put(UserEntity.ID.getName(), 10);
+            put(UserEntity.USER_ID.getName(), 12);
+            put(UserEntity.USERNAME.getName(), "'Nikhe'");
         }}, Operator.AND).query();
 
         assertEquals(delete, "DELETE FROM users");
@@ -99,22 +99,22 @@ public class QueryBuilderTest {
     public void testSelect() {
         String select = query.selectAll().query();
         String select1 = query.select().from().query();
-        String select2 = query.select(User.USER_ID.getName()).from().query();
+        String select2 = query.select(UserEntity.USER_ID.getName()).from().query();
         String select3 = query.select(Arrays.asList(
-                User.USER_ID.getName(), User.USERNAME.getName(), User.EMAIL.getName()
+                UserEntity.USER_ID.getName(), UserEntity.USERNAME.getName(), UserEntity.EMAIL.getName()
         )).from().whereId().query();
         String select4 = query.select().from().where(Arrays.asList(
-                User.USERNAME.getName(), User.EMAIL.getName()
+                UserEntity.USERNAME.getName(), UserEntity.EMAIL.getName()
         ), Operator.OR).query();
         String select5 = query.select().from().where(Arrays.asList(
-                User.ID.getName(), User.USER_ID.getName()
+                UserEntity.ID.getName(), UserEntity.USER_ID.getName()
         ), Arrays.asList(Operator.GREATER_THAN, Operator.EQUALS), Operator.AND).query();
         String select6 = query.select().from().where(Arrays.asList(
-                User.ID.getName(), User.USER_ID.getName()
+                UserEntity.ID.getName(), UserEntity.USER_ID.getName()
         ), Arrays.asList(Operator.GREATER_THAN, Operator.EQUALS), Operator.OR).query();
-        String select7 = query.select(User.USERNAME.getName()).from().where().like(User.USERNAME.getName()).query();
-        String select8 = query.select(User.USERNAME.getName()).from().where().like(User.USERNAME.getName(), "AKZ").query();
-        String select9 = query.select().from().order(User.USERNAME.getName(), Ordering.DESC).limit(100).query();
+        String select7 = query.select(UserEntity.USERNAME.getName()).from().where().like(UserEntity.USERNAME.getName()).query();
+        String select8 = query.select(UserEntity.USERNAME.getName()).from().where().like(UserEntity.USERNAME.getName(), "AKZ").query();
+        String select9 = query.select().from().order(UserEntity.USERNAME.getName(), Ordering.DESC).limit(100).query();
 
         assertEquals(select, "SELECT * FROM users");
         assertEquals(select1, "SELECT * FROM users");

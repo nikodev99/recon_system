@@ -3,20 +3,22 @@ package who.reconsystem.app.root;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lombok.Getter;
 import who.reconsystem.app.dialog.DialogMessage;
 import who.reconsystem.app.log.Log;
 import who.reconsystem.app.root.auth.Session;
-import who.reconsystem.app.user.UserBean;
+import who.reconsystem.app.user.User;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Stack;
 
 public class StageLuncher {
@@ -96,16 +98,21 @@ public class StageLuncher {
         }
     }
 
-    public FXMLLoader runLoader(UserBean user) {
+    public FXMLLoader runLoader() {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(Objects.requireNonNull(getClass().getResource(getResource())));
-        if(session != null && session.isLogged() && user != null) {
+        if(session != null && session.isLogged()) {
             fxmlLoader.setControllerFactory((Class<?> controllerType) -> {
                 try {
                     Constructor<?>[] constructors = controllerType.getConstructors();
                     for (Constructor<?> constructor: constructors) {
-                        if (constructor.getParameterCount() == 1 && constructor.getParameterTypes()[0] == UserBean.class) {
-                            return constructor.newInstance(user);
+                        if (
+                                constructor.getParameterCount() == 2 &&
+                                constructor.getParameterTypes()[0] == User.class &&
+                                constructor.getParameterTypes()[1] == Session.class
+                        )
+                        {
+                            return constructor.newInstance(session.userLogged(), session);
                         }
                     }
                     return controllerType.newInstance();
@@ -124,8 +131,8 @@ public class StageLuncher {
     }
 
     private Scene initScene() throws IOException, NullPointerException {
-        UserBean user = session != null && session.isLogged() ? session.userLogged() : null;
-        Parent root = runLoader(user).load();
+        User user = session != null && session.isLogged() ? session.userLogged() : null;
+        Parent root = runLoader().load();
         Scene scene = new Scene(root);
 
         scene.setOnMousePressed(event -> {
@@ -157,17 +164,19 @@ public class StageLuncher {
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                final long INACTIVITY_TIMOUT = 3 * 60 * 100L;
+                final long INACTIVITY_TIMOUT = 30 * 60 * 1000L;
                 while(true) {
                     long currentTime = System.currentTimeMillis();
-                    System.out.println("before the end: " + (currentTime - lastActivity));
-                    System.out.println("the end at: " + (INACTIVITY_TIMOUT));
-                    System.out.println("status of the end: " + (currentTime - lastActivity >= INACTIVITY_TIMOUT));
                     if (currentTime - lastActivity >= INACTIVITY_TIMOUT) {
                         Platform.runLater(() -> {
                             Log.set(Stack.class).info("Session timed out. Please log in again");
-                            handleClose();
-                            session.setUpInactivity();
+                            Optional<ButtonType> button = DialogMessage.showInformationDialog("Session time out",
+                                    "30 minutes d'inactivité atteint. Pour votre sécurité, votre session sera terminé. Veuillez vous reconnecter"
+                            );
+                            if (button.isPresent() && button.get().getButtonData() == ButtonBar.ButtonData.OK_DONE) {
+                                handleClose();
+                                session.setUpInactivity();
+                            }
                         });
                         break;
                     }

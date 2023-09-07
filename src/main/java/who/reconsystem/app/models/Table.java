@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import who.reconsystem.app.dialog.DialogMessage;
 import who.reconsystem.app.log.Log;
 import who.reconsystem.app.models.connect.DbConnect;
-import who.reconsystem.app.user.UserBean;
+import who.reconsystem.app.user.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -197,8 +197,8 @@ public class Table {
         return responseId;
     }
 
-    public UserBean loggedUser(String username, String email){
-        return UserBean.builder().build();
+    public User loggedUser(String username, String email){
+        return User.builder().build();
     }
 
     protected String insertRequest(List<String> values) {
@@ -301,14 +301,11 @@ public class Table {
     }
 
     private List<String[]> getRecords(String sqlRequest, List<String> fields, List<Object> values) throws SQLException {
+        System.out.println("statement: " + sqlRequest);
         List<String[]> allData = new ArrayList<>();
         preparedStatement = prepare(sqlRequest);
         if (!values.isEmpty()) {
             setValues(values);
-        }else {
-            String message = "Les valeurs sont vides";
-            Log.set(Table.class).error(message);
-            DialogMessage.errorDialog("Fatal error", message);
         }
         result = preparedStatement.executeQuery();
         while (result.next()) {
@@ -328,6 +325,7 @@ public class Table {
 
     private List<String> getOneRecord(String sqlRequest, List<String> fields, List<Object> values) throws SQLException {
         List<String> data = new ArrayList<>();
+        System.out.println("statement: " + sqlRequest);
         preparedStatement = prepare(sqlRequest);
         if (!values.isEmpty()) setValues(values);
         result = preparedStatement.executeQuery();

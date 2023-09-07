@@ -11,7 +11,7 @@ import who.reconsystem.app.dialog.DialogMessage;
 import who.reconsystem.app.log.Log;
 import who.reconsystem.app.root.auth.Auth;
 import who.reconsystem.app.root.auth.Session;
-import who.reconsystem.app.user.UserBean;
+import who.reconsystem.app.user.User;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -32,7 +32,7 @@ public class LoginController implements Initializable {
 
     private Session session;
 
-    private UserBean user;
+    private User user;
 
     private Auth auth;
 
@@ -107,9 +107,9 @@ public class LoginController implements Initializable {
         return auth;
     }
 
-    private UserBean getUserBeanInstance() {
+    private User getUserBeanInstance() {
         if (user == null) {
-            user = UserBean.builder().build();
+            user = User.builder().build();
         }
         return user;
     }

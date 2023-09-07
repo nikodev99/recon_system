@@ -29,6 +29,7 @@ public class WHOReconSystemApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Log.createLogFile();
+        database();
         StageLuncher stageLuncher = new StageLuncher(stage, "login", "Login Stage", false, null);
         StageViewer viewer = new StageViewer(stageLuncher);
         viewer.show();
@@ -46,11 +47,11 @@ public class WHOReconSystemApp extends Application {
     private void database() {
         Injector injector = Guice.createInjector(new DriveModule());
         DBFile file = injector.getInstance(DBFile.class);
-        Log.set(WHOReconSystemApp.class).info("Début du téléchargement");
-        file.downloadDatabaseFromGoogleDrive();
-        Log.set(WHOReconSystemApp.class).info("Téléchargement réussi");
-        //String id = file.uploadDatabaseFile();
-        //Log.set(WHOReconSystemApp.class).info("upload réussi avec id=" + id);
+        //Log.set(WHOReconSystemApp.class).info("Début du téléchargement");
+        //file.downloadDatabaseFromGoogleDrive();
+        //Log.set(WHOReconSystemApp.class).info("Téléchargement réussi");
+        String id = file.uploadDatabaseFile();
+        Log.set(WHOReconSystemApp.class).info("upload réussi avec id=" + id);
         //String id = file.updateDatabaseFile();
         //Log.set(WHOReconSystemApp.class).info("Mise à jour du fichier réussi avec id=" + id);
         /*GoogleDriveFileFields fields = file.getDatabaseFromGoogleDrive();

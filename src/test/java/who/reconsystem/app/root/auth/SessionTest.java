@@ -1,17 +1,17 @@
 package who.reconsystem.app.root.auth;
 
 import org.junit.jupiter.api.Test;
-import who.reconsystem.app.user.UserBean;
+import who.reconsystem.app.user.User;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SessionTest {
     private final Session session;
-    private UserBean user;
+    private User user;
     private final Auth auth;
 
     public SessionTest() {
-        user = UserBean.builder().build();
+        user = User.builder().build();
         auth = new Auth(user);
         this.session = new Session(auth);
     }

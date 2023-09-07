@@ -41,7 +41,7 @@ public class DbConnect {
                     Log.set(DbConnect.class).info("Successfully connected to " + connection);
                     break;
                 }catch (Exception e) {
-                    Log.set(DbConnect.class).error("Erreur rencontrée lors de la connexion à la base de données: " + e.getMessage());
+                    Log.set(DbConnect.class).fatal("Erreur rencontrée lors de la connexion à la base de données: " + e.getMessage());
                     DialogMessage.exceptionDialog(e);
                 }
             }else {

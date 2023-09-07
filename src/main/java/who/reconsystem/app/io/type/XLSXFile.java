@@ -1,32 +1,28 @@
 package who.reconsystem.app.io.type;
 
 import who.reconsystem.app.io.File;
+import who.reconsystem.app.io.FileGenerator;
 import who.reconsystem.app.io.FileReader;
 
+import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
-public class XLSXFile implements File {
-    @Override
-    public File create() {
-        return null;
+public class XLSXFile extends FileGenerator {
+
+    public XLSXFile(String fileName, String path, String ext) {
+        super(fileName, path, ext);
     }
 
-    @Override
-    public void addContent(String content) {
+    public XLSXFile(String fileName, String path) {
+        super(fileName, path);
     }
 
-    @Override
-    public void addContent(String content, StandardOpenOption... standardOpenOptions) {
-
+    public XLSXFile(Path filePath) {
+        super(filePath);
     }
 
     @Override
     public FileReader getContent() {
-        return null;
-    }
-
-    @Override
-    public void remove() {
-
+        return super.getContent();
     }
 }

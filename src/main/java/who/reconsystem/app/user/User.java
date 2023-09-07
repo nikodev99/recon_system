@@ -1,24 +1,40 @@
 package who.reconsystem.app.user;
 
-public enum User {
-    ID, USER_ID, FIRST_NAME, LAST_NAME, USERNAME, PASSWORD, EMAIL, CREATED_AT, UPDATED_AT, AGE;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import who.reconsystem.app.root.config.Functions;
 
-    private String name;
+import java.time.LocalDateTime;
+import java.util.List;
 
-    public String getName() {
-        return name.toLowerCase();
-    }
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class User {
+    private long id;
+    private String userId;
+    private String firstName;
+    private String lastName;
+    private String username;
+    private String password;
+    private String email;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
-    static {
-        ID.name = ID.name();
-        USER_ID.name = USER_ID.name();
-        FIRST_NAME.name = FIRST_NAME.name();
-        LAST_NAME.name = LAST_NAME.name();
-        USERNAME.name = USERNAME.name();
-        PASSWORD.name = PASSWORD.name();
-        EMAIL.name = EMAIL.name();
-        CREATED_AT.name = CREATED_AT.name();
-        UPDATED_AT.name = UPDATED_AT.name();
-        AGE.name = AGE.name();
+    public static User populate(List<String> data) {
+        return User.builder()
+                .id(Long.parseLong(data.get(0)))
+                .userId(data.get(1))
+                .firstName(data.get(2))
+                .lastName(data.get(3))
+                .username(data.get(4))
+                .email(data.get(5))
+                .createdAt(Functions.dateTime(data.get(6)))
+                .updatedAt(Functions.dateTime(data.get(7)))
+                .password(data.get(8))
+                .build();
     }
 }

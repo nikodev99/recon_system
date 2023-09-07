@@ -1,17 +1,17 @@
 package who.reconsystem.app.root.auth;
 
 import org.junit.jupiter.api.Test;
-import who.reconsystem.app.user.UserBean;
+import who.reconsystem.app.user.User;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AuthTest {
 
     private final Auth auth;
-    private UserBean user;
+    private User user;
 
     public AuthTest() {
-        user = UserBean.builder().build();
+        user = User.builder().build();
         this.auth = new Auth(user);
     }
 

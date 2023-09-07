@@ -1,0 +1,47 @@
+package who.reconsystem.app.maindata;
+
+import java.util.Locale;
+
+public enum Cash {
+    ID, MAJOR_OFFICE, OFFICE, COUNTRY_OFFICE, COUNTRY_NAME, SOURCE_EIMPREST, SOURCE_PARENT, BUDGET_CENTER, IMPREST_ACCOUNT,
+    TRANSACTION_TYPE, EIMPREST_DATE, GL_PERIOD, INVOICE_DATE, PAYEE_NAME, CURRENCY_CODE, AMOUNT_LC, CONVERSION_RATE,
+    AMOUNT_USD, PAYMENT_CATEGORY, VOUCHER_NUMBER, DOCUMENT_NUMBER, CHECK_NUMBER, REFERENCE_NUMBER, DESCRIPTION,
+    RECONCILIATION_STATUS, PO_NUMBER, EXPENDITURE_TYPE, ADDED_DATE;
+
+    private String lc;
+
+    public String getLc() {
+        return lc.toLowerCase(Locale.FRANCE);
+    }
+
+    static {
+        ID.lc = ID.getLc();
+        MAJOR_OFFICE.lc = MAJOR_OFFICE.getLc();
+        OFFICE.lc = OFFICE.getLc();
+        COUNTRY_OFFICE.lc = COUNTRY_OFFICE.getLc();
+        COUNTRY_NAME.lc = COUNTRY_NAME.getLc();
+        SOURCE_EIMPREST.lc = SOURCE_EIMPREST.getLc();
+        SOURCE_PARENT.lc = SOURCE_PARENT.getLc();
+        BUDGET_CENTER.lc = BUDGET_CENTER.getLc();
+        IMPREST_ACCOUNT.lc = IMPREST_ACCOUNT.getLc();
+        TRANSACTION_TYPE.lc = TRANSACTION_TYPE.getLc();
+        EIMPREST_DATE.lc = EIMPREST_DATE.getLc();
+        GL_PERIOD.lc = GL_PERIOD.getLc();
+        INVOICE_DATE.lc = INVOICE_DATE.getLc();
+        PAYEE_NAME.lc = PAYEE_NAME.getLc();
+        CURRENCY_CODE.lc = CURRENCY_CODE.getLc();
+        AMOUNT_LC.lc = AMOUNT_LC.getLc();
+        CONVERSION_RATE.lc = CONVERSION_RATE.getLc();
+        AMOUNT_USD.lc = AMOUNT_USD.getLc();
+        PAYMENT_CATEGORY.lc = PAYMENT_CATEGORY.getLc();
+        VOUCHER_NUMBER.lc = VOUCHER_NUMBER.getLc();
+        DOCUMENT_NUMBER.lc = DOCUMENT_NUMBER.getLc();
+        CHECK_NUMBER.lc = CHECK_NUMBER.getLc();
+        REFERENCE_NUMBER.lc = REFERENCE_NUMBER.getLc();
+        DESCRIPTION.lc = DESCRIPTION.getLc();
+        RECONCILIATION_STATUS.lc = RECONCILIATION_STATUS.getLc();
+        PO_NUMBER.lc = PO_NUMBER.getLc();
+        EXPENDITURE_TYPE.lc = EXPENDITURE_TYPE.getLc();
+        ADDED_DATE.lc = ADDED_DATE.getLc();
+    }
+}

@@ -13,7 +13,7 @@ import who.reconsystem.app.root.StageLuncher;
 import who.reconsystem.app.root.StageViewer;
 import who.reconsystem.app.root.config.Functions;
 import who.reconsystem.app.root.config.StrongIdGenerator;
-import who.reconsystem.app.user.UserBean;
+import who.reconsystem.app.user.User;
 
 import java.nio.file.StandardOpenOption;
 import java.util.List;
@@ -40,7 +40,7 @@ public class Session {
     }
 
     public void sessionStart() {
-        UserBean user = auth.loggedUser();
+        User user = auth.loggedUser();
         String filePath = Functions.getLocalePath("");
         file = new FileGenerator(SESSION_FILENAME, filePath);
         String content = "{" +
@@ -52,11 +52,11 @@ public class Session {
         //TODO adding log with the size of the file
     }
 
-    public UserBean userLogged() {
+    public User userLogged() {
         sessionLogger();
         Table table = QueryBiding.useUserTable();
         List<String> data = table.find(binding.getCode());
-        return UserBean.populate(data);
+        return User.populate(data);
     }
 
     public void setUpInactivity() {

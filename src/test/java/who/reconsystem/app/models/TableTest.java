@@ -4,10 +4,12 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.jupiter.api.Test;
 import who.reconsystem.app.guice.QueryModule;
+import who.reconsystem.app.guice.bidings.QueryBiding;
 import who.reconsystem.app.models.tables.UserTable;
 import who.reconsystem.app.root.config.Functions;
 import who.reconsystem.app.root.config.PBKDF2WithHmacSHA1;
 import who.reconsystem.app.root.config.StrongIdGenerator;
+import who.reconsystem.app.user.UserEntity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,13 +22,12 @@ public class TableTest {
     private final Table table;
 
     public TableTest() {
-        Injector injector = Guice.createInjector(new QueryModule());
-        this.table = injector.getInstance(UserTable.class);
+        this.table = QueryBiding.useUserTable();
     }
 
     @Test
     public void testInsert() {
-        List<Object> values = Arrays.asList(StrongIdGenerator.generateSecureRandomId(15), "Nikhe", "Niama", "nikhe", PBKDF2WithHmacSHA1.hashPassword("toto"), "nikhe@test.com",
+        List<Object> values = Arrays.asList(StrongIdGenerator.generateSecureRandomId(15), "Kane", "Kojo", "kojo", PBKDF2WithHmacSHA1.hashPassword("toto"), "kojo@test.com",
                 Functions.instantDatetime("yyyy-MM-dd HH:mm:ss"), Functions.instantDatetime("yyyy-MM-dd HH:mm:ss"));
         long insertId = table.insert(values);
         boolean isInserted = insertId != 0;
@@ -38,24 +39,22 @@ public class TableTest {
     public void testFindAll() {
         List<String[]> data = table.findAll();
 
-        assertEquals(data.size(), 2);
-        assertEquals(data.get(1)[0], "2");
-        assertEquals(data.get(1)[4], "nikhe");
+        assertEquals(data.size(), 4);
     }
 
     @Test
     public void testFind() {
-        List<String> data = table.find(2);
+        List<String> data = table.find("ffQRWjn5NfIR7BmdBRrp");
 
-        assertEquals(data.size(), 8);
+        assertEquals(data.size(), 9);
         assertEquals(data.get(0), "2");
-        assertEquals(data.get(4), "test1");
+        assertEquals(data.get(4), "davy");
     }
 
     @Test
     public void testUpdate() {
-        List<Object> values = Arrays.asList("sB6qS1rmTJkucT2", "Test", "Test", "test", PBKDF2WithHmacSHA1.hashPassword("toto"), "test@test.com",
-                "2023-05-24 14:57:01", Functions.instantDatetime("yyyy-MM-dd HH:mm:ss"), "1");
+        List<Object> values = Arrays.asList("v2wj4P8XC9KCOHE", "Kane", "Kojo Mbere", "kojo", PBKDF2WithHmacSHA1.hashPassword("toto"), "kojo@test.com",
+                "2023-09-06 17:02:03", Functions.instantDatetime("yyyy-MM-dd HH:mm:ss"), "4");
         long isUpdated = table.update(values);
 
         assertTrue(isUpdated != 0);

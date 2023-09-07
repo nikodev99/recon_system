@@ -15,6 +15,7 @@ dependencies {
     implementation("com.google.apis:google-api-services-drive:v3-rev20220815-2.0.0")
     implementation("com.google.inject:guice:5.1.0")
     implementation("org.xerial:sqlite-jdbc:3.41.2.1")
+    implementation("org.apache.poi:poi:5.2.3")
 
     compileOnly("org.projectlombok:lombok:1.18.28")
     annotationProcessor("org.projectlombok:lombok:1.18.28")
