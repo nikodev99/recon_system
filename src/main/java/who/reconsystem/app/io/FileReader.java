@@ -1,5 +1,7 @@
 package who.reconsystem.app.io;
 
+import who.reconsystem.app.io.type.FileType;
+
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,12 +10,20 @@ public class FileReader {
     private List<String> lines;
     private byte[] byteCodes;
 
+    private List<String[]> xssfLines;
+
     public FileReader(List<String> lines) {
         this.lines = lines;
     }
 
     public FileReader(byte[] byteCodes) {
         this.byteCodes = byteCodes;
+    }
+
+    public FileReader(List<String[]> xssfLines, FileType fileType) {
+        if (fileType.equals(FileType.XLSX_FILE)) {
+            this.xssfLines = xssfLines;
+        }
     }
 
     public List<String[]> read() {
@@ -26,6 +36,10 @@ public class FileReader {
             fileContent = convertBytesToUTF8(byteCodes);
         }
         return fileContent;
+    }
+
+    public List<String[]> readExcelFile() {
+        return xssfLines;
     }
 
     private List<String[]> convertBytesToUTF8(byte[] bytes) {

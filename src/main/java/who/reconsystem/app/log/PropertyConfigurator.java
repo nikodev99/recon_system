@@ -1,6 +1,7 @@
 package who.reconsystem.app.log;
 
 import who.reconsystem.app.io.type.LOGFile;
+import who.reconsystem.app.root.config.DateFormat;
 import who.reconsystem.app.root.config.Functions;
 
 import java.nio.file.StandardOpenOption;
@@ -17,7 +18,7 @@ public class PropertyConfigurator {
     }
 
     public static void write(String logInfo, Object object, String message) {
-        String date = Functions.instantDatetime("yyyy-MM-dd HH:mm:ss");
+        String date = Functions.instantDatetime(DateFormat.DATETIME_BY_BAR);
         StackTraceElement[] classInfo = Thread.currentThread().getStackTrace();
         String className = "Object";
         int line = 0;

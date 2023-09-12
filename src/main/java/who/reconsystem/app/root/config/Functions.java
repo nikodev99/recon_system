@@ -1,6 +1,11 @@
 package who.reconsystem.app.root.config;
 
+import who.reconsystem.app.io.FileUtils;
+
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.CodeSource;
 import java.security.ProtectionDomain;
 import java.time.Instant;
@@ -8,12 +13,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Functions {
     private static final String _DIR = File.separator;
+
+    private static final String DOWNLOAD_DIRECTORY = System.getProperty("user.home") + "\\Downloads\\";
 
     /**
      * Dynamically retrieve the root route of the project.
@@ -26,6 +33,34 @@ public class Functions {
         String path = codeSource.getLocation().getPath() + fileName;
         if (path.startsWith("/")) path = path.substring(1);
         return path;
+    }
+
+    public static String automaticFileName(String subNameToSearch) {
+        Set<String> fileNameOccurrences = new HashSet<>();
+        Path folder = Paths.get(DOWNLOAD_DIRECTORY);
+        if (Files.exists(folder) && Files.isDirectory(folder)) {
+            FileUtils fileUtils = new FileUtils(folder);
+            List<String> fileNames = fileUtils.getAllFiles();
+            for (String fileName: fileNames) {
+                if (fileName.contains(subNameToSearch)) {
+                    fileNameOccurrences.add(fileName);
+                }
+            }
+        }
+        return !fileNameOccurrences.isEmpty() ? subNameToSearch + "(" + fileNameOccurrences.size() + ")" : subNameToSearch;
+    }
+
+    public static List<String[]> stringToJaggedArray(String value) {
+        String[] parts = value.split("[\\s\n]+");
+        List<String[]> resultList = new ArrayList<>();
+        for (String part: parts) {
+            String[] subParts = part.split(",");
+            for (int i = 0; i < subParts.length; i++) {
+                subParts[i] = subParts[i].trim();
+            }
+            resultList.add(subParts);
+        }
+        return resultList;
     }
 
     /**
@@ -74,9 +109,9 @@ public class Functions {
         return comparison == 0;
     }
 
-    public static String instantToDatetimeString(Instant instant, String format){
+    public static String instantToDatetimeString(Instant instant, DateFormat format){
         LocalDateTime dateTime = instant.atZone(congoTime()).toLocalDateTime();
-        return dateTime.format(format != null ? DateTimeFormatter.ofPattern(format) : DateTimeFormatter.BASIC_ISO_DATE);
+        return dateTime.format(format != null ? DateTimeFormatter.ofPattern(format.getIso()) : DateTimeFormatter.BASIC_ISO_DATE);
     }
 
     public static String yesterday() {
@@ -84,11 +119,15 @@ public class Functions {
     }
 
     public static LocalDate date(String dateToConvert) {
-        return LocalDate.parse(dateToConvert, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        return isValidLocaleDate(dateToConvert)
+                ? LocalDate.parse(dateToConvert, DateTimeFormatter.ofPattern(DateFormat.DATE_BY_BAR.getIso()))
+                : null;
     }
 
     public static LocalDateTime dateTime(String dateToConvert) {
-        return LocalDateTime.parse(dateToConvert, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        return isValidLocaleDateTime(dateToConvert)
+                ? LocalDateTime.parse(dateToConvert, DateTimeFormatter.ofPattern(DateFormat.DATETIME_BY_BAR.getIso()))
+                : null;
     }
 
     /**
@@ -96,8 +135,8 @@ public class Functions {
      * @param format String format of the date.
      * @return String the formatted date
      */
-    public static String instantDate(String format) {
-        return LocalDate.now().format(DateTimeFormatter.ofPattern(format));
+    public static String instantDate(DateFormat format) {
+        return LocalDate.now().format(DateTimeFormatter.ofPattern(format.getIso()));
     }
 
     /**
@@ -105,8 +144,52 @@ public class Functions {
      * @param format String the datetime format.
      * @return String the formatted datetime.
      */
-    public static String instantDatetime(String format) {
-        return LocalDateTime.now(congoTime()).format(DateTimeFormatter.ofPattern(format));
+    public static String instantDatetime(DateFormat format) {
+        return LocalDateTime.now(congoTime()).format(DateTimeFormatter.ofPattern(format.getIso()));
+    }
+
+    public static boolean isValidLocaleDate(String date) {
+        boolean isValid;
+        try {
+            LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern(DateFormat.DATE_BY_BAR.getIso()));
+            isValid = true;
+        } catch (DateTimeParseException e) {
+            isValid = false;
+        }
+        return isValid;
+    }
+
+    public static boolean isValidLocaleDateTime(String date) {
+        boolean isValid;
+        try {
+            LocalDateTime localDate = LocalDateTime.parse(date, DateTimeFormatter.ofPattern(DateFormat.DATETIME_BY_BAR.getIso()));
+            isValid = true;
+        } catch (DateTimeParseException e) {
+            isValid = false;
+        }
+        return isValid;
+    }
+
+    public static boolean isValidDecimalNumber(String validDoubleStr) {
+        boolean isValid;
+        try {
+            double validDouble = Double.parseDouble(validDoubleStr);
+            isValid = true;
+        } catch (NumberFormatException e) {
+            isValid = false;
+        }
+        return isValid;
+    }
+
+    public static boolean isValidNumber(String validIntStr) {
+        boolean isValid;
+        try {
+            int validInt = Integer.parseInt(validIntStr);
+            isValid = true;
+        } catch (NumberFormatException e) {
+            isValid = false;
+        }
+        return isValid;
     }
 
     /**

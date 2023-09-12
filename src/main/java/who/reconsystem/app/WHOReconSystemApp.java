@@ -12,11 +12,14 @@ import who.reconsystem.app.models.Table;
 import who.reconsystem.app.models.tables.UserTable;
 import who.reconsystem.app.root.StageLuncher;
 import who.reconsystem.app.root.StageViewer;
+import who.reconsystem.app.root.config.DateFormat;
 import who.reconsystem.app.root.config.Functions;
 import who.reconsystem.app.root.config.PBKDF2WithHmacSHA1;
 import who.reconsystem.app.root.config.StrongIdGenerator;
 
-import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,7 +32,7 @@ public class WHOReconSystemApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Log.createLogFile();
-        database();
+        //database();
         StageLuncher stageLuncher = new StageLuncher(stage, "login", "Login Stage", false, null);
         StageViewer viewer = new StageViewer(stageLuncher);
         viewer.show();
@@ -37,7 +40,7 @@ public class WHOReconSystemApp extends Application {
 
     private void queryBuilder() {
         List<Object> values = Arrays.asList(StrongIdGenerator.generateRandomString(20), "Nikhe", "Niama", "nikhe", PBKDF2WithHmacSHA1.hashPassword("toto"), "nikhe@test.com",
-                Functions.instantDatetime("yyyy-MM-dd HH:mm:ss"), Functions.instantDatetime("yyyy-MM-dd HH:mm:ss"));
+                Functions.instantDatetime(DateFormat.DATETIME_BY_BAR), Functions.instantDatetime(DateFormat.DATE_BY_BAR));
         Injector injector = Guice.createInjector(new QueryModule());
         Table table = injector.getInstance(UserTable.class);
         long insertId = table.insert(values);

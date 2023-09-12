@@ -137,12 +137,12 @@ public class FileGenerator implements File {
         }
     }
 
-    public static boolean fileDontExists(Path filePath) {
-        return Files.notExists(filePath);
-    }
-
     public FileDetails getFiledetails() {
         return fileUtils.getFile();
+    }
+
+    protected static boolean fileDontExists(Path filePath) {
+        return Files.notExists(filePath);
     }
 
     protected void fileCreation() throws IOException {

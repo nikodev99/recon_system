@@ -1,15 +1,11 @@
 package who.reconsystem.app.models;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import org.junit.jupiter.api.Test;
-import who.reconsystem.app.guice.QueryModule;
 import who.reconsystem.app.guice.bidings.QueryBiding;
-import who.reconsystem.app.models.tables.UserTable;
+import who.reconsystem.app.root.config.DateFormat;
 import who.reconsystem.app.root.config.Functions;
 import who.reconsystem.app.root.config.PBKDF2WithHmacSHA1;
 import who.reconsystem.app.root.config.StrongIdGenerator;
-import who.reconsystem.app.user.UserEntity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,7 +24,7 @@ public class TableTest {
     @Test
     public void testInsert() {
         List<Object> values = Arrays.asList(StrongIdGenerator.generateSecureRandomId(15), "Kane", "Kojo", "kojo", PBKDF2WithHmacSHA1.hashPassword("toto"), "kojo@test.com",
-                Functions.instantDatetime("yyyy-MM-dd HH:mm:ss"), Functions.instantDatetime("yyyy-MM-dd HH:mm:ss"));
+                Functions.instantDatetime(DateFormat.DATETIME_BY_BAR), Functions.instantDatetime(DateFormat.DATETIME_BY_BAR));
         long insertId = table.insert(values);
         boolean isInserted = insertId != 0;
 
@@ -54,7 +50,7 @@ public class TableTest {
     @Test
     public void testUpdate() {
         List<Object> values = Arrays.asList("v2wj4P8XC9KCOHE", "Kane", "Kojo Mbere", "kojo", PBKDF2WithHmacSHA1.hashPassword("toto"), "kojo@test.com",
-                "2023-09-06 17:02:03", Functions.instantDatetime("yyyy-MM-dd HH:mm:ss"), "4");
+                "2023-09-06 17:02:03", Functions.instantDatetime(DateFormat.DATETIME_BY_BAR), "4");
         long isUpdated = table.update(values);
 
         assertTrue(isUpdated != 0);

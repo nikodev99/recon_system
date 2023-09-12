@@ -131,7 +131,6 @@ public class StageLuncher {
     }
 
     private Scene initScene() throws IOException, NullPointerException {
-        User user = session != null && session.isLogged() ? session.userLogged() : null;
         Parent root = runLoader().load();
         Scene scene = new Scene(root);
 

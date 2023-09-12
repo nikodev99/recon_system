@@ -19,10 +19,10 @@ public class Log {
         return Logger.getLogger(aClass);
     }
 
-    public static synchronized void createLogFile() {
+    public static void createLogFile() {
         Path logFilePath = getLogFile(false);
         file = new LOGFile(logFilePath);
-        System.out.println("Ancien ficheir existe: " + file.isExists());
+        System.out.println("Ancien fichier existe: " + file.isExists());
         if (file.isExists()) {
             boolean isMoved = checkOldFile();
             if (isMoved) {
